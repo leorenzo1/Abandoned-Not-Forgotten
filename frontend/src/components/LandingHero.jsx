@@ -5,12 +5,6 @@ export default function LandingHero({ onNavigate }) {
         {/* Subtle grid accent */}
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:32px_32px]"></div>
 
-        {/* Challenge badge */}
-        <div className="relative mb-6 inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-950/40 px-4 py-1.5 font-mono text-xs font-medium tracking-widest text-sky-300 uppercase">
-          <span className="h-1.5 w-1.5 rounded-full bg-sky-400 animate-pulse"></span>
-          NASA Space Apps Challenge 2026
-        </div>
-
         {/* Main Title */}
         <h1 className="relative text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
           Abandoned, <br />
@@ -47,41 +41,6 @@ export default function LandingHero({ onNavigate }) {
           >
             <span>Launch Timeline</span>
           </button>
-        </div>
-
-        {/* Planetary Targets strip */}
-        <div className="relative mt-12 grid grid-cols-2 gap-4 border-t border-white/10 pt-6">
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onNavigate("map", "moon")}
-            onKeyDown={(e) => e.key === "Enter" && onNavigate("map", "moon")}
-            className="group cursor-pointer rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-left transition-all hover:border-sky-400/30 hover:bg-sky-950/20"
-          >
-            <div className="flex items-center gap-2 font-mono text-xs font-semibold text-sky-300 uppercase">
-              <span className="h-2 w-2 rounded-full bg-sky-300 shadow-[0_0_6px_#7dd3fc]"></span>
-              Target: Luna
-            </div>
-            <p className="mt-1 text-xs text-neutral-400">
-              Descent stages, lunar rovers, and survey landers
-            </p>
-          </div>
-
-          <div
-            role="button"
-            tabIndex={0}
-            onClick={() => onNavigate("map", "mars")}
-            onKeyDown={(e) => e.key === "Enter" && onNavigate("map", "mars")}
-            className="group cursor-pointer rounded-2xl border border-white/5 bg-white/[0.02] p-4 text-left transition-all hover:border-amber-500/30 hover:bg-amber-950/20"
-          >
-            <div className="flex items-center gap-2 font-mono text-xs font-semibold text-amber-300 uppercase">
-              <span className="h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_6px_#fbbf24]"></span>
-              Target: Mars
-            </div>
-            <p className="mt-1 text-xs text-neutral-400">
-              Rovers, landers, rotorcraft, and descent hardware
-            </p>
-          </div>
         </div>
       </div>
     </section>

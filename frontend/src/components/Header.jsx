@@ -19,14 +19,9 @@ export default function Header({ currentView, onViewChange, totalObjects }) {
           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
           <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-sky-500 shadow-[0_0_10px_#38bdf8]"></span>
         </span>
-        <div className="flex flex-col text-left">
-          <span className="font-mono text-xs font-semibold tracking-widest text-sky-400 uppercase">
-            NASA Space Apps 2026
-          </span>
-          <span className="text-sm font-bold tracking-wider text-white uppercase sm:text-base">
-            Abandoned, Not Forgotten
-          </span>
-        </div>
+        <span className="text-sm font-bold tracking-wider text-white uppercase sm:text-base">
+          Abandoned, Not Forgotten
+        </span>
       </div>
 
       {/* Segmented View Switcher */}
