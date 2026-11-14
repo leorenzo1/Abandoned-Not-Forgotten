@@ -1,184 +1,286 @@
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 export default function MapView({ objects, onSelectObject, initialBody = "moon" }) {
   const [selectedBody, setSelectedBody] = useState(initialBody);
+  const [activeObjectId, setActiveObjectId] = useState(null);
+  const [isAutoRotating, setIsAutoRotating] = useState(true);
+  const [currentTheta, setCurrentTheta] = useState(0);
+  const [globeSize, setGlobeSize] = useState(380);
+
+  const globeRef = useRef(null);
+  const targetThetaRef = useRef(null);
+  const lastTimeRef = useRef(0);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const startThetaRef = useRef(0);
 
   const filteredObjects = objects.filter(
     (obj) => obj.body?.toLowerCase() === selectedBody.toLowerCase()
   );
 
   const isMars = selectedBody.toLowerCase() === "mars";
+  const textureUrl = isMars ? "/mars-texture.jpg" : "/moon-texture.jpg";
+
+  // Measure globe size responsively
+  useEffect(() => {
+    const updateSize = () => {
+      const w = window.innerWidth;
+      if (w < 640) setGlobeSize(290);
+      else if (w < 1024) setGlobeSize(360);
+      else setGlobeSize(400);
+    };
+    updateSize();
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
+
+  const handleBodySwitch = (body) => {
+    setSelectedBody(body);
+    setCurrentTheta(0);
+    targetThetaRef.current = null;
+    setActiveObjectId(null);
+  };
+
+  // Shortest angular difference between two angles
+  const shortestAngleDiff = (target, current) => {
+    let diff = (target - current) % (2 * Math.PI);
+    if (diff < -Math.PI) diff += 2 * Math.PI;
+    if (diff > Math.PI) diff -= 2 * Math.PI;
+    return diff;
+  };
+
+  // Main animation loop: smooth rotation and panning
+  useEffect(() => {
+    let raf;
+    const animate = (time) => {
+      const dt = Math.min((time - (lastTimeRef.current || time)) / 1000, 0.05) || 0.016;
+      lastTimeRef.current = time;
+
+      if (!isDraggingRef.current) {
+        if (targetThetaRef.current !== null) {
+          setCurrentTheta((prevTheta) => {
+            const diff = shortestAngleDiff(targetThetaRef.current, prevTheta);
+            if (Math.abs(diff) < 0.005) {
+              const finalVal = targetThetaRef.current;
+              targetThetaRef.current = null;
+              return finalVal;
+            }
+            return prevTheta + diff * Math.min(1, dt * 6.5);
+          });
+        } else if (isAutoRotating) {
+          setCurrentTheta((prevTheta) => (prevTheta + 0.08 * dt) % (2 * Math.PI));
+        }
+      }
+
+      raf = requestAnimationFrame(animate);
+    };
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [isAutoRotating]);
+
+  // Pan directly to an object's longitude
+  const panToObject = useCallback((obj) => {
+    const lngRad = ((obj.lng ?? 0) * Math.PI) / 180;
+    targetThetaRef.current = lngRad;
+    setActiveObjectId(obj.id);
+    onSelectObject(obj);
+  }, [onSelectObject]);
+
+  // Interactive mouse/touch dragging to spin planet
+  const handlePointerDown = (e) => {
+    isDraggingRef.current = true;
+    startXRef.current = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    startThetaRef.current = currentTheta;
+    targetThetaRef.current = null;
+  };
+
+  const handlePointerMove = (e) => {
+    if (!isDraggingRef.current) return;
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
+    const dx = clientX - startXRef.current;
+    const radPerPixel = (2 * Math.PI) / (globeSize * 2.5);
+    setCurrentTheta(startThetaRef.current - dx * radPerPixel);
+  };
+
+  const handlePointerUp = () => {
+    isDraggingRef.current = false;
+  };
+
+  // Spherical projection for surface dots
+  const radius = globeSize / 2;
+  const bgTextureWidth = globeSize * 2;
+  const bgPosX = -((currentTheta / (2 * Math.PI)) % 1) * bgTextureWidth;
+
+  const visibleDots = filteredObjects.map((obj) => {
+    const lngRad = ((obj.lng ?? 0) * Math.PI) / 180;
+    const latRad = ((obj.lat ?? 0) * Math.PI) / 180;
+
+    let dLng = (lngRad - currentTheta) % (2 * Math.PI);
+    if (dLng < -Math.PI) dLng += 2 * Math.PI;
+    if (dLng > Math.PI) dLng -= 2 * Math.PI;
+
+    const isFront = Math.abs(dLng) < Math.PI / 2;
+    if (!isFront) return null;
+
+    // 3D Orthographic spherical projection
+    const x = radius + radius * Math.cos(latRad) * Math.sin(dLng);
+    const y = radius - radius * Math.sin(latRad);
+    const z = Math.cos(latRad) * Math.cos(dLng);
+
+    if (z <= 0.08) return null;
+
+    const isActive = activeObjectId === obj.id;
+
+    return {
+      obj,
+      x,
+      y,
+      z,
+      scale: Math.max(0.6, z),
+      opacity: Math.max(0.2, (z - 0.08) / 0.92),
+      isActive,
+    };
+  }).filter(Boolean);
 
   return (
-    <section className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center px-4 py-6">
-      {/* Planetary Body Selector */}
-      <div className="flex w-full items-center justify-between gap-4 border-b border-white/10 pb-4">
+    <section className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-8">
+      {/* Top Header Bar */}
+      <div className="flex w-full flex-col gap-4 border-b border-neutral-800 pb-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
-            Surface Reconnaissance Map
+          <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Surface Reconnaissance
           </h2>
-          <p className="font-mono text-xs text-neutral-400">
-            Select a target world and inspect recorded surface equipment
+          <p className="mt-0.5 text-xs text-neutral-400">
+            Interactive rotating celestial globe · Drag to spin or select site below
           </p>
         </div>
 
-        {/* Luna vs Mars Switcher */}
-        <div className="flex items-center gap-1.5 rounded-full border border-white/10 bg-black/60 p-1 backdrop-blur-md">
+        {/* Clean World Switcher */}
+        <div className="flex items-center gap-3">
           <button
-            onClick={() => setSelectedBody("moon")}
-            className={`flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs font-semibold tracking-wider uppercase transition-all ${
-              !isMars
-                ? "border border-sky-400/40 bg-sky-500/20 text-sky-200 shadow-[0_0_12px_rgba(56,189,248,0.25)]"
-                : "text-neutral-400 hover:text-white"
-            }`}
+            onClick={() => setIsAutoRotating(!isAutoRotating)}
+            className="rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white"
           >
-            <span className="h-2 w-2 rounded-full bg-slate-200 shadow-[0_0_6px_#ffffff]"></span>
-            Luna
+            {isAutoRotating ? "Pause Spin" : "Auto Spin"}
           </button>
-          <button
-            onClick={() => setSelectedBody("mars")}
-            className={`flex items-center gap-2 rounded-full px-4 py-1.5 font-mono text-xs font-semibold tracking-wider uppercase transition-all ${
-              isMars
-                ? "border border-amber-500/40 bg-amber-500/20 text-amber-200 shadow-[0_0_12px_rgba(245,158,11,0.25)]"
-                : "text-neutral-400 hover:text-white"
-            }`}
-          >
-            <span className="h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_6px_#f59e0b]"></span>
-            Mars
-          </button>
+
+          <div className="inline-flex rounded-lg border border-neutral-800 bg-neutral-950 p-1">
+            <button
+              onClick={() => handleBodySwitch("moon")}
+              className={`rounded-md px-4 py-1 text-xs font-medium tracking-wide transition-colors ${
+                !isMars ? "bg-white text-black shadow-sm" : "text-neutral-400 hover:text-white"
+              }`}
+            >
+              Moon
+            </button>
+            <button
+              onClick={() => handleBodySwitch("mars")}
+              className={`rounded-md px-4 py-1 text-xs font-medium tracking-wide transition-colors ${
+                isMars ? "bg-white text-black shadow-sm" : "text-neutral-400 hover:text-white"
+              }`}
+            >
+              Mars
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Surface Map Viewport */}
-      <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-3xl border border-white/15 bg-black/80 shadow-2xl backdrop-blur-md">
-        {/* Cartographic Coordinate Graticule */}
-        <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(0,0,0,0.7)_100%)]"></div>
-        <div className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:10%_10%]"></div>
+      {/* Rotating Celestial Planet Globe Stage */}
+      <div className="relative my-8 flex items-center justify-center">
+        {/* Subtle space ambient halo */}
+        <div
+          style={{ width: globeSize + 60, height: globeSize + 60 }}
+          className={`pointer-events-none absolute rounded-full opacity-35 blur-2xl transition-all duration-700 ${
+            isMars ? "bg-amber-600/30" : "bg-sky-400/20"
+          }`}
+        />
 
-        {/* Planetary Visual Texture: Moon vs Mars */}
-        {isMars ? (
-          /* Martian Surface Simulation */
-          <div className="absolute inset-0 bg-gradient-to-br from-[#451206] via-[#240803] to-[#0c0301]">
-            <svg
-              className="h-full w-full opacity-60"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              viewBox="0 0 1000 600"
+        {/* Planet Sphere */}
+        <div
+          ref={globeRef}
+          style={{
+            width: globeSize,
+            height: globeSize,
+            backgroundImage: `url(${textureUrl})`,
+            backgroundSize: `${bgTextureWidth}px ${globeSize}px`,
+            backgroundPosition: `${bgPosX}px 0px`,
+            backgroundRepeat: "repeat-x",
+          }}
+          onMouseDown={handlePointerDown}
+          onMouseMove={handlePointerMove}
+          onMouseUp={handlePointerUp}
+          onMouseLeave={handlePointerUp}
+          onTouchStart={handlePointerDown}
+          onTouchMove={handlePointerMove}
+          onTouchEnd={handlePointerUp}
+          className="relative cursor-grab rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.95)] active:cursor-grabbing select-none"
+        >
+          {/* Spherical 3D Light & Shadow Mask */}
+          <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_32%_32%,transparent_40%,rgba(0,0,0,0.85)_100%)]" />
+          <div className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_-30px_-30px_60px_rgba(0,0,0,0.95),inset_15px_15px_30px_rgba(255,255,255,0.1)]" />
+
+          {/* Surface Placeholder Site Dots Rotating with Planet */}
+          {visibleDots.map(({ obj, x, y, z, scale, opacity, isActive }) => (
+            <button
+              key={obj.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                panToObject(obj);
+              }}
+              style={{
+                left: `${x}px`,
+                top: `${y}px`,
+                opacity,
+                transform: `translate(-50%, -50%) scale(${scale * (isActive ? 1.4 : 1)})`,
+              }}
+              className="group absolute z-30 flex items-center justify-center focus:outline-none"
+              aria-label={`Inspect ${obj.name}`}
             >
-              <defs>
-                <radialGradient id="mars-crater" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#872911" stopOpacity="0.8" />
-                  <stop offset="70%" stopColor="#3d1007" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#1a0603" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              <ellipse cx="250" cy="220" rx="140" ry="90" fill="url(#mars-crater)" />
-              <ellipse cx="620" cy="380" rx="190" ry="120" fill="url(#mars-crater)" />
-              <ellipse cx="800" cy="180" rx="110" ry="70" fill="url(#mars-crater)" />
-              <path
-                d="M 50,300 Q 300,320 600,280 T 950,340"
-                fill="none"
-                stroke="#68210e"
-                strokeWidth="12"
-                opacity="0.3"
+              {/* Target dot with subtle halo */}
+              <span
+                className={`h-3 w-3 rounded-full border shadow-md transition-all ${
+                  isActive
+                    ? "border-white bg-sky-400 shadow-[0_0_10px_#38bdf8]"
+                    : "border-white/80 bg-white shadow-sm group-hover:scale-125"
+                }`}
               />
-            </svg>
-          </div>
-        ) : (
-          /* Lunar Surface Simulation */
-          <div className="absolute inset-0 bg-gradient-to-br from-[#1a202c] via-[#0f141d] to-[#06080c]">
-            <svg
-              className="h-full w-full opacity-60"
-              xmlns="http://www.w3.org/2000/svg"
-              preserveAspectRatio="none"
-              viewBox="0 0 1000 600"
-            >
-              <defs>
-                <radialGradient id="lunar-maria" cx="50%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#2d3748" stopOpacity="0.9" />
-                  <stop offset="65%" stopColor="#1a202c" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="#0a0d14" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-              <ellipse cx="320" cy="260" rx="180" ry="130" fill="url(#lunar-maria)" />
-              <ellipse cx="680" cy="320" rx="220" ry="140" fill="url(#lunar-maria)" />
-              <ellipse cx="500" cy="140" rx="90" ry="60" fill="url(#lunar-maria)" />
-              <circle cx="210" cy="420" r="45" fill="none" stroke="#4a5568" strokeWidth="2" opacity="0.4" />
-              <circle cx="780" cy="180" r="30" fill="none" stroke="#4a5568" strokeWidth="2" opacity="0.4" />
-            </svg>
-          </div>
-        )}
 
-        {/* Telemetry coordinate marks */}
-        <div className="pointer-events-none absolute top-3 left-4 z-20 font-mono text-[10px] tracking-widest text-neutral-400 uppercase">
-          Reconnaissance Sector: {selectedBody.toUpperCase()} // Grid 10x10
-        </div>
-        <div className="pointer-events-none absolute right-4 bottom-3 z-20 font-mono text-[10px] tracking-widest text-neutral-400 uppercase">
-          Target Sites: {filteredObjects.length} Verified
-        </div>
-
-        {/* Percentage-Positioned Interactive Pins */}
-        <div className="absolute inset-0 z-30">
-          {filteredObjects.map((obj) => {
-            const leftPercent = `${(obj.coordinates?.x ?? 0.5) * 100}%`;
-            const topPercent = `${(obj.coordinates?.y ?? 0.5) * 100}%`;
-
-            return (
+              {/* Tooltip on front face */}
               <div
-                key={obj.id}
-                style={{ left: leftPercent, top: topPercent }}
-                className="group absolute -translate-x-1/2 -translate-y-1/2"
+                style={{ opacity: z > 0.4 ? 1 : z * 2.5 }}
+                className="pointer-events-none absolute bottom-full mb-1.5 whitespace-nowrap rounded border border-neutral-700 bg-neutral-900/95 px-2 py-0.5 text-[10px] font-medium text-white shadow-lg backdrop-blur-sm transition-opacity group-hover:opacity-100"
               >
-                {/* Sonar beacon ping */}
-                <span
-                  className={`absolute -inset-2.5 rounded-full opacity-75 animate-ping ${
-                    isMars ? "bg-amber-400" : "bg-sky-400"
-                  }`}
-                />
-
-                {/* Pin Target Button */}
-                <button
-                  onClick={() => onSelectObject(obj)}
-                  aria-label={`Inspect ${obj.name}`}
-                  className={`relative flex h-8 w-8 items-center justify-center rounded-full border shadow-lg backdrop-blur-md transition-all hover:scale-125 focus:outline-none focus-visible:ring-2 ${
-                    isMars
-                      ? "border-amber-400/80 bg-amber-950/80 text-amber-200 shadow-amber-900/50 hover:border-amber-300 focus-visible:ring-amber-400"
-                      : "border-sky-400/80 bg-sky-950/80 text-sky-200 shadow-sky-900/50 hover:border-sky-300 focus-visible:ring-sky-400"
-                  }`}
-                >
-                  <span
-                    className={`h-2.5 w-2.5 rounded-full ${
-                      isMars ? "bg-amber-400" : "bg-sky-400"
-                    }`}
-                  />
-                </button>
-
-                {/* Hover telemetry tooltip card */}
-                <div className="pointer-events-none absolute bottom-full left-1/2 z-40 mb-2 -translate-x-1/2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                  <div className="whitespace-nowrap rounded-lg border border-white/15 bg-black/90 px-3 py-1.5 font-mono text-xs text-white shadow-xl backdrop-blur-md">
-                    <div className="font-bold">{obj.name}</div>
-                    <div className="text-[10px] text-neutral-400">
-                      Year: {obj.year} // Click to inspect
-                    </div>
-                  </div>
-                </div>
+                {obj.name}
               </div>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Navigation: Click to Pan Directly to Object */}
+      <div className="w-full max-w-2xl text-center">
+        <p className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
+          Select site to pan planet
+        </p>
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
+          {filteredObjects.map((obj) => {
+            const isSelected = activeObjectId === obj.id;
+            return (
+              <button
+                key={obj.id}
+                onClick={() => panToObject(obj)}
+                className={`rounded-lg border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                  isSelected
+                    ? "border-white bg-white text-black shadow-md"
+                    : "border-neutral-800 bg-neutral-900/80 text-neutral-300 hover:border-neutral-700 hover:text-white"
+                }`}
+              >
+                <span>{obj.name}</span>
+                {obj.year && <span className="ml-1.5 text-[11px] opacity-60">({obj.year})</span>}
+              </button>
             );
           })}
         </div>
-      </div>
-
-      {/* Surface Map Helper Bar */}
-      <div className="mt-4 flex w-full items-center justify-between rounded-xl border border-white/5 bg-white/[0.02] px-4 py-2.5 font-mono text-xs text-neutral-400">
-        <span className="flex items-center gap-2">
-          <kbd className="rounded border border-white/20 bg-white/10 px-1.5 py-0.5 text-[10px] text-neutral-300">
-            Click
-          </kbd>
-          Select beacon to open telemetry dossier
-        </span>
-        <span>
-          Viewing {filteredObjects.length} {selectedBody} site(s)
-        </span>
       </div>
     </section>
   );

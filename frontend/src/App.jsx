@@ -18,6 +18,8 @@ export default function App() {
   const [isCooldown, setIsCooldown] = useState(false);
   const timerRef = useRef(null);
 
+  const [storyAngle, setStoryAngle] = useState(0);
+
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -36,6 +38,7 @@ export default function App() {
     const nextIdx = currentIndex + delta;
     if (nextIdx < 0 || nextIdx >= objects.length) return;
     setCurrentIndex(nextIdx);
+    setStoryAngle((prev) => prev - delta * STEP);
     triggerCooldown();
   };
 
@@ -46,14 +49,10 @@ export default function App() {
 
   const handleSelectObject = (obj) => {
     setSelectedObject(obj);
-    const objIndex = objects.findIndex((item) => item.id === obj.id);
-    if (objIndex !== -1) {
-      setCurrentIndex(objIndex);
-    }
   };
 
-  // Starfield rotation angle: turns during timeline navigation
-  const targetStarfieldAngle = currentView === "story" ? -currentIndex * STEP : 0;
+  // Starfield rotation angle: only changes when clicking Previous/Next within Timeline view
+  const targetStarfieldAngle = currentView === "story" ? storyAngle : 0;
 
   return (
     <div className="relative min-h-screen text-white select-none">
@@ -63,7 +62,10 @@ export default function App() {
       {/* Top Observatory Navigation Bar */}
       <Header
         currentView={currentView}
-        onViewChange={setCurrentView}
+        onViewChange={(v) => {
+          setCurrentView(v);
+          setSelectedObject(null);
+        }}
         totalObjects={objects.length}
       />
 
@@ -92,13 +94,12 @@ export default function App() {
         )}
       </main>
 
-      {/* Telemetry Detail Slide-Over Modal */}
-      {selectedObject && (
-        <DetailPanel
-          object={selectedObject}
-          onClose={() => setSelectedObject(null)}
-        />
-      )}
+      {/* Smooth Non-Blurring Sidebar Dossier */}
+      <DetailPanel
+        object={selectedObject}
+        isOpen={!!selectedObject}
+        onClose={() => setSelectedObject(null)}
+      />
     </div>
   );
 }
