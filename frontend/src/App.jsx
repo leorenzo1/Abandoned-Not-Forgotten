@@ -1,122 +1,104 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useRef, useState } from "react";
+import Starfield from "./components/Starfield";
+import Header from "./components/Header";
+import LandingHero from "./components/LandingHero";
+import MapView from "./components/MapView";
+import StoryView from "./components/StoryView";
+import DetailPanel from "./components/DetailPanel";
+import objects from "./data/objects.json";
 
-function App() {
-  const [count, setCount] = useState(0)
+const STEP = 2.2; // radians per click, about 125 degrees
+const COOLDOWN_MS = 1400; // aligns with the ~1.5s spring settle time
+
+export default function App() {
+  const [currentView, setCurrentView] = useState("overview"); // "overview" | "map" | "story"
+  const [initialMapBody, setInitialMapBody] = useState("moon");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedObject, setSelectedObject] = useState(null);
+  const [isCooldown, setIsCooldown] = useState(false);
+  const timerRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
+
+  const triggerCooldown = () => {
+    setIsCooldown(true);
+    timerRef.current = setTimeout(() => {
+      setIsCooldown(false);
+    }, COOLDOWN_MS);
+  };
+
+  const handleNavigateStory = (delta) => {
+    if (isCooldown) return;
+    const nextIdx = currentIndex + delta;
+    if (nextIdx < 0 || nextIdx >= objects.length) return;
+    setCurrentIndex(nextIdx);
+    triggerCooldown();
+  };
+
+  const handleHeroNavigate = (targetView, body) => {
+    if (body) setInitialMapBody(body);
+    setCurrentView(targetView);
+  };
+
+  const handleSelectObject = (obj) => {
+    setSelectedObject(obj);
+    const objIndex = objects.findIndex((item) => item.id === obj.id);
+    if (objIndex !== -1) {
+      setCurrentIndex(objIndex);
+    }
+  };
+
+  // Starfield rotation angle: turns during timeline navigation
+  const targetStarfieldAngle = currentView === "story" ? -currentIndex * STEP : 0;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="relative min-h-screen text-white select-none">
+      {/* Background Starfield with celestial rotation scheme & comets */}
+      <Starfield target={targetStarfieldAngle} />
 
-      <div className="ticks"></div>
+      {/* Top Observatory Navigation Bar */}
+      <Header
+        currentView={currentView}
+        onViewChange={setCurrentView}
+        totalObjects={objects.length}
+      />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      {/* Main Viewport */}
+      <main className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center p-4">
+        {currentView === "overview" && (
+          <LandingHero onNavigate={handleHeroNavigate} />
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {currentView === "map" && (
+          <MapView
+            objects={objects}
+            initialBody={initialMapBody}
+            onSelectObject={handleSelectObject}
+          />
+        )}
+
+        {currentView === "story" && (
+          <StoryView
+            objects={objects}
+            currentIndex={currentIndex}
+            onNavigate={handleNavigateStory}
+            isCooldown={isCooldown}
+            onInspect={setSelectedObject}
+          />
+        )}
+      </main>
+
+      {/* Telemetry Detail Slide-Over Modal */}
+      {selectedObject && (
+        <DetailPanel
+          object={selectedObject}
+          onClose={() => setSelectedObject(null)}
+        />
+      )}
+    </div>
+  );
 }
-
-export default App

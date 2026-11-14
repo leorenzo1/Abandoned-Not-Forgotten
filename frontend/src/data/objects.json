@@ -1,0 +1,41 @@
+[
+  {
+    "id": "object-1",
+    "name": "Object 1",
+    "body": "moon",
+    "year": 1969,
+    "mission": "Mission Name",
+    "coordinates": { "x": 0.44, "y": 0.52 },
+    "status": "Pending research",
+    "story": "Content pending research team input.",
+    "image": "",
+    "imageCredit": "",
+    "sourceUrl": ""
+  },
+  {
+    "id": "object-2",
+    "name": "Object 2",
+    "body": "moon",
+    "year": 1971,
+    "mission": "Mission Name",
+    "coordinates": { "x": 0.58, "y": 0.42 },
+    "status": "Pending research",
+    "story": "Content pending research team input.",
+    "image": "",
+    "imageCredit": "",
+    "sourceUrl": ""
+  },
+  {
+    "id": "object-3",
+    "name": "Object 3",
+    "body": "mars",
+    "year": 1997,
+    "mission": "Mission Name",
+    "coordinates": { "x": 0.62, "y": 0.48 },
+    "status": "Pending research",
+    "story": "Content pending research team input.",
+    "image": "",
+    "imageCredit": "",
+    "sourceUrl": ""
+  }
+]
