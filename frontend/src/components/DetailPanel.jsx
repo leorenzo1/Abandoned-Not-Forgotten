@@ -1,115 +1,105 @@
 import { useEffect } from "react";
 
-export default function DetailPanel({ object, onClose }) {
+export default function DetailPanel({ object, isOpen, onClose }) {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") onClose();
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose]);
-
-  if (!object) return null;
-
-  const isMars = object.body?.toLowerCase() === "mars";
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [isOpen, onClose]);
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="detail-title"
-      className="fixed inset-0 z-50 flex items-center justify-end bg-black/70 p-4 backdrop-blur-md transition-opacity sm:p-6"
-      onClick={onClose}
+    <aside
+      aria-label="Artifact Detail Dossier"
+      className={`fixed top-0 right-0 bottom-0 z-50 flex w-full flex-col border-l border-neutral-800 bg-neutral-950/95 shadow-[-10px_0_30px_rgba(0,0,0,0.85)] transition-transform duration-300 ease-out sm:w-[420px] md:w-[460px] ${
+        isOpen && object ? "translate-x-0" : "translate-x-full pointer-events-none"
+      }`}
     >
-      <div
-        className="relative flex h-full max-h-[90vh] w-full max-w-xl flex-col overflow-y-auto rounded-3xl border border-white/20 bg-neutral-950/90 p-6 shadow-2xl backdrop-blur-2xl sm:p-8"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Header & Close Button */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
-          <div className="flex items-center gap-2">
-            <span
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 font-mono text-xs font-semibold tracking-wider uppercase ${
-                isMars
-                  ? "border border-amber-500/40 bg-amber-950/40 text-amber-300"
-                  : "border border-sky-400/40 bg-sky-950/40 text-sky-200"
-              }`}
-            >
-              <span className={`h-2 w-2 rounded-full ${isMars ? "bg-amber-400" : "bg-sky-400"}`} />
-              {object.body}
-            </span>
-            <span className="font-mono text-xs text-neutral-400">
-              Year {object.year || "Unknown"}
-            </span>
-          </div>
-
-          <button
-            onClick={onClose}
-            aria-label="Close dossier"
-            className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-400 transition-colors hover:border-white/30 hover:bg-white/15 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-          >
-            &times;
-          </button>
+      {/* Top Header */}
+      <div className="flex h-16 items-center justify-between border-b border-neutral-800 px-6 sm:px-8">
+        <div className="flex items-center gap-2 text-xs text-neutral-400 uppercase">
+          <span>{object?.body}</span>
+          {object?.year && (
+            <>
+              <span>·</span>
+              <span>Year {object.year}</span>
+            </>
+          )}
         </div>
 
-        {/* Content Body */}
-        <div className="mt-6 flex-1 space-y-6">
+        <button
+          onClick={onClose}
+          aria-label="Close sidebar"
+          className="flex h-8 w-8 items-center justify-center rounded-lg border border-neutral-800 text-neutral-400 transition-colors hover:border-neutral-700 hover:text-white focus:outline-none"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Scrollable Content Body */}
+      {object && (
+        <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
           <div>
-            <h3 id="detail-title" className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+            <h3 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
               {object.name}
             </h3>
-            <p className="mt-1 font-mono text-xs text-neutral-400 uppercase">
-              Mission Designation: {object.mission || "Unspecified"}
-            </p>
+            {object.mission && (
+              <p className="mt-1 text-xs text-neutral-400 uppercase">
+                Mission: {object.mission}
+              </p>
+            )}
           </div>
 
           {/* Photo Frame */}
           {object.image ? (
-            <div className="overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/60">
+            <div className="overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900">
               <img
                 src={object.image}
                 alt={object.name}
-                className="h-64 w-full object-cover"
+                className="h-56 w-full object-cover"
                 loading="lazy"
               />
               {object.imageCredit && (
-                <div className="bg-black/80 px-3 py-1 text-right font-mono text-[10px] text-neutral-400">
+                <div className="bg-neutral-900 px-3 py-1 text-right text-[10px] text-neutral-400">
                   Credit: {object.imageCredit}
                 </div>
               )}
             </div>
           ) : (
-            <div className="flex h-44 w-full flex-col items-center justify-center rounded-2xl border border-dashed border-white/15 bg-white/[0.02] p-4 text-center">
-              <span className="font-mono text-xs text-neutral-400">
-                Official NASA imagery pending archival upload
-              </span>
+            <div className="flex h-36 w-full items-center justify-center rounded-xl border border-dashed border-neutral-800 bg-neutral-900/40 text-xs text-neutral-500">
+              Archival photo pending upload
             </div>
           )}
 
-          {/* Telemetry specs grid */}
-          <div className="grid grid-cols-2 gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 font-mono text-xs">
+          {/* Coordinates & Status Specs */}
+          <div className="grid grid-cols-2 gap-4 rounded-xl border border-neutral-800 bg-neutral-900/50 p-4 text-xs">
             <div>
-              <span className="text-neutral-400 block text-[10px] uppercase">Coordinates</span>
-              <span className="text-white font-medium">
+              <span className="block text-neutral-500 text-[11px] uppercase">Location</span>
+              <span className="text-neutral-200 font-mono">
                 {object.coordinates
-                  ? `${object.coordinates.x.toFixed(2)} X, ${object.coordinates.y.toFixed(2)} Y`
+                  ? `${object.coordinates.x.toFixed(2)}, ${object.coordinates.y.toFixed(2)}`
                   : "Pending"}
               </span>
             </div>
             <div>
-              <span className="text-neutral-400 block text-[10px] uppercase">Current Status</span>
-              <span className="text-emerald-400 font-medium">
+              <span className="block text-neutral-500 text-[11px] uppercase">Status</span>
+              <span className="text-neutral-200">
                 {object.status || "Surface Monument"}
               </span>
             </div>
           </div>
 
-          {/* Historical Story Narrative */}
+          {/* Historical Narrative */}
           <div>
-            <h4 className="font-mono text-xs font-semibold tracking-wider text-neutral-300 uppercase">
-              Archaeological Record
+            <h4 className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
+              Historical Record
             </h4>
-            <p className="mt-2 text-sm leading-relaxed text-neutral-300 sm:text-base">
+            <p className="mt-2 text-sm leading-relaxed text-neutral-300">
               {object.story || "Narrative documentation pending input from research team."}
             </p>
           </div>
@@ -121,17 +111,17 @@ export default function DetailPanel({ object, onClose }) {
                 href={object.sourceUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-sky-400/30 bg-sky-950/40 px-4 py-2 font-mono text-xs font-medium text-sky-300 transition-colors hover:border-sky-400 hover:text-white"
+                className="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white hover:underline"
               >
-                <span>View NASA Archival Source</span>
-                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <span>NASA Archive Record</span>
+                <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </a>
             </div>
           )}
         </div>
-      </div>
-    </div>
+      )}
+    </aside>
   );
 }
