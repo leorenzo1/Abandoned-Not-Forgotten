@@ -148,10 +148,10 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
       <div className="flex w-full flex-col gap-4 border-b border-neutral-800 pb-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Surface Reconnaissance
+            Explore the Moon and Mars
           </h2>
-          <p className="mt-0.5 text-xs text-neutral-400">
-            Interactive rotating celestial globe · Drag to spin or select site below
+          <p className="mt-0.5 text-sm text-neutral-300">
+            Drag the planet to spin it. Tap a dot to meet a machine.
           </p>
         </div>
 
@@ -159,24 +159,24 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsAutoRotating(!isAutoRotating)}
-            className="rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-xs text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white"
+            className="rounded-2xl border border-neutral-800 bg-neutral-900 px-3 py-1.5 text-sm text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white"
           >
-            {isAutoRotating ? "Pause Spin" : "Auto Spin"}
+            {isAutoRotating ? "Stop spinning" : "Keep spinning"}
           </button>
 
-          <div className="inline-flex rounded-lg border border-neutral-800 bg-neutral-950 p-1">
+          <div className="inline-flex rounded-2xl border border-neutral-800 bg-neutral-950 p-1">
             <button
               onClick={() => handleBodySwitch("moon")}
-              className={`rounded-md px-4 py-1 text-xs font-medium tracking-wide transition-colors ${
-                !isMars ? "bg-white text-black shadow-sm" : "text-neutral-400 hover:text-white"
+              className={`rounded-xl px-4 py-1 text-sm font-medium transition-colors ${
+                !isMars ? "bg-white text-black shadow-sm" : "text-neutral-300 hover:text-white"
               }`}
             >
               Moon
             </button>
             <button
               onClick={() => handleBodySwitch("mars")}
-              className={`rounded-md px-4 py-1 text-xs font-medium tracking-wide transition-colors ${
-                isMars ? "bg-white text-black shadow-sm" : "text-neutral-400 hover:text-white"
+              className={`rounded-xl px-4 py-1 text-sm font-medium transition-colors ${
+                isMars ? "bg-white text-black shadow-sm" : "text-neutral-300 hover:text-white"
               }`}
             >
               Mars
@@ -238,9 +238,9 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
             >
               {/* Target dot with subtle halo */}
               <span
-                className={`h-3 w-3 rounded-full border shadow-md transition-all ${
+                className={`h-5 w-5 rounded-full border-2 shadow-md transition-all ${
                   isActive
-                    ? "border-white bg-sky-400 shadow-[0_0_10px_#38bdf8]"
+                    ? (isMars ? "border-white bg-amber-400 shadow-[0_0_12px_#fbbf24]" : "border-white bg-sky-400 shadow-[0_0_12px_#38bdf8]")
                     : "border-white/80 bg-white shadow-sm group-hover:scale-125"
                 }`}
               />
@@ -248,7 +248,7 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
               {/* Tooltip on front face */}
               <div
                 style={{ opacity: z > 0.4 ? 1 : z * 2.5 }}
-                className="pointer-events-none absolute bottom-full mb-1.5 whitespace-nowrap rounded border border-neutral-700 bg-neutral-900/95 px-2 py-0.5 text-[10px] font-medium text-white shadow-lg backdrop-blur-sm transition-opacity group-hover:opacity-100"
+                className="pointer-events-none absolute bottom-full mb-1.5 whitespace-nowrap rounded border border-neutral-700 bg-neutral-900/95 px-2 py-0.5 text-sm font-medium text-white shadow-lg backdrop-blur-sm transition-opacity group-hover:opacity-100"
               >
                 {obj.name}
               </div>
@@ -259,8 +259,8 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
 
       {/* Navigation: Click to Pan Directly to Object */}
       <div className="w-full max-w-2xl text-center">
-        <p className="text-xs font-semibold tracking-wider text-neutral-400 uppercase">
-          Select site to pan planet
+        <p className="text-sm font-semibold text-neutral-300">
+          Or pick a machine below
         </p>
         <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
           {filteredObjects.map((obj) => {
@@ -269,14 +269,14 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
               <button
                 key={obj.id}
                 onClick={() => panToObject(obj)}
-                className={`rounded-lg border px-3.5 py-1.5 text-xs font-medium transition-all ${
+                className={`rounded-2xl border px-3.5 py-1.5 text-sm font-medium transition-all ${
                   isSelected
                     ? "border-white bg-white text-black shadow-md"
                     : "border-neutral-800 bg-neutral-900/80 text-neutral-300 hover:border-neutral-700 hover:text-white"
                 }`}
               >
                 <span>{obj.name}</span>
-                {obj.year && <span className="ml-1.5 text-[11px] opacity-60">({obj.year})</span>}
+                {obj.year && <span className="ml-1.5 text-sm opacity-60">({obj.year})</span>}
               </button>
             );
           })}

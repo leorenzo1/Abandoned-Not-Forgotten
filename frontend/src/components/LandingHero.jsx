@@ -5,21 +5,21 @@ export default function LandingHero({ onNavigate }) {
         {/* Title */}
         <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl md:text-7xl">
           Abandoned, <br />
-          <span className="text-neutral-400">Not Forgotten</span>
+          <span className="text-neutral-300">Not Forgotten</span>
         </h1>
 
         {/* Subtitle */}
         <p className="mx-auto mt-6 max-w-lg text-base font-normal leading-relaxed text-neutral-300 sm:text-lg">
-          An interactive chronicle of NASA&apos;s discarded equipment across the surfaces of the Moon and Mars.
+          Meet the machines NASA left behind on the Moon and Mars, and find out what they taught us.
         </p>
 
         {/* Actions */}
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <button
             onClick={() => onNavigate("map")}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-white px-7 py-3 text-xs font-semibold tracking-wider text-black uppercase transition-all hover:bg-neutral-200 sm:w-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-2xl bg-sky-400 px-7 py-3 text-sm font-semibold text-slate-900 transition-all hover:bg-sky-300 sm:w-auto"
           >
-            <span>Explore Map</span>
+            <span>Start exploring</span>
             <svg
               className="h-3.5 w-3.5"
               fill="none"
@@ -32,9 +32,9 @@ export default function LandingHero({ onNavigate }) {
 
           <button
             onClick={() => onNavigate("story")}
-            className="flex w-full items-center justify-center rounded-lg border border-neutral-700 bg-black/40 px-7 py-3 text-xs font-semibold tracking-wider text-neutral-300 uppercase backdrop-blur-sm transition-all hover:border-neutral-500 hover:text-white sm:w-auto"
+            className="flex w-full items-center justify-center rounded-2xl border border-neutral-700 bg-black/40 px-7 py-3 text-sm font-semibold text-neutral-300 backdrop-blur-sm transition-all hover:border-neutral-500 hover:text-white sm:w-auto"
           >
-            Timeline View
+            Read the stories
           </button>
         </div>
       </div>

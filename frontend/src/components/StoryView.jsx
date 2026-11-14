@@ -1,3 +1,5 @@
+import { formatLatLng } from "../utils/formatLatLng";
+
 export default function StoryView({
   objects,
   currentIndex,
@@ -13,26 +15,26 @@ export default function StoryView({
       <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
-            Chronology
+            Story Timeline
           </h2>
-          <p className="mt-0.5 text-xs text-neutral-400">
-            Artifact {currentIndex + 1} of {objects.length}
+          <p className="mt-0.5 text-sm text-neutral-300">
+            Story {currentIndex + 1} of {objects.length}
           </p>
         </div>
 
         {currentObject?.year && (
-          <span className="rounded border border-neutral-800 bg-neutral-900 px-3 py-1 font-mono text-xs text-neutral-300">
+          <span className="rounded border border-neutral-800 bg-neutral-900 px-3 py-1 font-mono text-sm text-neutral-300">
             {currentObject.year}
           </span>
         )}
       </div>
 
       {/* Main Artifact Card */}
-      <div className="mt-6 overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/80 p-6 shadow-2xl backdrop-blur-md sm:p-10">
+      <div className="mt-6 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 shadow-2xl backdrop-blur-md sm:p-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           {/* Information Column */}
           <div className="flex-1">
-            <div className="flex items-center gap-2 text-xs text-neutral-400 uppercase">
+            <div className="flex items-center gap-2 text-sm text-neutral-300">
               <span>{currentObject?.body}</span>
               {currentObject?.mission && (
                 <>
@@ -47,33 +49,33 @@ export default function StoryView({
             </h3>
 
             {/* Coordinates and Status */}
-            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 border-y border-neutral-800 py-3 text-xs text-neutral-400">
-              {currentObject?.coordinates && (
+            <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 border-y border-neutral-800 py-3 text-sm text-neutral-300">
+              {currentObject?.lat != null && (
                 <div>
-                  <span className="text-neutral-500">Location: </span>
+                  <span className="text-neutral-400">Where to find it: </span>
                   <span className="text-neutral-300 font-mono">
-                    {currentObject.coordinates.x.toFixed(2)}, {currentObject.coordinates.y.toFixed(2)}
+                    {formatLatLng(currentObject.lat, currentObject.lng)}
                   </span>
                 </div>
               )}
               {currentObject?.status && (
                 <div>
-                  <span className="text-neutral-500">Status: </span>
+                  <span className="text-neutral-400">Where is it now? </span>
                   <span className="text-neutral-300">{currentObject.status}</span>
                 </div>
               )}
             </div>
 
-            <p className="mt-4 text-sm leading-relaxed text-neutral-300 sm:text-base">
-              {currentObject?.story || "Historical documentation pending upload."}
+            <p className="mt-4 text-base leading-relaxed text-neutral-200 sm:text-lg">
+              {currentObject?.story || "Story coming soon."}
             </p>
 
             <div className="mt-6">
               <button
                 onClick={() => onInspect(currentObject)}
-                className="inline-flex items-center gap-2 rounded-lg border border-neutral-700 bg-neutral-900 px-4 py-2 text-xs font-medium text-white transition-colors hover:border-neutral-500 hover:bg-neutral-800"
+                className="inline-flex items-center gap-2 rounded-2xl border border-neutral-700 bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:border-neutral-500 hover:bg-neutral-800"
               >
-                <span>Read Full Dossier</span>
+                <span>Read the full story</span>
                 <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -92,15 +94,15 @@ export default function StoryView({
                   loading="lazy"
                 />
                 {currentObject.imageCredit && (
-                  <div className="bg-neutral-950 px-3 py-1 text-right text-[10px] text-neutral-400">
+                  <div className="bg-neutral-950 px-3 py-1 text-right text-sm text-neutral-300">
                     {currentObject.imageCredit}
                   </div>
                 )}
               </div>
             ) : (
               <div className="flex h-56 w-full flex-col items-center justify-center rounded-xl border border-dashed border-neutral-800 bg-neutral-900/50 p-4 text-center">
-                <span className="text-xs text-neutral-500">
-                  Photo pending upload
+                <span className="text-sm text-neutral-400">
+                  Photo coming soon
                 </span>
               </div>
             )}
@@ -113,19 +115,19 @@ export default function StoryView({
         <button
           disabled={isCooldown || currentIndex === 0}
           onClick={() => onNavigate(-1)}
-          className="rounded-lg border border-neutral-800 bg-neutral-950 px-5 py-2 text-xs font-medium text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+          className="rounded-2xl border border-neutral-800 bg-neutral-950 px-5 py-2 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
         >
           Previous
         </button>
 
-        <span className="text-xs text-neutral-500 font-mono">
+        <span className="text-sm text-neutral-400 font-mono">
           {currentIndex + 1} / {objects.length}
         </span>
 
         <button
           disabled={isCooldown || currentIndex === objects.length - 1}
           onClick={() => onNavigate(1)}
-          className="rounded-lg border border-neutral-800 bg-neutral-950 px-5 py-2 text-xs font-medium text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+          className="rounded-2xl border border-neutral-800 bg-neutral-950 px-5 py-2 text-sm font-medium text-neutral-300 transition-colors hover:border-neutral-700 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
         >
           Next
         </button>

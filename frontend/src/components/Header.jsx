@@ -1,8 +1,8 @@
-export default function Header({ currentView, onViewChange, totalObjects }) {
+export default function Header({ currentView, onViewChange }) {
   const navItems = [
-    { id: "overview", label: "Overview" },
-    { id: "map", label: "Surface Map" },
-    { id: "story", label: `Timeline (${totalObjects})` },
+    { id: "overview", label: "Home" },
+    { id: "map", label: "Explore" },
+    { id: "story", label: "Timeline" },
   ];
 
   return (
@@ -15,7 +15,7 @@ export default function Header({ currentView, onViewChange, totalObjects }) {
         onKeyDown={(e) => e.key === "Enter" && onViewChange("overview")}
         className="cursor-pointer transition-opacity hover:opacity-80 focus:outline-none"
       >
-        <span className="text-sm font-bold tracking-tight text-white uppercase sm:text-base">
+        <span className="text-sm font-bold tracking-tight text-white sm:text-base">
           Abandoned, Not Forgotten
         </span>
       </div>
@@ -28,10 +28,10 @@ export default function Header({ currentView, onViewChange, totalObjects }) {
             <button
               key={item.id}
               onClick={() => onViewChange(item.id)}
-              className={`rounded-md px-3.5 py-1.5 text-xs font-medium tracking-wide transition-colors ${
+              className={`rounded-xl px-3.5 py-1.5 text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-neutral-800 text-white"
-                  : "text-neutral-400 hover:text-neutral-200"
+                  : "text-neutral-300 hover:text-neutral-200"
               }`}
               aria-current={isActive ? "page" : undefined}
             >

@@ -1,11 +1,15 @@
-import { useEffect, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import Starfield from "./components/Starfield";
 import Header from "./components/Header";
 import LandingHero from "./components/LandingHero";
-import MapView from "./components/MapView";
+// Loaded on demand so three.js is only downloaded when the Explore view opens
+const GlobeView = lazy(() => import("./components/GlobeView"));
 import StoryView from "./components/StoryView";
 import DetailPanel from "./components/DetailPanel";
-import objects from "./data/objects.json";
+import rawObjects from "./data/objects.json";
+
+// Show the stories from oldest to newest
+const objects = [...rawObjects].sort((a, b) => a.year - b.year);
 
 const STEP = 2.2; // radians per click, about 125 degrees
 const COOLDOWN_MS = 1400; // aligns with the ~1.5s spring settle time
@@ -76,11 +80,16 @@ export default function App() {
         )}
 
         {currentView === "map" && (
-          <MapView
-            objects={objects}
-            initialBody={initialMapBody}
-            onSelectObject={handleSelectObject}
-          />
+          <Suspense
+            fallback={<p className="text-sm text-neutral-300">Loading the planets...</p>}
+          >
+            <GlobeView
+              objects={objects}
+              initialBody={initialMapBody}
+              selectedId={selectedObject?.id}
+              onSelectObject={handleSelectObject}
+            />
+          </Suspense>
         )}
 
         {currentView === "story" && (
