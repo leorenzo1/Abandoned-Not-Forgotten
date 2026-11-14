@@ -1,0 +1,50 @@
+[
+  {
+    "id": "q1",
+    "question": "Which machine was the very first wheeled robot ever driven on Mars?",
+    "options": [
+      "Curiosity Rover",
+      "Sojourner (Mars Pathfinder)",
+      "Apollo 15 Lunar Rover",
+      "Spirit Rover"
+    ],
+    "correctIndex": 1,
+    "funFact": "Sojourner in 1997 was the first wheeled vehicle on Mars! It was only about the size of a kitchen microwave oven."
+  },
+  {
+    "id": "q2",
+    "question": "What did Apollo 17 astronauts use to repair their broken lunar buggy fender?",
+    "options": [
+      "Gray duct tape and lunar maps",
+      "Liquid glue and moon rocks",
+      "A spare metal tire from Earth",
+      "They left it broken and walked"
+    ],
+    "correctIndex": 0,
+    "funFact": "Astronauts Gene Cernan and Jack Schmitt taped 4 paper lunar maps together with heavy-duty gray duct tape to keep the blinding lunar dust from blowing in their faces!"
+  },
+  {
+    "id": "q3",
+    "question": "Why did the Spirit rover accidentally discover proof of ancient water on Mars?",
+    "options": [
+      "It used a laser cannon to blast a crater",
+      "Its broken front wheel dragged in the dirt and scraped up white silica",
+      "It fell into an underground frozen lake",
+      "Astronauts told it where to dig"
+    ],
+    "correctIndex": 1,
+    "funFact": "When Spirit's right-front wheel jammed, engineers dragged it backwards. The stuck wheel acted like a plow and unearthed bright white silica, which only forms in bubbling hot springs!"
+  },
+  {
+    "id": "q4",
+    "question": "What historic relic from Earth is hidden underneath the Ingenuity Mars helicopter?",
+    "options": [
+      "A coin from ancient Rome",
+      "A tiny piece of fabric from the Wright Brothers' 1903 airplane",
+      "A guitar pick from a famous musician",
+      "A leaf from an apple tree"
+    ],
+    "correctIndex": 1,
+    "funFact": "NASA taped a postage-stamp-sized piece of muslin fabric from the wing of the 1903 Wright Flyer underneath Ingenuity, connecting Earth's first airplane to the first flight on another world!"
+  }
+]

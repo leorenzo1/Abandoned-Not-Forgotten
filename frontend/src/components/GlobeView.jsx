@@ -18,7 +18,7 @@ import { latLngToVector3 } from "../utils/sphere";
 const BODIES = {
   moon: {
     label: "Moon",
-    model: "/models/moon.glb",
+    model: null, // High-performance 1MB 2K texture; prevents freezing the main thread with 54MB / 750,000-poly GLB
     texture: "/moon-texture.jpg",
     modelRotationDeg: 0,
     pinRadius: 1,
@@ -38,6 +38,10 @@ const BODIES = {
   },
 };
 
+// Preload assets at module load time so switching planets has zero freeze
+useTexture.preload("/moon-texture.jpg");
+useGLTF.preload("/models/mars.glb");
+
 const CAMERA_DISTANCE = 3.2;
 const DEFAULT_FOCUS = latLngToVector3(10, 0, 1);
 
@@ -54,29 +58,6 @@ function getRotationOverride() {
   const raw = new URLSearchParams(window.location.search).get("rot");
   const value = raw === null ? NaN : Number(raw);
   return Number.isFinite(value) ? value : null;
-}
-
-// True only if the file really exists (dev servers answer 200 + HTML for missing files).
-function useAssetExists(url) {
-  const [result, setResult] = useState({ url: null, ok: false });
-
-  useEffect(() => {
-    let cancelled = false;
-    fetch(url, { method: "HEAD" })
-      .then((res) => {
-        const type = res.headers.get("content-type") || "";
-        if (!cancelled) setResult({ url, ok: res.ok && !type.includes("text/html") });
-      })
-      .catch(() => {
-        if (!cancelled) setResult({ url, ok: false });
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [url]);
-
-  // null = still checking
-  return result.url === url ? result.ok : null;
 }
 
 class ModelBoundary extends Component {
@@ -128,18 +109,26 @@ function GlbBody({ url, rotationDeg }) {
 }
 
 function PlanetBody({ config, rotationDeg, onModelState }) {
-  const modelExists = useAssetExists(config.model);
+  const hasModel = Boolean(config.model);
 
   useEffect(() => {
-    onModelState(modelExists === true);
-  }, [modelExists, onModelState]);
+    onModelState(hasModel);
+  }, [hasModel, onModelState]);
 
-  const sphere = <TexturedSphere url={config.texture} />;
-  if (modelExists !== true) return sphere;
+  if (!hasModel) {
+    return <TexturedSphere url={config.texture} />;
+  }
 
   return (
-    <ModelBoundary fallback={sphere}>
-      <Suspense fallback={sphere}>
+    <ModelBoundary fallback={<TexturedSphere url={config.texture} />}>
+      <Suspense
+        fallback={
+          <mesh>
+            <sphereGeometry args={[1, 64, 32]} />
+            <meshStandardMaterial color="#141419" roughness={0.9} />
+          </mesh>
+        }
+      >
         <GlbBody url={config.model} rotationDeg={rotationDeg} />
       </Suspense>
     </ModelBoundary>
@@ -147,8 +136,11 @@ function PlanetBody({ config, rotationDeg, onModelState }) {
 }
 
 function Pin({ obj, radius, accent, isActive, isHovered, onSelect, onHover }) {
-  const ringRef = useRef(null);
-  const STALK = 0.09;
+  const ripple1Ref = useRef(null);
+  const ripple2Ref = useRef(null);
+  const beaconHeadRef = useRef(null);
+  const haloRef = useRef(null);
+  const STALK_HEIGHT = 0.11;
 
   const position = useMemo(() => latLngToVector3(obj.lat, obj.lng, radius), [obj.lat, obj.lng, radius]);
   const quaternion = useMemo(
@@ -156,43 +148,100 @@ function Pin({ obj, radius, accent, isActive, isHovered, onSelect, onHover }) {
     [position]
   );
 
-  // Pulsing ring around the selected pin
+  // Animated continuous radar ripples and floating beacon head
   useFrame(({ clock }) => {
-    const ring = ringRef.current;
-    if (!ring) return;
-    const t = (clock.elapsedTime * 0.9) % 1;
-    ring.scale.setScalar(1 + t * 2.2);
-    ring.material.opacity = 0.7 * (1 - t);
+    const time = clock.elapsedTime;
+
+    // Gentle vertical bob for beacon head
+    if (beaconHeadRef.current) {
+      const bob = Math.sin(time * 3 + obj.lat * 4) * 0.007;
+      beaconHeadRef.current.position.y = STALK_HEIGHT + bob;
+      beaconHeadRef.current.rotation.y = time * 0.8;
+    }
+
+    // Breathing glow halo
+    if (haloRef.current) {
+      const pulse = 1 + 0.22 * Math.sin(time * 3.5 + obj.lng * 4);
+      haloRef.current.scale.setScalar(pulse);
+      const baseAlpha = isActive ? 0.75 : isHovered ? 0.6 : 0.35;
+      haloRef.current.material.opacity = baseAlpha * (0.8 + 0.2 * Math.sin(time * 5));
+    }
+
+    // Ripple wave 1
+    if (ripple1Ref.current) {
+      const speed = isActive ? 1.4 : 0.7;
+      const t1 = ((time * speed + obj.lat * 2) % 1 + 1) % 1;
+      ripple1Ref.current.scale.setScalar(1 + t1 * 2.6);
+      ripple1Ref.current.material.opacity = (1 - t1) * (isActive ? 0.85 : isHovered ? 0.65 : 0.4);
+    }
+
+    // Ripple wave 2 (offset)
+    if (ripple2Ref.current) {
+      const speed = isActive ? 1.4 : 0.7;
+      const t2 = ((time * speed + 0.5 + obj.lat * 2) % 1 + 1) % 1;
+      ripple2Ref.current.scale.setScalar(1 + t2 * 2.6);
+      ripple2Ref.current.material.opacity = (1 - t2) * (isActive ? 0.85 : isHovered ? 0.65 : 0.4);
+    }
   });
 
-  const color = isActive ? accent : "#ffffff";
-  const headScale = isActive ? 1.5 : isHovered ? 1.3 : 1;
+  const headScale = isActive ? 1.4 : isHovered ? 1.25 : 1.0;
 
   return (
     <group position={position} quaternion={quaternion}>
-      {/* stalk */}
-      <mesh position={[0, STALK / 2, 0]}>
-        <cylinderGeometry args={[0.006, 0.006, STALK, 8]} />
-        <meshBasicMaterial color={color} />
+      {/* Surface Base Target Dot */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.002, 0]}>
+        <circleGeometry args={[0.018, 20]} />
+        <meshBasicMaterial color={accent} transparent opacity={0.9} depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* head */}
-      <mesh position={[0, STALK, 0]} scale={headScale}>
-        <sphereGeometry args={[0.035, 20, 20]} />
-        <meshBasicMaterial color={color} />
+      {/* Surface Radar Ripple 1 */}
+      <mesh ref={ripple1Ref} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.003, 0]}>
+        <ringGeometry args={[0.022, 0.03, 32]} />
+        <meshBasicMaterial color={accent} transparent depthWrite={false} side={THREE.DoubleSide} />
       </mesh>
 
-      {/* pulsing ring on the surface */}
-      {isActive && (
-        <mesh ref={ringRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 0]}>
-          <ringGeometry args={[0.03, 0.04, 40]} />
-          <meshBasicMaterial color={accent} transparent depthWrite={false} side={THREE.DoubleSide} />
+      {/* Surface Radar Ripple 2 */}
+      <mesh ref={ripple2Ref} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.004, 0]}>
+        <ringGeometry args={[0.022, 0.03, 32]} />
+        <meshBasicMaterial color={accent} transparent depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+
+      {/* Holographic Light Beam Stalk (dual layer) */}
+      {/* Inner laser core */}
+      <mesh position={[0, STALK_HEIGHT / 2, 0]}>
+        <cylinderGeometry args={[0.004, 0.004, STALK_HEIGHT, 8]} />
+        <meshBasicMaterial color="#ffffff" />
+      </mesh>
+      {/* Outer energy beam sheath */}
+      <mesh position={[0, STALK_HEIGHT / 2, 0]}>
+        <cylinderGeometry args={[0.012, 0.008, STALK_HEIGHT, 8]} />
+        <meshBasicMaterial color={accent} transparent opacity={isActive ? 0.65 : 0.4} />
+      </mesh>
+
+      {/* Floating Beacon Head */}
+      <group ref={beaconHeadRef} position={[0, STALK_HEIGHT, 0]} scale={headScale}>
+        {/* Core brilliant crystal */}
+        <mesh rotation={[Math.PI / 4, 0, 0]}>
+          <octahedronGeometry args={[0.032, 0]} />
+          <meshBasicMaterial color="#ffffff" />
         </mesh>
-      )}
 
-      {/* big invisible hit area so pins are easy to tap */}
+        {/* Luminous corona glow shell */}
+        <mesh ref={haloRef}>
+          <sphereGeometry args={[0.048, 16, 16]} />
+          <meshBasicMaterial color={accent} transparent opacity={0.35} depthWrite={false} />
+        </mesh>
+
+        {/* Top antenna flare */}
+        <mesh position={[0, 0.038, 0]}>
+          <coneGeometry args={[0.008, 0.02, 8]} />
+          <meshBasicMaterial color={accent} />
+        </mesh>
+      </group>
+
+      {/* Tap/Click hit target area */}
       <mesh
-        position={[0, STALK, 0]}
+        position={[0, STALK_HEIGHT, 0]}
         onClick={(e) => {
           e.stopPropagation();
           onSelect(obj);
@@ -207,14 +256,31 @@ function Pin({ obj, radius, accent, isActive, isHovered, onSelect, onHover }) {
           document.body.style.cursor = "";
         }}
       >
-        <sphereGeometry args={[0.075, 12, 12]} />
+        <sphereGeometry args={[0.08, 12, 12]} />
         <meshBasicMaterial transparent opacity={0} depthWrite={false} />
       </mesh>
 
+      {/* Sleek Tooltip Badge on Hover / Active */}
       {(isActive || isHovered) && (
-        <Html position={[0, STALK + 0.09, 0]} center style={{ pointerEvents: "none" }}>
-          <div className="whitespace-nowrap rounded-lg border border-neutral-700 bg-neutral-900/95 px-2.5 py-1 text-sm font-medium text-white shadow-lg">
-            {obj.name}
+        <Html position={[0, STALK_HEIGHT + 0.12, 0]} center style={{ pointerEvents: "none" }}>
+          <div className="flex flex-col items-center rounded-2xl border border-neutral-700/80 bg-neutral-950/90 px-3.5 py-2 shadow-2xl backdrop-blur-md">
+            <div className="flex items-center gap-1.5 mb-0.5">
+              <span className="h-2 w-2 rounded-full animate-pulse shadow-sm" style={{ backgroundColor: accent }} />
+              <span className="text-[11px] font-mono font-semibold text-neutral-400">
+                {obj.year}
+              </span>
+            </div>
+            <span className="whitespace-nowrap text-xs font-bold text-white tracking-wide">
+              {obj.name}
+            </span>
+            {obj.nickname && (
+              <span className="whitespace-nowrap text-[11px] font-semibold italic text-sky-400 mt-0.5">
+                "{obj.nickname}"
+              </span>
+            )}
+            <span className="mt-1 text-[10px] text-neutral-400 font-medium tracking-wider uppercase">
+              {isActive ? "Viewing dossier" : "Tap to visit"}
+            </span>
           </div>
         </Html>
       )}
@@ -222,25 +288,67 @@ function Pin({ obj, radius, accent, isActive, isHovered, onSelect, onHover }) {
   );
 }
 
-// Smoothly swings the camera around the planet to face a point on its surface.
-function CameraRig({ focus }) {
-  const target = useRef(null);
+// Calculate shortest angular distance on a circle
+function shortestAngleDiff(target, current) {
+  let diff = (target - current) % (2 * Math.PI);
+  if (diff < -Math.PI) diff += 2 * Math.PI;
+  if (diff > Math.PI) diff -= 2 * Math.PI;
+  return diff;
+}
+
+// Smoothly swings the camera around the planet using spherical coordinates.
+// This prevents gimbal flips, roll inversion, and jittering with OrbitControls.
+function CameraRig({ focus, controlsRef, onArrive }) {
+  const targetSpherical = useRef(null);
 
   useEffect(() => {
-    target.current = focus ? focus.clone().normalize() : null;
+    if (!focus) {
+      targetSpherical.current = null;
+      return;
+    }
+    const sph = new THREE.Spherical().setFromVector3(focus);
+    // Clamp slightly away from exact pole singularities to prevent gimbal lock
+    sph.phi = Math.max(0.08, Math.min(Math.PI - 0.08, sph.phi));
+    targetSpherical.current = sph;
   }, [focus]);
 
   useFrame(({ camera }, dt) => {
-    const goal = target.current;
+    const goal = targetSpherical.current;
     if (!goal) return;
-    const current = camera.position.clone().normalize();
-    if (current.angleTo(goal) < 0.01) {
-      target.current = null;
+
+    const curSph = new THREE.Spherical().setFromVector3(camera.position);
+    const diffTheta = shortestAngleDiff(goal.theta, curSph.theta);
+    const diffPhi = goal.phi - curSph.phi;
+
+    // Settle distance smoothly between 2.2 and 3.4
+    const desiredRadius = Math.max(2.2, Math.min(camera.position.length(), 3.4));
+    const diffRadius = desiredRadius - curSph.radius;
+
+    if (Math.abs(diffTheta) < 0.002 && Math.abs(diffPhi) < 0.002) {
+      targetSpherical.current = null;
+      camera.position.setFromSphericalCoords(desiredRadius, goal.phi, goal.theta);
+      camera.lookAt(0, 0, 0);
+      if (controlsRef.current) {
+        controlsRef.current.target.set(0, 0, 0);
+        controlsRef.current.update();
+      }
+      onArrive?.();
       return;
     }
-    const full = new THREE.Quaternion().setFromUnitVectors(current, goal);
-    const step = new THREE.Quaternion().slerp(full, 1 - Math.exp(-dt * 4));
-    camera.position.applyQuaternion(step);
+
+    // Smooth exponential ease
+    const t = 1 - Math.exp(-dt * 5.5);
+    const nextTheta = curSph.theta + diffTheta * t;
+    const nextPhi = curSph.phi + diffPhi * t;
+    const nextRadius = curSph.radius + diffRadius * t;
+
+    camera.position.setFromSphericalCoords(nextRadius, nextPhi, nextTheta);
+    camera.lookAt(0, 0, 0);
+
+    if (controlsRef.current) {
+      controlsRef.current.target.set(0, 0, 0);
+      controlsRef.current.update();
+    }
   });
 
   return null;
@@ -263,10 +371,20 @@ function CameraLight() {
 
 function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
   const [body, setBody] = useState(initialBody);
+  const [prevInitial, setPrevInitial] = useState(initialBody);
   const [hoveredId, setHoveredId] = useState(null);
   const [spin, setSpin] = useState(true);
-  const [focus, setFocus] = useState(DEFAULT_FOCUS);
+  const [focus, setFocus] = useState(null);
   const [usingNasaModel, setUsingNasaModel] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const controlsRef = useRef(null);
+
+  // Sync state during render when prop changes (React 19 pattern)
+  if (initialBody && initialBody !== prevInitial) {
+    setPrevInitial(initialBody);
+    setBody(initialBody);
+  }
 
   const config = BODIES[body] ?? BODIES.moon;
   const rotationOverride = useMemo(() => getRotationOverride(), []);
@@ -286,6 +404,7 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
   const selectObject = (obj) => {
     onSelectObject(obj);
     if (obj.lat != null && obj.lng != null) {
+      setIsNavigating(true);
       setFocus(latLngToVector3(obj.lat, obj.lng, 1));
     }
   };
@@ -295,7 +414,8 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
     setBody(next);
     setHoveredId(null);
     onSelectObject(null);
-    setFocus(DEFAULT_FOCUS.clone());
+    setIsNavigating(false);
+    setFocus(null);
   };
 
   return (
@@ -335,9 +455,9 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
         </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
-        {/* 3D stage */}
-        <div className="relative h-[420px] overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/40 sm:h-[540px] lg:h-[640px]">
+      <div className="mt-6 w-full overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/30 shadow-2xl">
+        {/* 3D Stage Viewport */}
+        <div className="relative h-[400px] w-full sm:h-[480px] lg:h-[540px]">
           <div
             className={`pointer-events-none absolute left-1/2 top-1/2 h-3/5 w-3/5 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-40 blur-3xl transition-colors duration-700 ${config.halo}`}
           />
@@ -369,8 +489,16 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
                 />
               ))}
 
-            <CameraRig focus={focus} />
+            <CameraRig
+              focus={focus}
+              controlsRef={controlsRef}
+              onArrive={() => {
+                setIsNavigating(false);
+                setFocus(null);
+              }}
+            />
             <OrbitControls
+              ref={controlsRef}
               enablePan={false}
               enableDamping
               dampingFactor={0.08}
@@ -378,9 +506,12 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
               zoomSpeed={0.7}
               minDistance={1.7}
               maxDistance={6}
-              autoRotate={spin && !activeId}
+              autoRotate={spin && !activeId && !isNavigating}
               autoRotateSpeed={0.6}
-              onStart={() => setFocus(null)}
+              onStart={() => {
+                setFocus(null);
+                setIsNavigating(false);
+              }}
             />
           </Canvas>
 
@@ -391,12 +522,24 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
           )}
         </div>
 
-        {/* Machine list */}
-        <div className="flex flex-col">
-          <p className="text-sm font-semibold text-neutral-300">
-            {config.label} machines ({bodyObjects.length})
-          </p>
-          <div className="mt-3 flex flex-wrap gap-2 lg:flex-col lg:flex-nowrap">
+        {/* Integrated Machine Control Tray */}
+        <div className="border-t border-neutral-800/80 bg-neutral-950/70 p-3.5 backdrop-blur-md sm:p-4">
+          <div className="mb-2.5 flex items-center justify-between px-1">
+            <div className="flex items-center gap-2">
+              <span
+                className="h-2 w-2 rounded-full shadow-sm"
+                style={{ backgroundColor: config.accent }}
+              />
+              <span className="text-xs font-semibold tracking-wider uppercase text-neutral-300">
+                {config.label} Sites ({bodyObjects.length})
+              </span>
+            </div>
+            <span className="hidden text-xs text-neutral-400 sm:inline">
+              Select a site to focus the camera
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
             {bodyObjects.map((obj) => {
               const isSelected = obj.id === activeId;
               return (
@@ -405,14 +548,35 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
                   onClick={() => selectObject(obj)}
                   onMouseEnter={() => setHoveredId(obj.id)}
                   onMouseLeave={() => setHoveredId(null)}
-                  className={`flex items-center justify-between gap-3 rounded-2xl border px-4 py-2.5 text-left text-sm font-medium transition-all ${
+                  className={`group flex items-center justify-between gap-2 rounded-xl border px-3 py-2 text-left transition-all ${
                     isSelected
-                      ? "border-white bg-white text-black shadow-md"
-                      : "border-neutral-800 bg-neutral-900/80 text-neutral-300 hover:border-neutral-600 hover:text-white"
+                      ? "border-white bg-white text-black shadow-md scale-[1.01]"
+                      : "border-neutral-800 bg-neutral-900/70 text-neutral-300 hover:border-neutral-600 hover:bg-neutral-800/80 hover:text-white"
                   }`}
                 >
-                  <span>{obj.name}</span>
-                  {obj.year && <span className="text-sm opacity-60">{obj.year}</span>}
+                  <div className="min-w-0 flex-1">
+                    <span className="block truncate text-xs font-semibold sm:text-sm">
+                      {obj.name}
+                    </span>
+                    {obj.nickname && (
+                      <span className={`block truncate text-[11px] font-medium italic ${
+                        isSelected ? "text-neutral-700" : "text-neutral-400 group-hover:text-sky-300"
+                      }`}>
+                        "{obj.nickname}"
+                      </span>
+                    )}
+                  </div>
+                  {obj.year && (
+                    <span
+                      className={`shrink-0 rounded px-1.5 py-0.5 font-mono text-[11px] ${
+                        isSelected
+                          ? "bg-neutral-200 text-neutral-800"
+                          : "bg-neutral-800 text-neutral-400 group-hover:text-neutral-300"
+                      }`}
+                    >
+                      {obj.year}
+                    </span>
+                  )}
                 </button>
               );
             })}
