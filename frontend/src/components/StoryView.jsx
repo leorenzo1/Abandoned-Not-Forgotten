@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Volume2, Square, Camera, Sparkles, Compass, CheckCircle2 } from "lucide-react";
+import { Volume2, Square, Camera, Sparkles, Compass, CheckCircle2, Box } from "lucide-react";
 import { formatLatLng } from "../utils/formatLatLng";
 import { speakText, stopSpeech, isSpeechSupported } from "../utils/speech";
 
@@ -186,7 +186,8 @@ export default function StoryView({
                   onClick={() => onInspect(currentObject)}
                   className="inline-flex items-center gap-1.5 rounded-2xl border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 text-xs font-semibold text-neutral-300 transition-all hover:border-neutral-600 hover:text-white"
                 >
-                  <span>Quick Overview</span>
+                  <Box className="h-3.5 w-3.5 text-sky-400" />
+                  <span>Inspect 3D Hardware</span>
                   <span>→</span>
                 </button>
               )}

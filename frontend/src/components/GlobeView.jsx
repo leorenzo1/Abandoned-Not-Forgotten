@@ -279,7 +279,7 @@ function Pin({ obj, radius, accent, isActive, isHovered, onSelect, onHover }) {
               </span>
             )}
             <span className="mt-1 text-[10px] text-neutral-400 font-medium tracking-wider uppercase">
-              {isActive ? "Viewing dossier" : "Tap to visit"}
+              {isActive ? "Viewing 3D hardware" : "Tap to inspect in 3D"}
             </span>
           </div>
         </Html>
