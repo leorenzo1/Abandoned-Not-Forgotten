@@ -25,9 +25,6 @@ export default function Header({
         onKeyDown={(e) => e.key === "Enter" && onViewChange("overview")}
         className="cursor-pointer transition-opacity hover:opacity-85 focus:outline-none flex items-center gap-2.5"
       >
-        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-sky-400 font-mono text-xs font-black text-slate-950">
-          ANF
-        </span>
         <div className="flex flex-col">
           <span className="text-sm font-extrabold tracking-tight text-white sm:text-base leading-tight">
             Abandoned, Not Forgotten
@@ -77,11 +74,11 @@ export default function Header({
           <button
             onClick={onOpenPassport}
             title="Open Explorer Passport Logbook"
-            className="flex items-center gap-1.5 rounded-xl border border-neutral-800 bg-neutral-900/80 px-2.5 py-1.5 text-xs font-semibold text-neutral-200 transition-all hover:border-sky-500/50 hover:bg-neutral-800"
+            className="flex items-center gap-1.5 rounded-xl border border-neutral-800 bg-neutral-900/80 px-2.5 py-1.5 text-xs font-semibold text-neutral-200 transition-all hover:border-emerald-500/50 hover:bg-neutral-800"
           >
-            <Award className="h-3.5 w-3.5 text-sky-400" />
+            <Award className="h-3.5 w-3.5 text-emerald-400" />
             <span className="hidden md:inline">Passport</span>
-            <span className="rounded-md bg-sky-500/20 px-1.5 py-0.5 font-mono text-[10px] font-bold text-sky-300">
+            <span className="rounded-md bg-emerald-500/20 px-1.5 py-0.5 font-mono text-[10px] font-bold text-emerald-300">
               {Math.min(discoveredCount, totalObjects)}/{totalObjects}
             </span>
           </button>

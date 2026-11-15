@@ -8,7 +8,7 @@ export default function ReferencesModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const categories = ["all", "Moon", "Mars", "Deep Space"];
+  const categories = ["all", "Moon", "Mars"];
 
   const filteredReferences = referencesData.filter((ref) => {
     const matchesCategory =
@@ -103,24 +103,13 @@ export default function ReferencesModal({ isOpen, onClose }) {
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             {filteredReferences.map((ref, idx) => {
-              const isMoon = ref.category.toLowerCase() === "moon";
-              const isMars = ref.category.toLowerCase() === "mars";
-              const accentBadge = isMoon
-                ? "border-sky-500/30 bg-sky-950/30 text-sky-300"
-                : isMars
-                ? "border-amber-500/30 bg-amber-950/30 text-amber-300"
-                : "border-purple-500/30 bg-purple-950/30 text-purple-300";
-
               return (
                 <div
                   key={idx}
                   className="group flex flex-col justify-between rounded-2xl border border-neutral-800/80 bg-neutral-900/50 p-4 transition-all hover:border-neutral-700 hover:bg-neutral-900/80"
                 >
                   <div>
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <span className={`rounded-lg border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${accentBadge}`}>
-                        {ref.category}
-                      </span>
+                    <div className="flex items-center justify-end gap-2 mb-2">
                       <span className="text-[11px] font-mono text-neutral-400">
                         {ref.type}
                       </span>

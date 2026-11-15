@@ -120,7 +120,7 @@ function PlanetBody({ config, rotationDeg, onModelState }) {
   }
 
   return (
-    <ModelBoundary fallback={<TexturedSphere url={config.texture} isDeepSpace={config.isDeepSpace} />}>
+    <ModelBoundary fallback={<TexturedSphere url={config.texture} />}>
       <Suspense
         fallback={
           <mesh>
@@ -369,7 +369,7 @@ function CameraLight() {
 
 /* ------------------------------ the view ------------------------------ */
 
-function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
+function Globe3D({ objects, initialBody, selectedId, onSelectObject, onBodyChange }) {
   const [body, setBody] = useState(initialBody);
   const [prevInitial, setPrevInitial] = useState(initialBody);
   const [hoveredId, setHoveredId] = useState(null);
@@ -380,11 +380,13 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
 
   const controlsRef = useRef(null);
 
-  // Sync state during render when prop changes (React 19 pattern)
-  if (initialBody && initialBody !== prevInitial) {
-    setPrevInitial(initialBody);
-    setBody(initialBody);
-  }
+  // Sync state cleanly when initialBody prop changes
+  useEffect(() => {
+    if (initialBody && initialBody !== prevInitial) {
+      setPrevInitial(initialBody);
+      setBody(initialBody);
+    }
+  }, [initialBody, prevInitial]);
 
   const config = BODIES[body] ?? BODIES.moon;
   const rotationOverride = useMemo(() => getRotationOverride(), []);
@@ -411,11 +413,13 @@ function Globe3D({ objects, initialBody, selectedId, onSelectObject }) {
 
   const switchBody = (next) => {
     if (next === body) return;
+    const prev = body;
     setBody(next);
     setHoveredId(null);
     onSelectObject(null);
     setIsNavigating(false);
     setFocus(null);
+    onBodyChange?.(next, prev);
   };
 
   return (

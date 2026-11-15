@@ -19,6 +19,8 @@ const COOLDOWN_MS = 400;
 export default function App() {
   const [currentView, setCurrentView] = useState("overview"); // "overview" | "map" | "subtabs" | "story"
   const [initialMapBody, setInitialMapBody] = useState("moon");
+  const [activePlanet, setActivePlanet] = useState("moon");
+  const [travelEvent, setTravelEvent] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedObject, setSelectedObject] = useState(null);
   const [isCooldown, setIsCooldown] = useState(false);
@@ -68,14 +70,50 @@ export default function App() {
     triggerCooldown();
   };
 
+  const handleBodyChange = (nextBody, prevBody) => {
+    const next = (nextBody || "").toLowerCase();
+    const prev = (prevBody || "").toLowerCase();
+    setActivePlanet(next);
+
+    // Trigger travelling animation on planet switch:
+    // If switching from Moon -> Mars: animation flows to the RIGHT.
+    // If switching from Mars -> Moon: animation flows to the LEFT.
+    if (prev && next && prev !== next) {
+      const dir = prev === "moon" && next === "mars" ? "right" : "left";
+      setTravelEvent({
+        direction: dir,
+        id: Date.now() + Math.random(),
+      });
+    }
+  };
+
   const handleHeroNavigate = (targetView, body) => {
-    if (body) setInitialMapBody(body);
+    if (targetView === "map" && currentView !== "map") {
+      setTravelEvent({
+        direction: "forward",
+        id: Date.now() + Math.random(),
+      });
+    }
+    if (body) {
+      setInitialMapBody(body);
+      setActivePlanet(body.toLowerCase());
+    }
     setCurrentView(targetView);
   };
 
   const handleViewIn3D = (obj) => {
+    const nextBody = obj?.body ? obj.body.toLowerCase() : activePlanet;
+    if (currentView !== "map") {
+      setTravelEvent({
+        direction: "forward",
+        id: Date.now() + Math.random(),
+      });
+    } else if (nextBody !== activePlanet) {
+      handleBodyChange(nextBody, activePlanet);
+    }
     if (obj?.body) {
-      setInitialMapBody(obj.body.toLowerCase());
+      setInitialMapBody(nextBody);
+      setActivePlanet(nextBody);
     }
     setCurrentView("map");
     setSelectedObject(obj);
@@ -132,13 +170,19 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen text-white select-none">
-      {/* Serene Cosmic Starfield Background */}
-      <Starfield />
+      {/* Serene Cosmic Starfield Background with Planetary Travel Warp */}
+      <Starfield travelEvent={travelEvent} />
 
       {/* Top Observatory Navigation Bar */}
       <Header
         currentView={currentView}
         onViewChange={(v) => {
+          if (v === "map" && currentView !== "map") {
+            setTravelEvent({
+              direction: "forward",
+              id: Date.now() + Math.random(),
+            });
+          }
           setCurrentView(v);
           setSelectedObject(null);
         }}
@@ -174,6 +218,7 @@ export default function App() {
               initialBody={initialMapBody}
               selectedId={selectedObject?.id}
               onSelectObject={handleSelectObject}
+              onBodyChange={handleBodyChange}
             />
           </Suspense>
         </div>
@@ -184,6 +229,12 @@ export default function App() {
             objects={objects}
             currentIndex={currentIndex}
             onNavigate={handleNavigateStory}
+            onSelectIndex={(idx) => {
+              if (idx >= 0 && idx < objects.length) {
+                setCurrentIndex(idx);
+                triggerCooldown();
+              }
+            }}
             isCooldown={isCooldown}
             onInspect={handleSelectObject}
             onViewIn3D={handleViewIn3D}

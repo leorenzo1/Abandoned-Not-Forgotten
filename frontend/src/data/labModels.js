@@ -1,0 +1,28 @@
+// Cartoon 3D models built from basic three.js shapes. Each model is a list of clickable parts.
+import * as T from 'three'
+
+function P(g,c,x,y,z,a,b,d){var m=new T.Mesh(g,new T.MeshToonMaterial({color:c}));m.position.set(x||0,y||0,z||0);m.rotation.set(a||0,b||0,d||0);return m}
+function bx(w,h,d,c,x,y,z,a,b,e){return P(new T.BoxGeometry(w,h,d),c,x,y,z,a,b,e)}
+function cy(r1,r2,h,c,x,y,z,a,b,e,s){return P(new T.CylinderGeometry(r1,r2,h,s||24),c,x,y,z,a,b,e)}
+function sp(r,c,x,y,z){return P(new T.SphereGeometry(r,16,12),c,x,y,z)}
+function G(l){var g=new T.Group();l.forEach(function(m){g.add(m)});return g}
+function legs(n,r,yc,len,s,c){var o=[];for(var i=0;i<n;i++){var a=i*6.2832/n+.8,sa=Math.sin(a),ca=Math.cos(a),pr=r+len/2*Math.sin(s);o.push(cy(.04,.04,len,c,sa*r,yc,ca*r,-ca*s,0,sa*s,8));o.push(cy(.14,.14,.04,c,sa*pr,.02,ca*pr,0,0,0,12))}return o}
+var C0=0xf0f0f5,GR=0xcfcfe0,BL=0x2a4bd8,YL=0xffd23f,PK=0xff6b9d,DK=0x3a3a4a,MT=0x3ddc97,OR=0xff9f45,SK=0x4cc9f0;
+
+export const D = [
+{n:'Surveyor 3',e:'🤖',w:'moon',s:'A robot scout that landed on April 20, 1967 to test if the Moon’s ground could hold a spacecraft.',
+b:function(){return[G([cy(.17,.17,.3,DK,0,2.15,0),sp(.1,SK,0,2.15,.16)]),G([bx(1.4,.05,.9,BL,0,2.5,0,0,0,.15)]),G([bx(.08,.08,1,C0,.45,.9,.6,0,.5,0),bx(.22,.12,.22,PK,.7,.9,1.0)]),G(legs(3,.5,.55,1.2,.4,GR)),G([bx(.8,.55,.8,C0,0,1.2,0),cy(.06,.06,.8,GR,0,1.85,0)])]},
+i:[['TV camera','Its camera took thousands of photos so scientists on Earth could see the Moon up close.'],['Solar panel','A panel on top caught sunlight to make electricity for the robot.'],['Soil scoop arm','A robotic arm with a scoop dug small trenches and tested how strong the ground was.'],['Landing legs','Three legs held it steady. Its tests showed the Moon could support the weight of an Apollo Lunar Module.'],['Main body','In 1969, Apollo 12 astronauts Pete Conrad and Alan Bean visited it and took parts home to study how years on the Moon changed them.']]},
+{n:'Moon Buggy',e:'🚙',w:'moon',s:'The Lunar Roving Vehicle, first driven on Apollo 15, let astronauts explore much farther than they could walk.',
+b:function(){var w=[];[[-.7,-.9],[.7,-.9],[-.7,.9],[.7,.9]].forEach(function(p){w.push(cy(.32,.32,.2,DK,p[0],.32,p[1],0,0,1.5708,20))});return[G(w),G([bx(.5,.1,.4,PK,-.3,.7,-.1),bx(.5,.1,.4,PK,.3,.7,-.1),bx(.5,.45,.08,PK,-.3,.95,-.35),bx(.5,.45,.08,PK,.3,.95,-.35)]),G([cy(.03,.03,.9,GR,0,1.1,.75),cy(.5,.05,.15,YL,0,1.65,.75)]),G([bx(1.1,.2,2,C0,0,.55,0),bx(.6,.2,.5,MT,0,.75,-.85)])]},
+i:[['Wheels','Four wheels rolled over dust and rocks so astronauts could reach mountains, valleys and craters.'],['Seats','Two astronauts rode side by side. On Apollo 15 they were David Scott and James Irwin.'],['Antenna dish','A dish like this helps send messages between the Moon and Earth.'],['Frame and battery','The buggy was electric-powered, so it ran on batteries instead of gas.']]},
+{n:'Viking Lander',e:'🛰️',w:'mars',s:'Viking 1 and 2 landed on Mars in 1976 to look for signs of life in the soil.',
+b:function(){return[G([bx(.08,.08,1,OR,.5,1.3,.6,0,.5,0),bx(.2,.12,.2,PK,.75,1.3,1.0)]),G([cy(.07,.07,.2,DK,-.35,1.3,-.3),sp(.07,SK,-.35,1.3,-.2),cy(.07,.07,.2,DK,0,1.3,-.5),sp(.07,SK,0,1.3,-.4)]),G([cy(.03,.03,.7,GR,.45,1.5,-.35),cy(.4,.05,.12,YL,.45,1.95,-.35)]),G(legs(3,.7,.55,1.2,.45,GR)),G([cy(.85,.85,.4,C0,0,1,0,0,0,0,6)])]},
+i:[['Robot arm','The arm scooped up Martian soil and placed it inside science instruments for testing.'],['Cameras','Cameras photographed the rocky ground around the lander.'],['Antenna','Used to send information back toward Earth.'],['Legs','Three legs held the lander steady on the Red Planet.'],['Science body','Inside were laboratory tools for biology experiments. They found no confirmed living things, but learned about Mars soil, air and weather.']]},
+{n:'Spirit and Opportunity',e:'👯',w:'mars',s:'Twin rovers that landed in January 2004 to find out if liquid water once existed on Mars.',
+b:function(){var w=[];[-.6,0,.6].forEach(function(z){[-.75,.75].forEach(function(x){w.push(cy(.28,.28,.22,DK,x,.28,z,0,0,1.5708,20))})});return[G([cy(.04,.04,.8,GR,0,1.45,-.55),bx(.35,.18,.18,DK,0,1.9,-.55),sp(.06,SK,-.1,1.9,-.45),sp(.06,SK,.1,1.9,-.45)]),G(w),G([bx(1.4,.06,1.8,BL,0,1.1,0)]),G([bx(.07,.07,.9,PK,.3,.75,.95),sp(.11,MT,.3,.75,1.45)]),G([bx(1,.4,1.4,C0,0,.85,0)])]},
+i:[['Mast cameras','Cameras up high looked at rocks, soil and minerals. Opportunity spotted hematite “blueberries,” a clue to ancient water.'],['Wheels','Six wheels carried them across rocky Mars. Spirit explored Gusev Crater and Opportunity explored Meridiani Planum.'],['Solar deck','Solar panels gave them power. They were built for short missions but kept going for years.'],['Robot arm','The arm held science tools to examine rocks. Spirit found nearly pure silica, a hint of ancient hot springs or steam vents.'],['Body','Spirit worked about six years. Opportunity worked nearly fifteen!']]},
+{n:'Ingenuity',e:'🚁',w:'mars',spin:0,s:'The first helicopter to fly on another planet. It reached Mars on February 18, 2021 with the Perseverance rover.',
+b:function(){return[G([bx(2.6,.03,.2,DK,0,2.15,0),bx(.2,.03,2.6,DK,0,2.3,0)]),G([bx(.9,.05,.9,BL,0,1.95,0)]),G(legs(4,.3,.35,.8,.25,DK)),G([bx(.6,.5,.6,C0,0,1,0),cy(.04,.04,.6,GR,0,1.55,0)])]},
+i:[['Rotor blades','Fast-spinning blades let it fly in Mars’ thin air. It made the first powered, controlled flight on another planet on April 19, 2021.'],['Solar panel','Sunlight from this panel recharged its battery between flights.'],['Legs','Four legs for landing. Its last flight was January 18, 2024, after its rotor blades were damaged.'],['Body','It was planned for 5 test flights but made 72. It scouted ahead and took pictures for Perseverance.']]}
+]

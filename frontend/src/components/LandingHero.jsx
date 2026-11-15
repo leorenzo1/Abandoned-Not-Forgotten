@@ -1,21 +1,11 @@
-import { Compass, BookOpen, Rocket, Award, Sparkles, ChevronRight } from "lucide-react";
+import { Compass, BookOpen, Rocket, Award, Globe, ChevronRight, Database } from "lucide-react";
 
 export default function LandingHero({ onNavigate, onOpenQuiz, onOpenPassport, onOpenReferences }) {
   return (
     <section className="relative z-10 flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center px-4 py-6 text-center max-w-5xl mx-auto">
-      {/* Hackathon Badge */}
-      <div className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-950/40 px-3.5 py-1 text-xs font-bold text-sky-300 shadow-sm backdrop-blur-md mb-4">
-        <Sparkles className="h-3.5 w-3.5 text-sky-400" />
-        <span>NASA Space Apps Challenge 2026</span>
-        <span className="rounded bg-sky-400/20 px-1.5 py-0.5 text-[10px] text-sky-200">Official Project</span>
-      </div>
-
       {/* Main Title - Single clean focal point */}
       <h1 className="text-3xl font-black tracking-tight text-white sm:text-5xl md:text-6xl leading-tight">
-        Abandoned,{" "}
-        <span className="bg-gradient-to-r from-sky-400 via-amber-300 to-purple-400 bg-clip-text text-transparent">
-          Not Forgotten
-        </span>
+        Abandoned, Not Forgotten
       </h1>
 
       {/* Inspiring Subtitle connecting hardware to discoveries for kids & casual space lovers */}
@@ -62,7 +52,7 @@ export default function LandingHero({ onNavigate, onOpenQuiz, onOpenPassport, on
         >
           <div>
             <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-amber-500/30 bg-amber-950/40 text-amber-400 mb-3">
-              <Sparkles className="h-5 w-5" />
+              <BookOpen className="h-5 w-5" />
             </div>
             <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">
               Storybook Journey
@@ -136,14 +126,20 @@ export default function LandingHero({ onNavigate, onOpenQuiz, onOpenPassport, on
       </div>
 
       {/* Subtle, non-redundant NASA Open Data footer citation */}
-      <div className="mt-6 flex items-center justify-center gap-2">
+      <div className="mt-8 flex flex-col items-center justify-center gap-2">
         <button
           onClick={onOpenReferences}
           className="inline-flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors"
         >
-          <BookOpen className="h-3.5 w-3.5 text-purple-400" />
+          <Database className="h-3.5 w-3.5 text-purple-400" />
           <span>Official NASA Mission Data & Science Sources</span>
         </button>
+
+        {/* NASA Space Apps Challenge 2026 styled cleanly without outline */}
+        <div className="inline-flex items-center gap-1.5 text-xs text-neutral-400">
+          <Globe className="h-3.5 w-3.5 text-sky-400" />
+          <span>NASA Space Apps Challenge 2026</span>
+        </div>
       </div>
     </section>
   );

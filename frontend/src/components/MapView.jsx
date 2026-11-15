@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 
-export default function MapView({ objects, onSelectObject, initialBody = "moon" }) {
+export default function MapView({ objects, onSelectObject, initialBody = "moon", onBodyChange }) {
   const [selectedBody, setSelectedBody] = useState(initialBody);
   const [activeObjectId, setActiveObjectId] = useState(null);
   const [isAutoRotating, setIsAutoRotating] = useState(true);
@@ -35,10 +35,13 @@ export default function MapView({ objects, onSelectObject, initialBody = "moon" 
   }, []);
 
   const handleBodySwitch = (body) => {
+    if (body === selectedBody) return;
+    const prev = selectedBody;
     setSelectedBody(body);
     setCurrentTheta(0);
     targetThetaRef.current = null;
     setActiveObjectId(null);
+    onBodyChange?.(body, prev);
   };
 
   // Shortest angular difference between two angles

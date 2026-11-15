@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { X, Award, CheckCircle2, XCircle, Sparkles, RefreshCw, Trophy, HelpCircle, Rocket } from "lucide-react";
+import { X, CheckCircle2, XCircle, RefreshCw, Trophy, Rocket } from "lucide-react";
 import quizData from "../data/quiz.json";
+import Confetti from "./Confetti";
 
 export default function QuizModal({ isOpen, onClose }) {
   const [filterMission, setFilterMission] = useState("all");
@@ -39,13 +40,23 @@ export default function QuizModal({ isOpen, onClose }) {
     : quizData.filter((q) => q.mission?.toLowerCase().includes(filterMission.toLowerCase()));
 
   const currentQ = activeQuestions[currentIndex] || activeQuestions[0];
-  const isCorrect = selectedOption === currentQ?.correctIndex;
+
+  // Resolve correct option index from data
+  const getCorrectIndex = (q) => {
+    if (!q) return -1;
+    if (typeof q.correctIndex === "number") return q.correctIndex;
+    const target = (q.answer || "").trim().toLowerCase();
+    return (q.options || []).findIndex((opt) => opt.trim().toLowerCase() === target);
+  };
+
+  const correctIndex = getCorrectIndex(currentQ);
+  const isCorrect = selectedOption === correctIndex;
 
   const handleSelectOption = (index) => {
     if (hasAnswered) return;
     setSelectedOption(index);
     setHasAnswered(true);
-    if (index === currentQ.correctIndex) {
+    if (index === correctIndex) {
       setScore((prev) => prev + 1);
     }
   };
@@ -95,6 +106,8 @@ export default function QuizModal({ isOpen, onClose }) {
         className="absolute inset-0 bg-black/80 backdrop-blur-md transition-opacity"
       />
 
+      {isFinished && score > 0 && <Confetti />}
+
       {/* Quiz Card */}
       <div className="relative z-10 flex max-h-[92vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950 shadow-2xl">
         {/* Header */}
@@ -109,7 +122,7 @@ export default function QuizModal({ isOpen, onClose }) {
                   Mission Games & Trivia
                 </span>
                 <span className="rounded-md border border-neutral-800 bg-neutral-900 px-1.5 py-0.2 font-mono text-[10px] text-neutral-400">
-                  {quizData.length} Questions
+                  {activeQuestions.length} Questions
                 </span>
               </div>
               <h3 className="text-lg font-bold tracking-tight text-white sm:text-xl">
@@ -142,7 +155,7 @@ export default function QuizModal({ isOpen, onClose }) {
                   : "bg-neutral-900 text-neutral-400 hover:text-white"
               }`}
             >
-              {m === "all" ? "All 8 Missions" : m}
+              {m === "all" ? "All Missions" : m}
             </button>
           ))}
         </div>
@@ -156,8 +169,8 @@ export default function QuizModal({ isOpen, onClose }) {
                 <span className="font-semibold uppercase tracking-wider text-amber-300">
                   Question {currentIndex + 1} of {activeQuestions.length}
                 </span>
-                <span className="font-mono font-bold text-white bg-neutral-900 px-2 py-0.5 rounded-lg border border-neutral-800">
-                  Score: {score}
+                <span className="font-mono font-bold text-white bg-neutral-900 px-2.5 py-1 rounded-lg border border-neutral-800">
+                  Score: <span className="text-amber-400">{score}</span>
                 </span>
               </div>
 
@@ -185,20 +198,23 @@ export default function QuizModal({ isOpen, onClose }) {
 
               {/* Options */}
               <div className="space-y-2.5">
-                {currentQ?.options.map((option, idx) => {
+                {currentQ?.options?.map((option, idx) => {
                   const letter = String.fromCharCode(65 + idx);
                   const isThisSelected = selectedOption === idx;
-                  const isThisCorrect = idx === currentQ.correctIndex;
+                  const isThisCorrect = idx === correctIndex;
 
-                  let buttonStyle = "border-neutral-800 bg-neutral-900/60 text-neutral-200 hover:border-neutral-700 hover:bg-neutral-900";
+                  let buttonStyle = "border-neutral-800 bg-neutral-900/60 text-neutral-200 hover:border-neutral-600 hover:bg-neutral-900";
 
                   if (hasAnswered) {
                     if (isThisCorrect) {
-                      buttonStyle = "border-emerald-500/80 bg-emerald-950/40 text-emerald-200 font-semibold";
+                      // Correct option is ALWAYS prominently highlighted in green
+                      buttonStyle = "border-emerald-500 bg-emerald-950/60 text-emerald-100 font-bold shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-500/50";
                     } else if (isThisSelected && !isThisCorrect) {
-                      buttonStyle = "border-rose-500/80 bg-rose-950/40 text-rose-200";
+                      // If user picked wrong option, highlight their choice in red
+                      buttonStyle = "border-rose-500 bg-rose-950/60 text-rose-200";
                     } else {
-                      buttonStyle = "border-neutral-900 bg-neutral-950 text-neutral-600";
+                      // Other unchosen options are dimmed
+                      buttonStyle = "border-neutral-900 bg-neutral-950/50 text-neutral-500 opacity-50";
                     }
                   }
 
@@ -210,17 +226,29 @@ export default function QuizModal({ isOpen, onClose }) {
                       className={`flex w-full items-center justify-between rounded-2xl border p-4 text-left text-sm transition-all ${buttonStyle}`}
                     >
                       <div className="flex items-center gap-3">
-                        <span className="flex h-6 w-6 items-center justify-center rounded-lg border border-neutral-700 bg-neutral-800 font-mono text-xs font-bold text-white">
+                        <span className={`flex h-7 w-7 items-center justify-center rounded-lg border font-mono text-xs font-bold shrink-0 ${
+                          hasAnswered && isThisCorrect
+                            ? "border-emerald-500 bg-emerald-500/20 text-emerald-300"
+                            : hasAnswered && isThisSelected && !isThisCorrect
+                            ? "border-rose-500 bg-rose-500/20 text-rose-300"
+                            : "border-neutral-700 bg-neutral-800 text-white"
+                        }`}>
                           {letter}
                         </span>
-                        <span>{option}</span>
+                        <span className="leading-snug">{option}</span>
                       </div>
 
                       {hasAnswered && isThisCorrect && (
-                        <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" />
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 shrink-0 ml-2">
+                          <CheckCircle2 className="h-5 w-5" />
+                          <span className="hidden sm:inline">Correct Answer</span>
+                        </span>
                       )}
                       {hasAnswered && isThisSelected && !isThisCorrect && (
-                        <XCircle className="h-5 w-5 text-rose-400 shrink-0" />
+                        <span className="flex items-center gap-1.5 text-xs font-bold text-rose-400 shrink-0 ml-2">
+                          <XCircle className="h-5 w-5" />
+                          <span className="hidden sm:inline">Your Pick</span>
+                        </span>
                       )}
                     </button>
                   );
@@ -232,14 +260,33 @@ export default function QuizModal({ isOpen, onClose }) {
                 <div
                   className={`rounded-2xl border p-4.5 text-xs sm:text-sm leading-relaxed ${
                     isCorrect
-                      ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-200"
-                      : "border-rose-500/30 bg-rose-950/20 text-rose-200"
+                      ? "border-emerald-500/40 bg-emerald-950/30 text-emerald-200"
+                      : "border-amber-500/40 bg-amber-950/20 text-amber-200"
                   }`}
                 >
-                  <p className="font-bold mb-1">
-                    {isCorrect ? "Spot on, Space Explorer!" : `Not quite! The correct answer is (${currentQ.answerKey || String.fromCharCode(65 + currentQ.correctIndex)}).`}
-                  </p>
-                  <p className="text-neutral-300 font-medium">{currentQ.funFact}</p>
+                  <div className="flex items-center gap-2 font-bold text-sm mb-1.5">
+                    {isCorrect ? (
+                      <>
+                        <CheckCircle2 className="h-4.5 w-4.5 text-emerald-400 shrink-0" />
+                        <span className="text-emerald-300">Spot on, Space Explorer!</span>
+                      </>
+                    ) : (
+                      <>
+                        <XCircle className="h-4.5 w-4.5 text-rose-400 shrink-0" />
+                        <span className="text-white">
+                          The correct answer is{" "}
+                          <span className="text-emerald-300 font-extrabold underline decoration-emerald-500/50 underline-offset-2">
+                            ({correctIndex >= 0 ? String.fromCharCode(65 + correctIndex) : ""}) {currentQ.options?.[correctIndex] || currentQ.answer}
+                          </span>
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  {(currentQ.explanation || currentQ.funFact) && (
+                    <p className="mt-1 text-neutral-300 font-normal leading-relaxed text-xs sm:text-sm">
+                      {currentQ.explanation || currentQ.funFact}
+                    </p>
+                  )}
                 </div>
               )}
 
@@ -248,7 +295,7 @@ export default function QuizModal({ isOpen, onClose }) {
                 <div className="pt-2">
                   <button
                     onClick={handleNext}
-                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-bold text-black transition-all hover:bg-neutral-200 shadow-md"
+                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-bold text-black transition-all hover:bg-neutral-200 shadow-md cursor-pointer"
                   >
                     <span>
                       {currentIndex + 1 < activeQuestions.length
@@ -297,14 +344,14 @@ export default function QuizModal({ isOpen, onClose }) {
               <div className="flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
                 <button
                   onClick={handleRestart}
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-xs sm:text-sm font-bold text-black transition-all hover:bg-neutral-200"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3 text-xs sm:text-sm font-bold text-black transition-all hover:bg-neutral-200 cursor-pointer"
                 >
                   <RefreshCw className="h-4 w-4" />
                   <span>Try Again</span>
                 </button>
                 <button
                   onClick={onClose}
-                  className="rounded-2xl border border-neutral-800 bg-neutral-900 px-6 py-3 text-xs sm:text-sm font-bold text-neutral-300 hover:text-white"
+                  className="rounded-2xl border border-neutral-800 bg-neutral-900 px-6 py-3 text-xs sm:text-sm font-bold text-neutral-300 hover:text-white cursor-pointer"
                 >
                   Close Quiz
                 </button>
