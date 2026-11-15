@@ -1,0 +1,154 @@
+[
+  {
+    "category": "Moon",
+    "mission": "Surveyor 3 (Surveyor Lander)",
+    "title": "NASA Science: Surveyor 3 Mission Page",
+    "url": "https://science.nasa.gov/mission/surveyor-3/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Science mission overview for Surveyor 3, surface sampler experiments, and landing site data (p. 57, 58)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 11 (Lunar Module Eagle)",
+    "title": "NASA: Apollo 11 Mission Page",
+    "url": "https://www.nasa.gov/mission/apollo-11/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA mission records for Apollo 11 Eagle, landing at Mare Tranquilitatis, crew logs, and EASEP deployment (p. 57)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 11 (Lunar Module Eagle)",
+    "title": "LROC: Apollo 11 Temporal Traverse",
+    "url": "https://lroc.im-ldi.com/featured_sites/apollo-11/temporal-traverse",
+    "type": "Planetary Coordinates & Traverse Map",
+    "description": "Lunar Reconnaissance Orbiter Camera coordinates (0.67416° N, 23.47314° E) and traverse mapping (p. 58)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 11 (Lunar Module Eagle)",
+    "title": "SimplyScience: L’Aigle a atterri…",
+    "url": "https://www.simplyscience.ch",
+    "type": "Educational Science Reference",
+    "description": "Educational science documentation on Eagle's historic first crewed lunar landing (p. 55)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 12 (ALSEP Scientific Packages)",
+    "title": "NASA: Apollo 12 Mission Page",
+    "url": "https://www.nasa.gov/mission/apollo-12/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Apollo 12 mission history, Intrepid pinpoint landing, and ALSEP scientific station (p. 57)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 12 (ALSEP Scientific Packages)",
+    "title": "NASA NSSDC: Apollo 12 Spacecraft Record",
+    "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1969-099C",
+    "type": "NASA Master Catalog Record",
+    "description": "NASA NSSDC Master Catalog technical record for Apollo 12 Lunar Module Intrepid (p. 57)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 12 (ALSEP Scientific Packages)",
+    "title": "LROC: Apollo 12 Exhibit Gallery",
+    "url": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/7",
+    "type": "Planetary Coordinates & Traverse Map",
+    "description": "LROC orbital photography and landing coordinates (3.012° S, 23.422° W) near Surveyor 3 (p. 58)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 15 (Lunar Roving Vehicle)",
+    "title": "NASA NSSDC: Apollo 15 Spacecraft Record",
+    "url": "https://nssdc.gsfc.nasa.gov/nmc/spacecraft/display.action?id=1971-063C",
+    "type": "NASA Master Catalog Record",
+    "description": "NSSDC master catalog technical record for Apollo 15 Lunar Roving Vehicle-1 and Falcon (p. 57)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 15 (Lunar Roving Vehicle)",
+    "title": "NASA NTRS: Apollo 15 Technical Reference",
+    "url": "https://ntrs.nasa.gov/citations/19720005086",
+    "type": "NASA Technical Reports Server",
+    "description": "NASA Technical Reports Server post-mission engineering report and rover exploration data (p. 57)."
+  },
+  {
+    "category": "Moon",
+    "mission": "Apollo 15 (Lunar Roving Vehicle)",
+    "title": "LROC: Apollo 15 Exhibit Gallery",
+    "url": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/5",
+    "type": "Planetary Coordinates & Traverse Map",
+    "description": "LROC traverse maps and coordinates (26.132° N, 3.634° E) at Hadley-Apennine (p. 58)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Pathfinder - Sojourner",
+    "title": "NASA Science: Mars Pathfinder Mission Page",
+    "url": "https://science.nasa.gov/mission/mars-pathfinder/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Science overview for Mars Pathfinder, Carl Sagan Memorial Station, and Sojourner rover (p. 57)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Pathfinder - Sojourner",
+    "title": "NASA NSSDC: Mars Pathfinder MESUR Record",
+    "url": "https://nssdc.gsfc.nasa.gov/planetary/mesur.html",
+    "type": "NASA Master Catalog Record",
+    "description": "NASA Goddard Space Flight Center scientific documentation and coordinates (19.13° N, 33.22° W) (p. 58)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Pathfinder - Sojourner",
+    "title": "Linda Hall Library: Sojourner Rover",
+    "url": "https://www.lindahall.org",
+    "type": "Library Science Archive",
+    "description": "Historical science archive on Sojourner Truth namesake and rover robotics engineering (p. 53)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Exploration Rovers (Spirit and Opportunity)",
+    "title": "NASA Science: Spirit Mission Page",
+    "url": "https://science.nasa.gov/mission/mer-spirit/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Science mission records and coordinates (14.59° S, 175.50° E) for Spirit in Gusev Crater (p. 58)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Exploration Rovers (Spirit and Opportunity)",
+    "title": "NASA Science: Opportunity Mission Page",
+    "url": "https://science.nasa.gov/mission/mer-opportunity/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Science mission records and coordinates (2.23° S, 354.68° E) for Opportunity at Meridiani Planum (p. 58)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Exploration Rovers (Spirit and Opportunity)",
+    "title": "NASA Science: Mars Exploration Rovers Mission Page",
+    "url": "https://science.nasa.gov/mission/mars-exploration-rovers/",
+    "type": "Official NASA Mission Page",
+    "description": "Overarching mission page for twin robotic rovers Spirit and Opportunity (p. 57)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Exploration Rovers (Spirit and Opportunity)",
+    "title": "NASA Science: Mars Exploration Rovers Science Objectives",
+    "url": "https://science.nasa.gov/mission/mars-exploration-rovers-mer/science-goals/",
+    "type": "NASA Science Objectives",
+    "description": "NASA official scientific goals: search for past water evidence and habitability (p. 57)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Mars Exploration Rovers (Spirit and Opportunity)",
+    "title": "BBC Newsround: Mars Rover Discoveries",
+    "url": "https://www.bbc.co.uk/newsround",
+    "type": "Educational Science Media",
+    "description": "Child-friendly science journalism covering Spirit and Opportunity discoveries on Mars (p. 54)."
+  },
+  {
+    "category": "Mars",
+    "mission": "Ingenuity Mars Helicopter",
+    "title": "NASA Science: Ingenuity Mars Helicopter",
+    "url": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+    "type": "Official NASA Mission Page",
+    "description": "Official NASA Science page for Ingenuity Helicopter, 72 flight logs, and Jezero Crater coordinates (18.44° N, 77.45° E) (p. 57, 58)."
+  }
+]

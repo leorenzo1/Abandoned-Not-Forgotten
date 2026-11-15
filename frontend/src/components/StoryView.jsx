@@ -199,7 +199,28 @@ export default function StoryView({
               </div>
             )}
 
-            {currentObject?.lat != null && (
+            {currentObject?.coordinatesText ? (
+              <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/50 p-4">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+                  Surface Coordinates
+                </span>
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-xs text-sky-300 font-medium">
+                    {currentObject.coordinatesText}
+                  </span>
+                  {currentObject.coordinatesLink && (
+                    <a
+                      href={currentObject.coordinatesLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-bold text-sky-400 hover:text-sky-300"
+                    >
+                      Traverse ↗
+                    </a>
+                  )}
+                </div>
+              </div>
+            ) : currentObject?.lat != null ? (
               <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/50 p-4">
                 <span className="block text-xs font-semibold uppercase tracking-wider text-neutral-400 mb-1">
                   Surface Coordinates
@@ -208,7 +229,7 @@ export default function StoryView({
                   {formatLatLng(currentObject.lat, currentObject.lng)}
                 </span>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

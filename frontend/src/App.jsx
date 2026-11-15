@@ -5,9 +5,11 @@ import LandingHero from "./components/LandingHero";
 // Loaded on demand so three.js is only downloaded when the Explore view opens
 const GlobeView = lazy(() => import("./components/GlobeView"));
 import StoryView from "./components/StoryView";
+import SubTabStoryView from "./components/SubTabStoryView";
 import DetailPanel from "./components/DetailPanel";
 import PassportModal from "./components/PassportModal";
 import QuizModal from "./components/QuizModal";
+import ReferencesModal from "./components/ReferencesModal";
 import rawObjects from "./data/objects.json";
 
 // Show the stories from oldest to newest
@@ -16,13 +18,14 @@ const objects = [...rawObjects].sort((a, b) => a.year - b.year);
 const COOLDOWN_MS = 400;
 
 export default function App() {
-  const [currentView, setCurrentView] = useState("overview"); // "overview" | "map" | "story"
+  const [currentView, setCurrentView] = useState("overview"); // "overview" | "map" | "subtabs" | "story"
   const [initialMapBody, setInitialMapBody] = useState("moon");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedObject, setSelectedObject] = useState(null);
   const [isCooldown, setIsCooldown] = useState(false);
   const [isPassportOpen, setIsPassportOpen] = useState(false);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
+  const [isReferencesOpen, setIsReferencesOpen] = useState(false);
   const [discoveryToast, setDiscoveryToast] = useState(null);
 
   // Persistent Explorer Passport discovery tracker
@@ -91,6 +94,20 @@ export default function App() {
     }
   };
 
+  const handleDiscoverWithoutOpening = (obj) => {
+    if (obj?.id && !discoveredIds.includes(obj.id)) {
+      setDiscoveredIds((prev) => {
+        const next = [...prev, obj.id];
+        try {
+          localStorage.setItem("anf_discovered_machines", JSON.stringify(next));
+        } catch {
+          // ignore
+        }
+        return next;
+      });
+    }
+  };
+
   const handleResetProgress = () => {
     setDiscoveredIds([]);
     try {
@@ -116,16 +133,22 @@ export default function App() {
         totalObjects={objects.length}
         onOpenPassport={() => setIsPassportOpen(true)}
         onOpenQuiz={() => setIsQuizOpen(true)}
+        onOpenReferences={() => setIsReferencesOpen(true)}
       />
 
       {/* Main Viewport */}
       <main
         className={`relative z-10 flex min-h-[calc(100vh-4rem)] items-center justify-center p-4 transition-all duration-300 ease-out ${
-          selectedObject ? "lg:pr-[430px] xl:pr-[460px]" : ""
+          selectedObject ? "lg:pr-[440px] xl:pr-[480px]" : ""
         }`}
       >
         {currentView === "overview" && (
-          <LandingHero onNavigate={handleHeroNavigate} />
+          <LandingHero
+            onNavigate={handleHeroNavigate}
+            onOpenQuiz={() => setIsQuizOpen(true)}
+            onOpenPassport={() => setIsPassportOpen(true)}
+            onOpenReferences={() => setIsReferencesOpen(true)}
+          />
         )}
 
         {/* Kept mounted in the DOM to preserve WebGL context, camera angle, and prevent freezing on tab switch */}
@@ -142,6 +165,16 @@ export default function App() {
           </Suspense>
         </div>
 
+        {/* Interactive SubTabs & Storyboard View (Page 32 Sample format & Pages 31-51) */}
+        {currentView === "subtabs" && (
+          <SubTabStoryView
+            objects={objects}
+            onInspectObject={handleSelectObject}
+            onDiscoverObject={handleDiscoverWithoutOpening}
+          />
+        )}
+
+        {/* Chronological Timeline Journey */}
         {currentView === "story" && (
           <StoryView
             objects={objects}
@@ -174,6 +207,12 @@ export default function App() {
       <QuizModal
         isOpen={isQuizOpen}
         onClose={() => setIsQuizOpen(false)}
+      />
+
+      {/* Official NASA References & Coordinates Modal */}
+      <ReferencesModal
+        isOpen={isReferencesOpen}
+        onClose={() => setIsReferencesOpen(false)}
       />
 
       {/* Celebratory Discovery Toast */}

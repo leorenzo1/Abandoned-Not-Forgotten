@@ -120,7 +120,7 @@ function PlanetBody({ config, rotationDeg, onModelState }) {
   }
 
   return (
-    <ModelBoundary fallback={<TexturedSphere url={config.texture} />}>
+    <ModelBoundary fallback={<TexturedSphere url={config.texture} isDeepSpace={config.isDeepSpace} />}>
       <Suspense
         fallback={
           <mesh>

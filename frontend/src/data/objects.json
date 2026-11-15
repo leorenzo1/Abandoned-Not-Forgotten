@@ -1,154 +1,796 @@
 [
   {
-    "id": "moon-1",
-    "name": "Apollo 11 Descent Stage",
-    "nickname": "The Eagle's Footprint",
+    "id": "surveyor-3",
+    "name": "Surveyor 3",
+    "nickname": "Robotic Lander · Preparing the Moon for Humans",
     "body": "moon",
-    "year": 1969,
-    "mission": "Apollo 11",
-    "lat": 0.67,
-    "lng": 23.47,
-    "coordinates": { "x": 0.56, "y": 0.50 },
-    "status": "Surface Monument at Tranquility Base",
-    "sizeComparison": "Size of a two-story house (3.2 m tall)",
-    "superpower": "Carried Neil Armstrong & Buzz Aldrin to become the first humans on the Moon.",
-    "funFact": "The astronauts left a golden olive branch for peace and a plaque that reads: 'Here men from the planet Earth first set foot upon the Moon. We came in peace for all mankind.'",
-    "story": "On July 20, 1969, the Lunar Module 'Eagle' touched down in the Sea of Tranquility with only 25 seconds of fuel left! While the top half blasted the astronauts back into space, this sturdy four-legged golden base stayed behind. Today, it still stands quietly in the lunar dust as humanity's very first monument on another world.",
-    "image": "",
-    "imageCredit": "NASA",
-    "sourceUrl": "https://www.nasa.gov/mission/apollo-11/"
-  },
-  {
-    "id": "moon-2",
-    "name": "Surveyor 3 & Apollo 12",
-    "nickname": "The Robot Visited by Humans",
-    "body": "moon",
-    "year": 1969,
-    "mission": "Apollo 12",
-    "lat": -3.01,
+    "year": 1967,
+    "launchDate": "April 17, 1967",
+    "landingDate": "April 20, 1967",
+    "lastMessageDate": "May 4, 1967 (Visited by Apollo 12 in Nov 1969)",
+    "mission": "Surveyor 3",
+    "subTabGroup": "moon-group",
+    "subTabPeriod": "MOON · 1967 TO 1971",
+    "subTabHeading": "The Apollo Landers and the Moon Buggy",
+    "subTabLabel": "Surveyor 3",
+    "subTabSubtitle": "Surveyor 3 robotic moon lander",
+    "avatarQuote": "Zzz, resting in Surveyor Crater",
+    "coordinatesText": "Surveyor 3 Latitude: 2.99° S, Longitude: 23.42° W",
+    "lat": -2.99,
     "lng": -23.42,
-    "coordinates": { "x": 0.43, "y": 0.52 },
-    "status": "Historic Meetup Site at Ocean of Storms",
-    "sizeComparison": "Size of a patio picnic table (3 m tall)",
-    "superpower": "The only robotic lander on another world ever inspected in person by humans from a later mission!",
-    "funFact": "Apollo 12 astronauts Pete Conrad and Alan Bean walked right up to Surveyor 3, clipped off its camera with bolt cutters, and brought it back to Earth for NASA scientists to study!",
-    "story": "Surveyor 3 landed on the Moon in 1967 and scooped up the lunar soil to prove it was solid enough for humans to walk on. Two and a half years later, the Apollo 12 crew pulled off a pinpoint landing just 160 meters away and walked over to say hello! It proved humans could land anywhere they wanted on the Moon.",
-    "image": "",
-    "imageCredit": "NASA",
-    "sourceUrl": "https://www.nasa.gov/mission/apollo-12/"
+    "coordinatesLink": "https://science.nasa.gov/mission/surveyor-3/",
+    "sourceUrl": "https://science.nasa.gov/mission/surveyor-3/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Apollo_12_Surveyor_3.jpg/800px-Apollo_12_Surveyor_3.jpg",
+    "imageCredit": "NASA / Apollo 12 Commander Pete Conrad",
+    "quickTable": {
+      "where": "The Moon, Ocean of Storms",
+      "when": "Landed April 20, 1967",
+      "visited": "November 1969 by Apollo 12",
+      "partsHome": "About 10 kg, including the camera"
+    },
+    "story": "Surveyor 3 was a robotic spacecraft developed by NASA to explore the Moon and test whether its surface was strong enough to support a future crewed lunar landing. It was launched on April 17, 1967, and successfully landed on the Moon on April 20, 1967, in Oceanus Procellarum (Ocean of Storms). It was the second Surveyor spacecraft to successfully make a soft landing on the Moon and the first in the series to carry a surface-sampling tool.",
+    "storyboard": "Hello, I am Surveyor 3, a robot with three legs and one big TV-camera eye. I landed on the Moon on April 20, 1967, in the Ocean of Storms. That was more than two years before any person made it there.\n\nI sent home thousands of pictures. I also used my scoop arm to dig small trenches, so scientists could test how strong the Moon's soil was. Later I stopped answering Earth.\n\nBut my story was not over! In November 1969, Apollo 12 astronauts Pete Conrad and Alan Bean walked right up to me. They took pictures and carried my camera and scoop home to Earth. I am still the only robot that humans have ever visited on another world.",
+    "whatWeLearned": [
+      "Scientists got the first chance to study equipment that had sat on the Moon's surface for a long time. More than 80 researchers examined the parts for the effects of radiation and dust.",
+      "Surveyor 3 helped prove the Apollo 12 crew could land very close to a chosen target."
+    ],
+    "people": [
+      "NASA – Led the mission to study the Moon and prepare for future human exploration.",
+      "Jet Propulsion Laboratory (JPL) – Managed the spacecraft's mission and engineering operations.",
+      "Charles \"Pete\" Conrad – Apollo 12 Commander who later visited Surveyor 3 and collected parts of the spacecraft.",
+      "Alan L. Bean – Apollo 12 Lunar Module Pilot who helped examine Surveyor 3 and retrieve its equipment in 1969."
+    ],
+    "mainPurpose": [
+      "Test whether a spacecraft could safely land on the Moon.",
+      "Examine the lunar soil to determine whether it could support the weight of an Apollo Lunar Module.",
+      "Take photographs of the lunar surface to help scientists study its appearance and conditions.",
+      "Dig trenches and collect information about the Moon's soil and surface materials."
+    ],
+    "experiments": [
+      "The TV Camera captured photographs of the lunar surface, allowing scientists on Earth to observe the Moon's environment.",
+      "The Surface Sampler was a robotic digging tool that collected and moved lunar soil, dug trenches, and tested the strength of the ground.",
+      "Scientists conducted four digging tests, four soil-strength tests, and thirteen impact tests to understand the properties of lunar soil."
+    ],
+    "achievements": [
+      "Successfully completed a soft landing on the Moon on April 20, 1967.",
+      "Transmitted 6,326 television images of the lunar surface back to Earth.",
+      "Demonstrated that the lunar soil was strong enough to support an Apollo Lunar Module.",
+      "Became the first Surveyor spacecraft to carry and operate a surface-sampling instrument.",
+      "Helped NASA prepare for future human Moon landings through its experiments and soil investigations.",
+      "In November 1969, Apollo 12 astronauts Pete Conrad and Alan Bean visited Surveyor 3 and collected approximately 10 kilograms of its parts, including its camera and soil sampler, for examination on Earth."
+    ],
+    "whereIsItNow": "Remains on the Moon inside Surveyor Crater in Oceanus Procellarum (2.99° S, 23.42° W). It is the only robot spacecraft ever visited by humans on another world.",
+    "overallSummary": "Surveyor 3 was an important robotic explorer that helped NASA understand the Moon before astronauts began exploring it. Through its camera and robotic digging tool, it studied the lunar soil and proved that the Moon's surface could support a spacecraft. Its discoveries helped prepare NASA for future Apollo missions, and its story continued when Apollo 12 astronauts visited the lander and brought some of its parts back to Earth.",
+    "funFact": "Surveyor 3 is the only robot that humans have ever visited on another world! Apollo 12 astronauts walked right up to it, snapped photos, and brought 10 kg of parts home to Earth.",
+    "quiz": [
+      {
+        "question": "How did Surveyor 3 get a visitor on the Moon?",
+        "options": [
+          "Nobody ever visited it",
+          "A rocket crashed into it",
+          "Apollo 12 astronauts walked over to it",
+          "It drove to Apollo 12"
+        ],
+        "answer": "Apollo 12 astronauts walked over to it",
+        "explanation": "Apollo 12 astronauts Pete Conrad and Alan Bean landed within 180 meters and walked over to Surveyor 3."
+      },
+      {
+        "question": "What did the astronauts bring back to Earth from Surveyor 3?",
+        "options": [
+          "The whole robot",
+          "Only its three legs",
+          "Nothing at all",
+          "Parts such as its camera and scoop"
+        ],
+        "answer": "Parts such as its camera and scoop",
+        "explanation": "Astronauts retrieved about 10 kilograms of parts, including the TV camera and soil sampler scoop."
+      },
+      {
+        "question": "Surveyor 3 landed in 1967. In what year did astronauts visit it?",
+        "options": [
+          "1972",
+          "1957",
+          "1969",
+          "1999"
+        ],
+        "answer": "1969",
+        "explanation": "Surveyor 3 landed on April 20, 1967, and was visited by Apollo 12 on November 19-20, 1969."
+      }
+    ]
   },
   {
-    "id": "moon-3",
-    "name": "Apollo 15 Lunar Rover",
-    "nickname": "The Very First Moon Buggy",
+    "id": "apollo-11",
+    "name": "Apollo 11 Lunar Module",
+    "nickname": "Eagle · First Footprints on the Moon",
+    "body": "moon",
+    "year": 1969,
+    "launchDate": "July 16, 1969",
+    "landingDate": "July 20, 1969",
+    "lastMessageDate": "Ascent liftoff July 21, 1969",
+    "mission": "Apollo 11",
+    "subTabGroup": "moon-group",
+    "subTabPeriod": "MOON · 1969 TO 1971",
+    "subTabHeading": "The Apollo Landers and the Moon Buggy",
+    "subTabLabel": "Eagle",
+    "subTabSubtitle": "Apollo 11 lunar module",
+    "avatarQuote": "Zzz, resting on the Moon",
+    "coordinatesText": "Apollo 11 0.67416° N latitude, 23.47314° E longitude",
+    "lat": 0.67416,
+    "lng": 23.47314,
+    "coordinatesLink": "https://lroc.im-ldi.com/featured_sites/apollo-11/temporal-traverse",
+    "sourceUrl": "https://www.nasa.gov/mission/apollo-11/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Aldrin_Apollo_11_original.jpg/800px-Aldrin_Apollo_11_original.jpg",
+    "imageCredit": "NASA / Neil Armstrong",
+    "quickTable": {
+      "where": "The Moon, Sea of Tranquility",
+      "when": "Landed July 20, 1969",
+      "leftBehind": "Eagle's bottom half, a seismometer and a laser mirror"
+    },
+    "story": "The Apollo 11 Lunar Module, named Eagle, was the first crewed spacecraft to successfully land on the Moon. It landed on July 20, 1969, in Mare Tranquilitatis (Sea of Tranquility). It was part of NASA's Apollo 11 mission, which aimed to achieve the first human landing on the Moon.",
+    "storyboard": "Hi! I am Eagle, a spaceship made of two stacked halves. On July 20, 1969, I floated down to the Sea of Tranquility and touched the Moon as gently as a feather.\n\nNeil Armstrong and Buzz Aldrin climbed out and spent about two and a half hours outside. They scooped up more than 20 kilograms of Moon rocks and soil. They also set up a seismometer to feel for moonquakes and a mirror for bouncing laser beams.\n\nThen my top half blasted off to meet Michael Collins, who was waiting above in Columbia. My bottom half stayed behind on purpose. It was the launch pad! Now I rest at Tranquility Base, and the mirror sits nearby.",
+    "whatWeLearned": [
+      "Apollo 11 Moon rocks are about 3.6 billion years old. The Moon formed about 4.5 billion years ago, so the rocks tell us about its early days.",
+      "Apollo 12 brought back lava rocks that are a bit younger but still more than 3.1 billion years old.",
+      "Mirrors left by Apollo 11, 14 and 15 let scientists measure the distance to the Moon very precisely with laser beams."
+    ],
+    "people": [
+      "Neil Armstrong - mission commander, the first person to walk on the Moon.",
+      "Buzz Aldrin - Lunar Module Pilot; second person to walk on the Moon.",
+      "Michael Collins - Command Module Pilot; remained in lunar orbit while Armstrong and Aldrin explored the Moon."
+    ],
+    "mainPurpose": [
+      "Transport astronauts from lunar orbit to the Moon's surface.",
+      "Provide a spacecraft where astronauts could stay and operate during lunar exploration.",
+      "Safely return astronauts to the Command/Service Module (CSM).",
+      "Carry scientific instruments and collect lunar rocks and soil for research."
+    ],
+    "experiments": [
+      "The Early Apollo Surface Experiments Package (EASEP) was a collection of scientific instruments deployed on the Moon.",
+      "Its purpose was to study lunar seismic activity, dust accumulation, and the Moon's physical characteristics.",
+      "It included a passive seismometer, lunar dust detector, solar panels, and communication equipment."
+    ],
+    "achievements": [
+      "First successful crewed Moon landing.",
+      "Neil Armstrong and Buzz Aldrin became the first humans to walk on the Moon.",
+      "Collected 21.55 kg of lunar rocks and soil.",
+      "Deployed scientific instruments that continued gathering data after the astronauts returned to Earth."
+    ],
+    "whereIsItNow": "Now I rest at Tranquility Base (Mare Tranquilitatis, 0.67416° N, 23.47314° E). The descent stage remains on the lunar surface, serving as the historic first launch pad, while the ascent stage was jettisoned in lunar orbit after returning the crew.",
+    "overallSummary": "The Apollo 11 Lunar Module \"Eagle\" made the first human Moon landing possible. It transported Armstrong and Aldrin to the lunar surface, supported their exploration and scientific experiments, and returned them safely to the Command Module in lunar orbit.",
+    "funFact": "Armstrong and Aldrin collected 21.55 kilograms of lunar rocks and soil! Eagle's bottom half stayed behind on purpose as a launch pad.",
+    "quiz": [
+      {
+        "question": "Why did Eagle's bottom half stay on the Moon?",
+        "options": [
+          "It served as a launch pad",
+          "It was broken",
+          "It became a science laboratory"
+        ],
+        "answer": "It served as a launch pad",
+        "explanation": "Eagle's bottom half (the descent stage) was designed to serve as the launch platform for the top half (ascent stage) to blast off into lunar orbit."
+      },
+      {
+        "question": "How old are the Apollo 11 Moon rocks?",
+        "options": [
+          "1 billion years old",
+          "3.6 billion years old",
+          "4.5 million years old"
+        ],
+        "answer": "3.6 billion years old",
+        "explanation": "Apollo 11 Moon rocks are approximately 3.6 billion years old, offering crucial clues about the early history of the Moon."
+      },
+      {
+        "question": "What do the mirrors left on the Moon help scientists measure?",
+        "options": [
+          "The Moon's temperature",
+          "The Moon's size",
+          "The distance between Earth and the Moon"
+        ],
+        "answer": "The distance between Earth and the Moon",
+        "explanation": "Laser retroreflector mirrors left by Apollo 11, 14, and 15 allow scientists on Earth to shoot lasers and calculate the exact distance to the Moon down to millimeters."
+      }
+    ]
+  },
+  {
+    "id": "apollo-12",
+    "name": "Apollo 12 Lunar Module & ALSEP",
+    "nickname": "Intrepid · The Pinpoint Landing",
+    "body": "moon",
+    "year": 1969,
+    "launchDate": "November 14, 1969",
+    "landingDate": "November 19, 1969",
+    "lastMessageDate": "Ascent liftoff November 20, 1969 (ALSEP operated until 1977)",
+    "mission": "Apollo 12",
+    "subTabGroup": "moon-group",
+    "subTabPeriod": "MOON · 1969 TO 1971",
+    "subTabHeading": "The Apollo Landers and the Moon Buggy",
+    "subTabLabel": "Intrepid",
+    "subTabSubtitle": "Apollo 12 lunar module",
+    "avatarQuote": "Zzz, keeping Surveyor 3 company",
+    "coordinatesText": "Apollo 12 Latitude: 3.012° S, Longitude: 23.422° W",
+    "lat": -3.012,
+    "lng": -23.422,
+    "coordinatesLink": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/7",
+    "sourceUrl": "https://www.nasa.gov/mission/apollo-12/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Surveyor_3_from_above.jpg/800px-Surveyor_3_from_above.jpg",
+    "imageCredit": "NASA / Alan Bean",
+    "quickTable": {
+      "where": "The Moon, Ocean of Storms",
+      "when": "Landed November 19, 1969",
+      "leftBehind": "Intrepid's bottom half and science tools"
+    },
+    "story": "The Apollo 12 Lunar Module, named Intrepid, was the second crewed spacecraft to successfully land on the Moon. It landed on November 19, 1969, in Oceanus Procellarum (Ocean of Storms), near the Surveyor 3 spacecraft. It was part of NASA's Apollo 12 mission, which aimed to expand lunar exploration and demonstrate a more precise landing near a previously deployed robotic spacecraft.",
+    "storyboard": "I am Intrepid, the Apollo 12 lunar module. Pete Conrad and Alan Bean rode me to the Ocean of Storms on November 19, 1969.\n\nMy mission was tricky. Land close to a robot that had been waiting there for more than two years. That robot was Surveyor 3! I touched down less than 200 meters (about 600 feet) away. It was the first pinpoint landing on the Moon.\n\nDuring two moonwalks, the astronauts gathered more than 34 kilograms of rocks and soil. On the second walk, they strolled over to the robot, took photos, and snipped off some parts to bring home. Then my top half carried them back to space. My bottom half stayed here, keeping Surveyor 3 company.",
+    "whatWeLearned": [
+      "Apollo 11 Moon rocks are about 3.6 billion years old. The Moon formed about 4.5 billion years ago, so the rocks tell us about its early days.",
+      "Apollo 12 brought back lava rocks that are a bit younger but still more than 3.1 billion years old.",
+      "Mirrors left by Apollo 11, 14 and 15 let scientists measure the distance to the Moon very precisely with laser beams."
+    ],
+    "people": [
+      "Charles \"Pete\" Conrad – Mission Commander; third person to walk on the Moon.",
+      "Alan L. Bean – Lunar Module Pilot; fourth person to walk on the Moon.",
+      "Richard F. Gordon Jr. – Command Module Pilot; remained in lunar orbit while Conrad and Bean explored the Moon."
+    ],
+    "mainPurpose": [
+      "Safely transport astronauts to the Moon's surface and return them to the Command/Service Module (CSM).",
+      "Explore the lunar surface and collect rocks and soil samples for scientific research.",
+      "Examine the Surveyor 3 spacecraft, which had landed on the Moon in 1967, and retrieve some of its parts for examination on Earth.",
+      "Deploy scientific instruments to study the Moon's environment and internal structure."
+    ],
+    "experiments": [
+      "The Apollo Lunar Surface Experiments Package (ALSEP) was a collection of scientific instruments deployed on the Moon to continue studying it after the astronauts left.",
+      "Its purpose was to measure moonquakes, magnetic fields, lunar dust, solar wind particles, and the Moon's thin atmosphere.",
+      "It included a passive seismometer, lunar surface magnetometer, solar wind spectrometer, lunar dust detector, and other scientific instruments.",
+      "A Solar Wind Composition Experiment collected particles from the Sun using a special foil placed on the lunar surface.",
+      "The astronauts also examined and collected parts of the Surveyor 3 spacecraft to help scientists understand how long-term exposure to the lunar environment affected spacecraft materials."
+    ],
+    "achievements": [
+      "Became the second successful crewed Moon landing mission.",
+      "Pete Conrad and Alan Bean became the third and fourth humans to walk on the Moon.",
+      "Successfully landed approximately 180 meters from the Surveyor 3 spacecraft, demonstrating accurate lunar landing capabilities.",
+      "Collected approximately 34.35 kilograms of lunar rocks and soil.",
+      "Retrieved approximately 10 kilograms of Surveyor 3 spacecraft parts for scientific examination.",
+      "Deployed scientific instruments that continued gathering information about the Moon until NASA ended their operations in 1977.",
+      "Its discarded Lunar Module ascent stage intentionally crashed into the Moon, creating the first recorded artificial moonquake."
+    ],
+    "whereIsItNow": "Remains on the Moon in Oceanus Procellarum (Ocean of Storms, 3.012° S, 23.422° W), keeping Surveyor 3 company just 180 meters away.",
+    "overallSummary": "The Apollo 12 Lunar Module \"Intrepid\" helped NASA improve its lunar landing accuracy and expand scientific exploration of the Moon. It transported Pete Conrad and Alan Bean to the lunar surface, where they collected valuable samples, examined the Surveyor 3 spacecraft, and deployed scientific instruments. The mission provided important information about the Moon and demonstrated how humans could work alongside robotic explorers.",
+    "funFact": "Intrepid made the first pinpoint landing on the Moon, touching down just 180 meters from Surveyor 3! The astronauts walked over and snipped parts to bring home.",
+    "quiz": [
+      {
+        "question": "Which robot did Intrepid land close to?",
+        "options": [
+          "Surveyor 3",
+          "Ingenuity",
+          "Spirit",
+          "Sojourner"
+        ],
+        "answer": "Surveyor 3",
+        "explanation": "Apollo 12 Intrepid touched down less than 200 meters (about 600 feet) from Surveyor 3 in Oceanus Procellarum."
+      },
+      {
+        "question": "Apollo 12 was the first time astronauts made what kind of landing?",
+        "options": [
+          "A pinpoint landing near a chosen target",
+          "An upside-down landing",
+          "A landing at night only",
+          "A landing in the water"
+        ],
+        "answer": "A pinpoint landing near a chosen target",
+        "explanation": "Apollo 12 demonstrated pinpoint landing capability, navigating directly to the Surveyor 3 crater."
+      },
+      {
+        "question": "About how many kilograms of Moon rocks and soil did Apollo 12 collect?",
+        "options": [
+          "More than 34 kilograms",
+          "Only 2 kilograms",
+          "About 500 kilograms",
+          "None at all"
+        ],
+        "answer": "More than 34 kilograms",
+        "explanation": "Pete Conrad and Alan Bean collected 34.35 kilograms of lunar rock and soil samples."
+      }
+    ]
+  },
+  {
+    "id": "apollo-15",
+    "name": "Apollo 15 Lunar Roving Vehicle (LRV)",
+    "nickname": "The Moon Buggy · First Wheels on the Moon",
     "body": "moon",
     "year": 1971,
+    "launchDate": "July 26, 1971",
+    "landingDate": "July 30, 1971",
+    "lastMessageDate": "August 2, 1971 (Filmed Falcon liftoff)",
     "mission": "Apollo 15",
-    "lat": 26.13,
-    "lng": 3.63,
-    "coordinates": { "x": 0.51, "y": 0.36 },
-    "status": "Parked forever at Hadley Rille",
-    "sizeComparison": "Size of a golf cart (3.1 m long, wire-mesh tires)",
-    "superpower": "First electric car driven by humans on another world, with four independent 0.25-horsepower motors!",
-    "funFact": "Astronauts drove the rover up to 12 km/h (7.5 mph) and did 'rooster tail' drifts in the powdery lunar soil! It was so folded up during launch that it popped open like an umbrella on the Moon.",
-    "story": "Before Apollo 15, astronauts could only hike as far as their boots could carry them. This electric buggy let David Scott and James Irwin cruise 28 kilometers across giant mountain ridges and volcanic canyons. When their mission was over, they parked it facing away so its TV camera could broadcast their liftoff to kids watching back on Earth.",
-    "image": "",
-    "imageCredit": "NASA",
-    "sourceUrl": "https://www.nasa.gov/mission/apollo-15/"
+    "subTabGroup": "moon-group",
+    "subTabPeriod": "MOON · 1969 TO 1971",
+    "subTabHeading": "The Apollo Landers and the Moon Buggy",
+    "subTabLabel": "The Moon Buggy",
+    "subTabSubtitle": "Apollo 15 lunar roving vehicle",
+    "avatarQuote": "Zzz, parked at Hadley Rille",
+    "coordinatesText": "Apollo 15 Latitude: 26.132° N, Longitude: 3.634° E",
+    "lat": 26.132,
+    "lng": 3.634,
+    "coordinatesLink": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/5",
+    "sourceUrl": "https://ntrs.nasa.gov/citations/19720005086",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Apollo_15_flag%2C_rover%2C_LM%2C_Irwin.jpg/800px-Apollo_15_flag%2C_rover%2C_LM%2C_Irwin.jpg",
+    "imageCredit": "NASA / Dave Scott",
+    "quickTable": {
+      "where": "The Moon, Hadley Rille",
+      "when": "Landed July 30, 1971",
+      "distance": "About 28 km in 3 drives"
+    },
+    "story": "Apollo 15 was NASA's ninth crewed Apollo mission and the fourth mission to successfully land astronauts on the Moon. It launched on July 26, 1971, and landed on the Moon on July 30, 1971, in a region called Hadley–Apennine. Unlike earlier Apollo missions, Apollo 15 was designed for longer lunar exploration, allowing astronauts to travel farther using a special electric-powered vehicle called the Lunar Roving Vehicle (Moon Buggy). Its Lunar Module was named Falcon, and its Command Module was named Endeavour.",
+    "storyboard": "Vroom! I am the Moon buggy from Apollo 15. My official name is the Lunar Roving Vehicle. I rode to the Moon folded up inside Falcon, the lunar module, which landed near Hadley Rille and the Apennine Mountains on July 30, 1971.\n\nThe next day, astronaut Dave Scott unfolded me, hopped in, and became the first person to drive on the Moon. Over three moonwalks, Dave, Jim Irwin and I traveled about 28 kilometers. That is much farther than anyone could walk in a bulky space suit.\n\nBefore the astronauts flew home, they parked me and left me there. My TV camera filmed Falcon blasting off. I have been parked at Hadley ever since.",
+    "whatWeLearned": [
+      "Apollo 11 Moon rocks are about 3.6 billion years old. The Moon formed about 4.5 billion years ago, so the rocks tell us about its early days.",
+      "Apollo 12 brought back lava rocks that are a bit younger but still more than 3.1 billion years old.",
+      "Mirrors left by Apollo 11, 14 and 15 let scientists measure the distance to the Moon very precisely with laser beams."
+    ],
+    "people": [
+      "David Scott – Mission Commander; led the lunar exploration and drove the first Lunar Roving Vehicle on the Moon.",
+      "James Irwin – Lunar Module Pilot; explored the lunar surface with Scott and helped collect rock and soil samples.",
+      "Alfred Worden – Command Module Pilot; remained in lunar orbit aboard Endeavour, photographing and studying the Moon."
+    ],
+    "mainPurpose": [
+      "Explore the Hadley–Apennine region of the Moon, including its mountains, valleys, and craters.",
+      "Allow astronauts to travel farther across the lunar surface using the Lunar Roving Vehicle (Moon Buggy).",
+      "Collect lunar rocks and soil to help scientists understand the Moon's history and formation.",
+      "Set up scientific instruments that would continue studying the Moon after the astronauts returned to Earth.",
+      "Take photographs and conduct experiments to learn more about the Moon's surface and environment."
+    ],
+    "experiments": [
+      "The Apollo Lunar Surface Experiments Package (ALSEP) was a collection of scientific instruments deployed by the astronauts on the Moon.",
+      "Its purpose was to study moonquakes, heat beneath the lunar surface, magnetic fields, and other lunar conditions.",
+      "The astronauts also used the Lunar Roving Vehicle (LRV) to travel across the Moon, explore geological features, and collect samples.",
+      "A special experiment was conducted by David Scott, who dropped a hammer and a feather at the same time to demonstrate that objects fall at the same rate in a vacuum without air resistance."
+    ],
+    "achievements": [
+      "Became the first Apollo mission to use a Lunar Roving Vehicle on the Moon.",
+      "Astronauts explored approximately 17.5 miles using the lunar rover.",
+      "Collected approximately 77 kilograms (170 pounds) of lunar rocks and soil, including the famous Genesis Rock, which provided clues about the Moon's early history.",
+      "Successfully deployed the ALSEP scientific instruments to continue studying the Moon.",
+      "Completed three lunar exploration trips, spending approximately 18 hours and 37 minutes outside the Lunar Module.",
+      "Set new records for lunar exploration and helped improve NASA's understanding of the Moon."
+    ],
+    "whereIsItNow": "Remains permanently parked at Hadley Rille (Hadley–Apennine, 26.132° N, 3.634° E), where its TV camera filmed Falcon's ascent stage liftoff.",
+    "overallSummary": "Apollo 15 expanded human exploration of the Moon by introducing the first lunar rover, allowing astronauts David Scott and James Irwin to travel farther and discover more about the lunar surface. With the help of Alfred Worden, the mission collected valuable Moon samples, conducted scientific experiments, and deployed instruments that helped scientists better understand the Moon's history and environment.",
+    "funFact": "Dave Scott dropped a hammer and a falcon feather at the same time on the Moon, proving Galileo's theory that objects fall at the exact same rate in a vacuum without air!",
+    "quiz": [
+      {
+        "question": "What was the Moon buggy's official name?",
+        "options": [
+          "Lunar Roving Vehicle",
+          "Space Scooter",
+          "Moon Mobile 5000",
+          "Rocky Rover"
+        ],
+        "answer": "Lunar Roving Vehicle",
+        "explanation": "Its official NASA engineering name is Lunar Roving Vehicle (LRV)."
+      },
+      {
+        "question": "Who was the first person to drive on the Moon?",
+        "options": [
+          "Neil Armstrong",
+          "Alan Bean",
+          "Michael Collins",
+          "Dave Scott"
+        ],
+        "answer": "Dave Scott",
+        "explanation": "Apollo 15 Commander Dave Scott unfolded the rover and became the first person to drive on the lunar surface."
+      },
+      {
+        "question": "About how far did the Apollo 15 buggy travel over three moonwalks?",
+        "options": [
+          "About 28 kilometers",
+          "About 2 kilometers",
+          "About 28 meters",
+          "About 280 kilometers"
+        ],
+        "answer": "About 28 kilometers",
+        "explanation": "Dave Scott and Jim Irwin logged approximately 28 kilometers (17.5 miles) across three lunar exploration drives."
+      }
+    ]
   },
   {
-    "id": "moon-4",
-    "name": "Apollo 17 Challenger & LRV",
-    "nickname": "The Duct-Tape Moon Car",
-    "body": "moon",
-    "year": 1972,
-    "mission": "Apollo 17",
-    "lat": 20.19,
-    "lng": 30.77,
-    "coordinates": { "x": 0.58, "y": 0.38 },
-    "status": "Parked at Taurus-Littrow Valley",
-    "sizeComparison": "Size of a dune buggy (carried 2 astronauts + 250 lbs of rocks)",
-    "superpower": "Drove 36 km — the longest distance humans have ever driven on another celestial body!",
-    "funFact": "Astronaut Gene Cernan accidentally snapped off the rear fender with a hammer. Dust was blinding them, so they taped 4 lunar maps together with gray duct tape to make a homemade fender!",
-    "story": "Apollo 17 was humanity's final Apollo mission to the lunar surface. Gene Cernan and scientist-astronaut Harrison Schmitt drove deep into the Taurus-Littrow valley and discovered orange volcanic glass beads billions of years old. The rover still sits there today, ready for the next Artemis astronauts to visit.",
-    "image": "",
-    "imageCredit": "NASA",
-    "sourceUrl": "https://www.nasa.gov/mission/apollo-17/"
-  },
-  {
-    "id": "mars-1",
+    "id": "mars-pathfinder",
     "name": "Mars Pathfinder & Sojourner",
-    "nickname": "The Microwave-Sized Trailblazer",
+    "nickname": "Sojourner · First Wheeled Rover on Mars",
     "body": "mars",
     "year": 1997,
+    "launchDate": "December 4, 1996",
+    "landingDate": "July 4, 1997",
+    "lastMessageDate": "September 27, 1997",
     "mission": "Mars Pathfinder",
-    "lat": 19.33,
-    "lng": -33.55,
-    "coordinates": { "x": 0.41, "y": 0.39 },
-    "status": "Resting at Ares Vallis floodplain",
-    "sizeComparison": "Size of a kitchen microwave (only 65 cm long, 23 lbs on Earth!)",
-    "superpower": "The first wheeled rover ever to drive on another planet in human history.",
-    "funFact": "On Mars, gravity is so weak that little Sojourner weighed only 9 pounds — a fourth-grader could easily lift it with one hand! It was named after heroic abolitionist Sojourner Truth.",
-    "story": "When Pathfinder bounced onto Mars wrapped in gigantic airbags on July 4, 1997, it deployed a tiny 6-wheeled robotic pet named Sojourner. Planned to last just 7 days, Sojourner explored for 83 days, sniffing rocks with cartoon names like 'Barnacle Bill' and proving that robots could drive safely across Martian rocks.",
-    "image": "",
-    "imageCredit": "NASA/JPL-Caltech",
-    "sourceUrl": "https://mars.nasa.gov/mars-exploration/missions/pathfinder/"
+    "subTabGroup": "mars-group",
+    "subTabPeriod": "MARS · 1997 TO 2024",
+    "subTabHeading": "The Martian Explorers and Rovers",
+    "subTabLabel": "Sojourner",
+    "subTabSubtitle": "Mars pathfinder & sojourner rover",
+    "avatarQuote": "Zzz, resting near Yogi rock",
+    "coordinatesText": "Coordinates: 19.13° N latitude, 33.22° W longitude",
+    "lat": 19.13,
+    "lng": -33.22,
+    "coordinatesLink": "https://nssdc.gsfc.nasa.gov/planetary/mesur.html",
+    "sourceUrl": "https://science.nasa.gov/mission/mars-pathfinder/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Sojourner_on_Mars_pia01122.jpg/800px-Sojourner_on_Mars_pia01122.jpg",
+    "imageCredit": "NASA / JPL-Caltech",
+    "quickTable": {
+      "where": "Mars, Ares Vallis",
+      "when": "Landed July 4, 1997",
+      "planned": "7 Mars days",
+      "distance": "About 100 meters"
+    },
+    "story": "Mars Pathfinder was a NASA mission designed to land a scientific spacecraft and a small robotic rover called Sojourner on Mars. It was launched on December 4, 1996, and successfully landed on July 4, 1997, in Ares Vallis, an ancient floodplain on Mars. The lander was named the Carl Sagan Memorial Station in honor of astronomer Carl Sagan, while the rover was named Sojourner after American civil rights activist Sojourner Truth. It was an important mission because it demonstrated new landing technology and allowed a robotic rover to explore the Martian surface.",
+    "storyboard": "I am Sojourner, the first rover ever to roll on Mars! I weigh only about 25 pounds. My team planned for me to work for 7 Mars days. I kept going for more than 80!\n\nI rolled about 100 meters, which is around 330 feet. I touched rocks with a special instrument to learn what they were made of. One rock got the nickname Yogi. I also took about 550 pictures.\n\nI could not call Earth by myself. I sent my messages through Pathfinder. When Pathfinder went quiet on September 27, 1997, I lost my way to talk to home.",
+    "whatWeLearned": [
+      "Pathfinder was the first U.S. mission to land with airbags. That idea was used again for Spirit and Opportunity.",
+      "Rocks and soil at the site suggested that floods once flowed there, which points to a wetter Mars long ago.",
+      "After Viking in 1976, Pathfinder started a long run with at least one spacecraft always working at Mars."
+    ],
+    "people": [
+      "NASA – Responsible for the Mars Pathfinder mission and its exploration objectives.",
+      "Jet Propulsion Laboratory (JPL) – Managed the mission and developed the spacecraft and rover technologies.",
+      "Carl Sagan – Famous astronomer honored through the name of the Pathfinder lander.",
+      "Sojourner Truth – American civil rights activist who inspired the name of the Sojourner rover."
+    ],
+    "mainPurpose": [
+      "Successfully land a spacecraft and a small robotic rover on the surface of Mars.",
+      "Explore Martian rocks and soil to better understand the planet's history.",
+      "Study the Martian atmosphere, weather, and climate.",
+      "Test new landing technology using parachutes and airbags to safely reach the Martian surface.",
+      "Demonstrate how robotic rovers could move around and explore another planet."
+    ],
+    "experiments": [
+      "The Alpha Proton X-ray Spectrometer (APXS) analyzed the chemical composition of Martian rocks and soil.",
+      "The Cameras captured photographs of the Martian landscape, rocks, and surrounding environment.",
+      "The Atmospheric Structure Instrument and Meteorology Package measured atmospheric conditions, including temperature, pressure, and wind.",
+      "Sojourner's Robotic Exploration allowed scientists to examine rocks and soil from different locations using its scientific instruments."
+    ],
+    "achievements": [
+      "Successfully landed on Mars on July 4, 1997, using an innovative airbag landing system.",
+      "Became the first successful mission to use airbags to cushion a spacecraft's landing on another planet.",
+      "Successfully deployed Sojourner, the first successful wheeled rover to operate on Mars.",
+      "Returned approximately 2.3 billion bits of scientific information, including more than 16,500 lander images and 550 rover images.",
+      "Analyzed Martian rocks and soil, providing evidence that liquid water once flowed on Mars.",
+      "Recorded important information about Martian weather, dust storms, and atmospheric conditions."
+    ],
+    "whereIsItNow": "Remains on Mars in Ares Vallis (19.13° N, 33.22° W), resting beside the Carl Sagan Memorial Station and the rock nicknamed Yogi.",
+    "overallSummary": "Mars Pathfinder and its little rover Sojourner opened a new chapter in exploring Mars. Through its innovative airbag landing system, the mission successfully delivered a robotic explorer to the Red Planet. Sojourner examined rocks and soil while the lander captured photographs and studied the atmosphere. Their discoveries provided important clues that Mars may have once been warmer and wetter, helping NASA prepare for more advanced Mars rovers in the future.",
+    "funFact": "Sojourner weighed just 25 pounds and was only planned to work for 7 days, but kept going for over 80 Mars days!",
+    "quiz": [
+      {
+        "question": "Why is Sojourner special?",
+        "options": [
+          "It was the first rover on Mars",
+          "It was a spaceship that orbits Mars",
+          "It was a Moon buggy",
+          "It was a helicopter"
+        ],
+        "answer": "It was the first rover on Mars",
+        "explanation": "Sojourner made history as the very first wheeled mobile robotic rover to explore the surface of Mars."
+      },
+      {
+        "question": "How did Sojourner send its messages to Earth?",
+        "options": [
+          "Straight to Earth by itself",
+          "By carrier pigeon",
+          "Through the Pathfinder lander",
+          "Through Ingenuity"
+        ],
+        "answer": "Through the Pathfinder lander",
+        "explanation": "Sojourner communicated via radio link directly to the Carl Sagan Memorial Station (Pathfinder lander), which beamed the data to Earth."
+      },
+      {
+        "question": "Sojourner was planned for 7 Mars days. How long did it work?",
+        "options": [
+          "10 years",
+          "1 hour",
+          "More than 80 Mars days",
+          "Exactly 7 Mars days"
+        ],
+        "answer": "More than 80 Mars days",
+        "explanation": "Sojourner operated for more than 80 Mars days (sols), far exceeding its 7-day prime mission."
+      }
+    ]
   },
   {
-    "id": "mars-2",
+    "id": "spirit-rover",
     "name": "Spirit Rover (MER-A)",
-    "nickname": "The Unstoppable Mountain Climber",
+    "nickname": "Spirit · Robot Geologist of Gusev Crater",
     "body": "mars",
     "year": 2004,
-    "mission": "Mars Exploration Rover",
-    "lat": -14.57,
-    "lng": 175.47,
-    "coordinates": { "x": 0.98, "y": 0.58 },
-    "status": "Peacefully asleep at Home Plate, Gusev Crater",
-    "sizeComparison": "Size of a golf cart with solar wings (1.6 m long)",
-    "superpower": "Survived 20 times longer than planned, climbing giant rocky hills and sending 124,000 photos!",
-    "funFact": "When Spirit's front wheel jammed and stopped turning, engineers drove it backwards! The broken wheel dragged in the dirt and accidentally scraped open a layer of pure white silica — proving hot springs once bubbled on Mars!",
-    "story": "Spirit was designed for a 90-day sprint, but this brave robot survived for over 6 years! It scaled the peaks of the Columbia Hills, dodged swirling dust devils that cleaned its solar panels, and helped scientists realize Mars had a warm, watery, volcanic past. It sent its final salute in 2010 when winter settled over the red planet.",
-    "image": "",
-    "imageCredit": "NASA/JPL-Caltech",
-    "sourceUrl": "https://mars.nasa.gov/mer/"
+    "launchDate": "June 10, 2003",
+    "landingDate": "January 3, 2004",
+    "lastMessageDate": "March 22, 2010",
+    "mission": "Mars Exploration Rover (MER-A)",
+    "subTabGroup": "mars-group",
+    "subTabPeriod": "MARS · 1997 TO 2024",
+    "subTabHeading": "The Martian Explorers and Rovers",
+    "subTabLabel": "Spirit",
+    "subTabSubtitle": "Spirit exploration rover",
+    "avatarQuote": "Zzz, a sleepy robot geologist",
+    "coordinatesText": "Spirit: 14.59° S latitude, 175.50° E longitude",
+    "lat": -14.59,
+    "lng": 175.5,
+    "coordinatesLink": "https://science.nasa.gov/mission/mer-spirit/",
+    "sourceUrl": "https://science.nasa.gov/mission/mer-spirit/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/NASA_Mars_Rover.jpg/800px-NASA_Mars_Rover.jpg",
+    "imageCredit": "NASA / JPL-Caltech / Cornell",
+    "quickTable": {
+      "where": "Mars, Gusev crater",
+      "when": "Landed January 3, 2004",
+      "lastMessage": "March 22, 2010",
+      "distance": "About 7.7 km"
+    },
+    "story": "Spirit and Opportunity were twin robotic rovers developed by NASA to explore Mars and investigate whether water once existed on its surface. Spirit landed in Gusev crater on January 3, 2004. Both rovers operated far longer than their expected missions. Spirit explored Mars for approximately 6 years, driving about 7.7 kilometers—almost 12 times farther than the team hoped. Its discoveries provided strong evidence that ancient Mars had environments where liquid water once existed.",
+    "storyboard": "I am Spirit, one of two twin rovers sent to Mars. I landed in Gusev crater on January 3, 2004. NASA planned for me to work for 90 Mars days. Instead, I kept exploring for years.\n\nWith my twin, I looked for clues that Mars once had water, because water is a key ingredient for life as we know it. I drove about 7.7 kilometers, almost 12 times farther than the team hoped.\n\nIn 2009 I got stuck in soft sand. Then winter came, and the Sun was too low to power me. My last message reached Earth on March 22, 2010. NASA kept trying to reach me and ended its efforts on May 25, 2011. I stay in Gusev crater, a sleepy robot geologist.",
+    "whatWeLearned": [
+      "The twins searched for signs of past water. NASA says they helped rewrite what we know about the early history of Mars.",
+      "Robots can work far longer than planned. Both rovers were built for 90 Mars days."
+    ],
+    "people": [
+      "NASA – Developed and funded the Mars Exploration Rover missions.",
+      "Jet Propulsion Laboratory (JPL) – Managed mission operations and robotic rover engineering."
+    ],
+    "mainPurpose": [
+      "Search for rocks and soil containing clues about ancient water activity on Mars.",
+      "Study the composition of Martian rocks, soil, and minerals.",
+      "Investigate geological features to understand how water, wind, volcanoes, and impacts shaped the planet.",
+      "Determine whether ancient Martian environments could have supported microbial life.",
+      "Study minerals that may have formed in water, such as clays and iron-rich deposits.",
+      "Observe Martian weather, dust, and atmospheric conditions over an extended period."
+    ],
+    "experiments": [
+      "Rock and Soil Analysis – Examined Martian rocks and soil to identify minerals and chemical materials that could provide evidence of ancient water.",
+      "Water-Related Mineral Investigation – Studied minerals such as hematite and silica to understand how water and heat may have shaped the Martian environment.",
+      "Geological Exploration – Investigated craters, rocks, and soil formations to learn about Mars' geological history.",
+      "Atmospheric Monitoring – Observed dust, clouds, temperature, and atmospheric conditions to understand Mars' environment.",
+      "Surface Observation – Captured photographs and studied different locations to help scientists understand the planet's landscape."
+    ],
+    "achievements": [
+      "Discovered strong evidence that liquid water once existed on Mars, helping scientists understand the planet's ancient environment.",
+      "Spirit discovered rocks at Comanche that contained high amounts of magnesium and iron carbonates, suggesting that warmer, more neutral water once existed on Mars.",
+      "Spirit also discovered nearly pure silica deposits at Home Plate, which may have formed through ancient hot spring or steam-related activity.",
+      "Traveled approximately 4.8 miles (7.7 km), almost 12 times farther than its design goal.",
+      "Operated for more than 6 years on Mars after being built for only 90 days."
+    ],
+    "whereIsItNow": "Remains on Mars in Gusev Crater, near a location called Troy, where it became stuck in soft soil in 2009. Its last communication with Earth was on March 22, 2010. NASA officially ended recovery efforts on May 25, 2011.",
+    "overallSummary": "Spirit and Opportunity were two remarkable robotic explorers that helped NASA uncover evidence of Mars' watery past. Through their exploration of rocks, soil, craters, and minerals, they discovered clues that ancient Mars may once have had environments suitable for microbial life. Despite being designed for much shorter missions, both rovers continued exploring for years, leaving behind valuable discoveries that helped scientists better understand the Red Planet.",
+    "funFact": "Spirit was designed to work for just 90 Mars days, but kept rolling for more than 6 years, discovering ancient hot spring deposits at Home Plate!",
+    "quiz": [
+      {
+        "question": "What were Spirit and Opportunity searching for clues about?",
+        "options": [
+          "Dinosaur bones",
+          "Hidden volcanoes on Earth",
+          "Past water on Mars",
+          "Pizza restaurants"
+        ],
+        "answer": "Past water on Mars",
+        "explanation": "Both twin rovers were sent to seek out clues and mineral evidence that liquid water once existed on Mars."
+      },
+      {
+        "question": "What happened to Spirit in 2009?",
+        "options": [
+          "It turned into a helicopter",
+          "It found a river",
+          "It got stuck in soft sand",
+          "It flew away"
+        ],
+        "answer": "It got stuck in soft sand",
+        "explanation": "In 2009, Spirit's wheels became trapped in soft sand at a location named Troy in Gusev Crater."
+      },
+      {
+        "question": "About how far did Spirit drive on Mars?",
+        "options": [
+          "About 100 meters",
+          "About 45 kilometers",
+          "About 1,000 kilometers",
+          "About 7.7 kilometers"
+        ],
+        "answer": "About 7.7 kilometers",
+        "explanation": "Spirit drove approximately 7.7 kilometers (4.8 miles), nearly 12 times farther than the initial 600-meter goal."
+      }
+    ]
   },
   {
-    "id": "mars-3",
-    "name": "Curiosity Rover",
-    "nickname": "The Laser-Blasting Super-Lab",
+    "id": "opportunity-rover",
+    "name": "Opportunity Rover (MER-B)",
+    "nickname": "Opportunity · The 14-Year Marathon Rover",
     "body": "mars",
-    "year": 2012,
-    "mission": "Mars Science Laboratory",
-    "lat": -4.59,
-    "lng": 137.44,
-    "coordinates": { "x": 0.88, "y": 0.53 },
-    "status": "Actively climbing Mount Sharp in Gale Crater",
-    "sizeComparison": "Size of an SUV or mini-van (3 m long, weighs nearly 1 ton!)",
-    "superpower": "Shoots a high-powered laser to zap rocks into glowing vapor from 7 meters away!",
-    "funFact": "Curiosity has tiny patterned holes cut into its aluminum wheels that spell out 'J-P-L' in Morse code. Every time it rolls through the sand, it stamps secret code into Mars to help track its odometer!",
-    "story": "Curiosity arrived on Mars with a thrilling 'Sky Crane' rocket backpack that lowered it gently on nylon ropes. It carries a complete chemical laboratory inside its belly! Curiosity proved that ancient Gale Crater was once a freshwater lake that had all the chemical ingredients needed for microscopic life to thrive.",
-    "image": "",
-    "imageCredit": "NASA/JPL-Caltech",
-    "sourceUrl": "https://mars.nasa.gov/msl/"
+    "year": 2004,
+    "launchDate": "July 7, 2003",
+    "landingDate": "January 24, 2004",
+    "lastMessageDate": "June 10, 2018",
+    "mission": "Mars Exploration Rover (MER-B)",
+    "subTabGroup": "mars-group",
+    "subTabPeriod": "MARS · 1997 TO 2024",
+    "subTabHeading": "The Martian Explorers and Rovers",
+    "subTabLabel": "Opportunity",
+    "subTabSubtitle": "Opportunity exploration rover",
+    "avatarQuote": "Zzz, resting in Perseverance Valley",
+    "coordinatesText": "Opportunity: 2.23° S latitude, 354.68° E longitude",
+    "lat": -2.23,
+    "lng": -5.32,
+    "coordinatesLink": "https://science.nasa.gov/mission/mer-opportunity/",
+    "sourceUrl": "https://science.nasa.gov/mission/mer-opportunity/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Opportunity_self-portrait_at_Endeavour_Crater_%28cropped%29.jpg/800px-Opportunity_self-portrait_at_Endeavour_Crater_%28cropped%29.jpg",
+    "imageCredit": "NASA / JPL-Caltech / Cornell / ASU",
+    "quickTable": {
+      "where": "Mars, Meridiani Planum",
+      "when": "Landed January 24, 2004",
+      "lastMessage": "June 10, 2018",
+      "distance": "28.06 miles (45.16 km)"
+    },
+    "story": "Spirit and Opportunity were twin robotic rovers developed by NASA to explore Mars and investigate whether water once existed on its surface. Opportunity landed on the other side of Mars on January 24, 2004, Pacific time. My mission was planned for just 90 Mars days. I kept rolling for about 14 years! I drove 45 kilometers (about 28 miles), driving farther than any other vehicle on another world.",
+    "storyboard": "I am Opportunity, Spirit's twin! I landed on the other side of Mars on January 24, 2004, Pacific time. My mission was planned for just 90 Mars days. I kept rolling for about 14 years!\n\nI drove 45 kilometers, which is about 28 miles. By 2014 I had driven farther than any other vehicle on another world. All that time I searched rocks for signs of past water.\n\nIn 2018, a giant dust storm covered the sky and blocked the Sun that my solar panels need. My last message to Earth came on June 10, 2018. On February 13, 2019, NASA announced that my mission was complete.",
+    "whatWeLearned": [
+      "The twins searched for signs of past water. NASA says they helped rewrite what we know about the early history of Mars.",
+      "Robots can work far longer than planned. Both rovers were built for 90 Mars days."
+    ],
+    "people": [
+      "NASA – Developed and funded the Mars Exploration Rover missions.",
+      "Jet Propulsion Laboratory (JPL) – Managed mission operations and robotic rover engineering."
+    ],
+    "mainPurpose": [
+      "Search for rocks and soil containing clues about ancient water activity on Mars.",
+      "Study the composition of Martian rocks, soil, and minerals.",
+      "Investigate geological features to understand how water, wind, volcanoes, and impacts shaped the planet.",
+      "Determine whether ancient Martian environments could have supported microbial life.",
+      "Study minerals that may have formed in water, such as clays and iron-rich deposits.",
+      "Observe Martian weather, dust, and atmospheric conditions over an extended period."
+    ],
+    "experiments": [
+      "Rock and Soil Analysis – Examined Martian rocks and soil to identify minerals and chemical materials that could provide evidence of ancient water.",
+      "Water-Related Mineral Investigation – Studied minerals such as hematite and silica to understand how water and heat may have shaped the Martian environment.",
+      "Geological Exploration – Investigated craters, rocks, and soil formations to learn about Mars' geological history.",
+      "Atmospheric Monitoring – Observed dust, clouds, temperature, and atmospheric conditions to understand Mars' environment.",
+      "Surface Observation – Captured photographs and studied different locations to help scientists understand the planet's landscape."
+    ],
+    "achievements": [
+      "Discovered strong evidence that liquid water once existed on Mars, helping scientists understand the planet's ancient environment.",
+      "Opportunity discovered small, round hematite deposits nicknamed \"blueberries,\" which provided evidence of ancient water activity.",
+      "Opportunity found clay minerals at Endeavour Crater, suggesting that some ancient Martian environments had more favorable conditions for microbial life.",
+      "Opportunity explored more than 100 impact craters, helping scientists understand how craters form and change over time.",
+      "Opportunity traveled approximately 28 miles (45.16 km) across the Martian surface—the off-world driving record.",
+      "Captured a combined total of more than 342,000 raw images with Spirit."
+    ],
+    "whereIsItNow": "Remains on Mars in Perseverance Valley, along the western rim of Endeavour Crater (2.23° S, 354.68° E). Its last communication was on June 10, 2018, after a massive dust storm covered its solar panels. NASA officially ended its mission on February 13, 2019.",
+    "overallSummary": "Spirit and Opportunity were two remarkable robotic explorers that helped NASA uncover evidence of Mars' watery past. Through their exploration of rocks, soil, craters, and minerals, they discovered clues that ancient Mars may once have had environments suitable for microbial life. Despite being designed for much shorter missions, both rovers continued exploring for years, leaving behind valuable discoveries that helped scientists better understand the Red Planet.",
+    "funFact": "Opportunity drove 28.06 miles (45.16 km)—farther than any vehicle ever driven on another world—and discovered hematite 'blueberries' formed in ancient water!",
+    "quiz": [
+      {
+        "question": "What happened to Opportunity in 2018?",
+        "options": [
+          "It drove off a cliff",
+          "It got a new job on Earth",
+          "It ran out of gas",
+          "A giant dust storm blocked its sunlight, and it went quiet"
+        ],
+        "answer": "A giant dust storm blocked its sunlight, and it went quiet",
+        "explanation": "A planet-encircling dust storm in June 2018 blotted out the Sun over Meridiani Planum, draining Opportunity's solar power."
+      },
+      {
+        "question": "Opportunity was planned to work for 90 Mars days. About how long did it work?",
+        "options": [
+          "About 1 year",
+          "About 14 years",
+          "Exactly 3 months",
+          "Only 2 weeks"
+        ],
+        "answer": "About 14 years",
+        "explanation": "Opportunity explored Mars for nearly 15 years (from January 2004 to June 2018), vastly exceeding its 90-sol design."
+      },
+      {
+        "question": "What record did Opportunity set by 2014?",
+        "options": [
+          "It flew the highest",
+          "It took a million selfies",
+          "It was the fastest car in space",
+          "It drove farther than any other vehicle on another world"
+        ],
+        "answer": "It drove farther than any other vehicle on another world",
+        "explanation": "Opportunity surpassed the Soviet Lunokhod 2 lunar rover distance to hold the all-time off-world driving record (over 45 kilometers)."
+      }
+    ]
   },
   {
-    "id": "mars-4",
-    "name": "Perseverance & Ingenuity",
-    "nickname": "The Alien Hunter & The Helicopter",
+    "id": "ingenuity-helicopter",
+    "name": "Ingenuity Mars Helicopter",
+    "nickname": "Ingenuity · First Powered Flight on Another Planet",
     "body": "mars",
     "year": 2021,
-    "mission": "Mars 2020",
+    "launchDate": "July 30, 2020",
+    "landingDate": "February 18, 2021",
+    "lastMessageDate": "January 25, 2024 (Last flight Jan 18, 2024)",
+    "mission": "Mars 2020 / Ingenuity",
+    "subTabGroup": "mars-group",
+    "subTabPeriod": "MARS · 1997 TO 2024",
+    "subTabHeading": "The Martian Explorers and Rovers",
+    "subTabLabel": "Ingenuity",
+    "subTabSubtitle": "Ingenuity robotic mars helicopter",
+    "avatarQuote": "Zzz, resting on the red surface of Mars",
+    "coordinatesText": "Ingenuity Helicopter 18.44° N latitude, 77.45° E longitude.",
     "lat": 18.44,
     "lng": 77.45,
-    "coordinates": { "x": 0.71, "y": 0.40 },
-    "status": "Collecting core samples at Jezero Crater",
-    "sizeComparison": "Car-sized rover + a 4-pound flying drone helicopter",
-    "superpower": "Drills rock cores and seals them in titanium tubes for a future rocket to bring back to Earth!",
-    "funFact": "Ingenuity carried a tiny piece of wing fabric from the Wright Brothers' historic 1903 Flyer taped under its solar panel — bringing the first Earth airplane to the first Mars flying machine!",
-    "story": "Nicknamed 'Percy', this rover is searching for fossilized traces of ancient alien microbes in a dried-up river delta. Under its belly, it brought Ingenuity, the very first aircraft to fly through Mars's razor-thin atmosphere. What was supposed to be a 5-flight test turned into 72 breathtaking flights across the Martian sky!",
-    "image": "",
-    "imageCredit": "NASA/JPL-Caltech",
-    "sourceUrl": "https://mars.nasa.gov/mars2020/"
+    "coordinatesLink": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+    "sourceUrl": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ingenuity_on_Mars_PIA24496.jpg/800px-Ingenuity_on_Mars_PIA24496.jpg",
+    "imageCredit": "NASA / JPL-Caltech",
+    "quickTable": {
+      "where": "Mars, Jezero Crater",
+      "when": "Landed February 18, 2021",
+      "lastFlight": "January 18, 2024 (mission ended January 25, 2024)"
+    },
+    "story": "Ingenuity was a small robotic helicopter developed by NASA to demonstrate that powered, controlled flight was possible on another planet. It launched on July 30, 2020, and arrived on Mars on February 18, 2021, attached to the Perseverance rover in Jezero Crater. On April 19, 2021, Ingenuity made history by completing the first powered, controlled flight on another planet. Originally designed to complete only five test flights within 30 days, it exceeded expectations by completing 72 flights over nearly three years.",
+    "storyboard": "Hi! I am Ingenuity, a little helicopter with four long blades. On February 18, 2021, I landed on Mars, riding along on the belly of my friend, the Perseverance rover. Mars has very thin air, so no one knew if I could fly there. On April 19, 2021, I spun my blades and lifted off. I made the first powered, controlled flight on another planet!\n\nI was only built for five test flights, but I kept going and flew 72 times over nearly three years. Soon I became Perseverance’s scout. I zipped ahead, snapped pictures, and checked out places that looked interesting to explore.\n\nThen, on January 18, 2024, I made my final flight. My rotor blades were damaged, and I could not fly anymore. On January 25, 2024, NASA officially ended my mission. Now I rest on the red surface of Mars, and I showed the world that aircraft can explore other planets!",
+    "whatWeLearned": [
+      "A helicopter can fly in Mars’ very thin air. Ingenuity made the first powered, controlled flight on another planet on April 19, 2021.",
+      "Ingenuity was planned for five test flights but completed 72. It flew about 17 kilometers in total and reached heights of up to 24 meters.",
+      "Pictures from above helped the Perseverance team spot interesting places and plan safer routes. This showed that aerial explorers can help future missions."
+    ],
+    "people": [
+      "NASA – Developed and funded the Mars 2020 technology demonstration.",
+      "Jet Propulsion Laboratory (JPL) – Designed, built, and flight-tested the helicopter system."
+    ],
+    "mainPurpose": [
+      "Demonstrate that a helicopter could successfully fly in Mars' extremely thin atmosphere.",
+      "Test new flying technology that could help future spacecraft explore other planets.",
+      "Take aerial photographs of the Martian landscape from above.",
+      "Help Perseverance identify interesting locations and possible exploration routes.",
+      "Test how well its batteries, solar panels, sensors, and other equipment performed in the Martian environment."
+    ],
+    "experiments": [
+      "Flight Technology Demonstration – Tested whether its spinning blades could generate enough lift to fly in Mars' thin atmosphere.",
+      "Navigation Sensors and Cameras – Collected information about its movement, speed, altitude, and direction to help it fly safely.",
+      "Solar Panel and Battery System – Used sunlight to recharge its batteries and provide power for its flights.",
+      "Communication Antennas – Allowed Ingenuity to communicate with Earth through the Perseverance rover and other Mars communication systems.",
+      "Engineering Flight Tests – Performed experimental flights to understand its flying capabilities and the limits of its design."
+    ],
+    "achievements": [
+      "Became the first aircraft to achieve powered, controlled flight on another planet on April 19, 2021.",
+      "Completed 72 successful flights, far exceeding its original goal of five test flights.",
+      "Recorded approximately 128.8 minutes of total flying time.",
+      "Traveled approximately 10.5 miles (17 kilometers) across its flights.",
+      "Reached heights of up to 78.7 feet (24 meters) above the Martian surface.",
+      "Helped the Perseverance rover team identify interesting areas and plan safer exploration routes.",
+      "Demonstrated that aerial vehicles could become useful explorers for future missions to Mars and other destinations."
+    ],
+    "whereIsItNow": "Ingenuity remains on the surface of Mars in Jezero Crater (18.44° N, 77.45° E), where it completed its final flight. Its last flight took place on January 18, 2024, after one or more of its rotor blades were damaged during landing. NASA officially ended the mission on January 25, 2024, after Ingenuity could no longer fly.",
+    "overallSummary": "Ingenuity was a groundbreaking robotic helicopter that changed how humans could explore other planets. Originally designed for only five test flights, it completed 72 flights and proved that aircraft could successfully fly in Mars' thin atmosphere. By providing aerial views and helping guide the Perseverance rover, Ingenuity opened new possibilities for future space exploration.",
+    "funFact": "Ingenuity was designed for only 5 test flights, but completed 72 flights over nearly 3 years, logging 128.8 minutes in the Martian sky!",
+    "quiz": [
+      {
+        "question": "Why is Ingenuity special?",
+        "options": [
+          "It was the first rover on Mars",
+          "It was the first helicopter to fly on another planet",
+          "It was a Moon buggy"
+        ],
+        "answer": "It was the first helicopter to fly on another planet",
+        "explanation": "Ingenuity made history on April 19, 2021, by achieving the first powered, controlled flight of an aircraft on another planet."
+      },
+      {
+        "question": "How many flights was Ingenuity built for, and how many did it complete?",
+        "options": [
+          "Built for 5, completed 72",
+          "Built for 72, completed 5",
+          "Built for 20, completed 50"
+        ],
+        "answer": "Built for 5, completed 72",
+        "explanation": "Originally planned for up to 5 experimental technology demonstration flights, Ingenuity shattered all records with 72 completed flights."
+      },
+      {
+        "question": "How did Ingenuity help the Perseverance rover?",
+        "options": [
+          "It carried astronauts to Mars",
+          "It dug deep underground",
+          "It flew ahead, took pictures, and scouted places to explore"
+        ],
+        "answer": "It flew ahead, took pictures, and scouted places to explore",
+        "explanation": "Ingenuity acted as an aerial scout, providing aerial reconnaissance imagery to help the rover team plot safe drive paths and spot promising science targets."
+      }
+    ]
   }
 ]
