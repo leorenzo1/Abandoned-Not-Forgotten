@@ -308,6 +308,9 @@ export default function SubTabStoryView({
                     alt={currentObj.name}
                     className="h-28 w-full object-cover transition-transform duration-500 hover:scale-105"
                     loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
                   />
                   {currentObj.imageCredit && (
                     <div className="bg-neutral-950 px-3 py-1 text-right text-[10px] text-neutral-400">

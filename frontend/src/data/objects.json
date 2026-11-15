@@ -20,8 +20,8 @@
     "lng": -23.42,
     "coordinatesLink": "https://science.nasa.gov/mission/surveyor-3/",
     "sourceUrl": "https://science.nasa.gov/mission/surveyor-3/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Apollo_12_Surveyor_3.jpg/800px-Apollo_12_Surveyor_3.jpg",
-    "imageCredit": "NASA / Apollo 12 Commander Pete Conrad",
+    "image": "/images/surveyor-3.jpg",
+    "imageCredit": "NASA / Surveyor 3 & Apollo 12",
     "quickTable": {
       "where": "The Moon, Ocean of Storms",
       "when": "Landed April 20, 1967",
@@ -96,6 +96,16 @@
         "answer": "1969",
         "explanation": "Surveyor 3 landed on April 20, 1967, and was visited by Apollo 12 on November 19-20, 1969."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/surveyor-3.jpg",
+        "caption": "Surveyor 3 robotic lander resting in Oceanus Procellarum"
+      },
+      {
+        "url": "/images/surveyor-3-visit.jpg",
+        "caption": "Apollo 12 astronaut examining Surveyor 3 with Intrepid in background"
+      }
     ]
   },
   {
@@ -119,8 +129,8 @@
     "lng": 23.47314,
     "coordinatesLink": "https://lroc.im-ldi.com/featured_sites/apollo-11/temporal-traverse",
     "sourceUrl": "https://www.nasa.gov/mission/apollo-11/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Aldrin_Apollo_11_original.jpg/800px-Aldrin_Apollo_11_original.jpg",
-    "imageCredit": "NASA / Neil Armstrong",
+    "image": "/images/apollo-11.jpg",
+    "imageCredit": "NASA / Neil Armstrong & Apollo 11",
     "quickTable": {
       "where": "The Moon, Sea of Tranquility",
       "when": "Landed July 20, 1969",
@@ -189,6 +199,20 @@
         "answer": "The distance between Earth and the Moon",
         "explanation": "Laser retroreflector mirrors left by Apollo 11, 14, and 15 allow scientists on Earth to shoot lasers and calculate the exact distance to the Moon down to millimeters."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/apollo-11.jpg",
+        "caption": "Buzz Aldrin on the Moon beside the flag (Eagle leg on left)"
+      },
+      {
+        "url": "/images/apollo-11-armstrong.jpg",
+        "caption": "Neil Armstrong - Mission Commander"
+      },
+      {
+        "url": "/images/apollo-11-launch.jpg",
+        "caption": "Saturn V launch carrying Apollo 11 to the Moon"
+      }
     ]
   },
   {
@@ -212,8 +236,8 @@
     "lng": -23.422,
     "coordinatesLink": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/7",
     "sourceUrl": "https://www.nasa.gov/mission/apollo-12/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Surveyor_3_from_above.jpg/800px-Surveyor_3_from_above.jpg",
-    "imageCredit": "NASA / Alan Bean",
+    "image": "/images/apollo-12.jpg",
+    "imageCredit": "NASA / Alan Bean & Apollo 12",
     "quickTable": {
       "where": "The Moon, Ocean of Storms",
       "when": "Landed November 19, 1969",
@@ -290,6 +314,20 @@
         "answer": "More than 34 kilograms",
         "explanation": "Pete Conrad and Alan Bean collected 34.35 kilograms of lunar rock and soil samples."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/apollo-12.jpg",
+        "caption": "Apollo 12 Lunar Module Intrepid and ALSEP antenna on the Moon"
+      },
+      {
+        "url": "/images/apollo-12-surveyor.jpg",
+        "caption": "Astronaut inspecting Surveyor 3 with Intrepid on crater rim"
+      },
+      {
+        "url": "/images/apollo-12-crew.jpg",
+        "caption": "Apollo 12 crew: Pete Conrad, Dick Gordon, Alan Bean"
+      }
     ]
   },
   {
@@ -313,8 +351,8 @@
     "lng": 3.634,
     "coordinatesLink": "https://lroc.im-ldi.com/visit/exhibits/1/gallery/5",
     "sourceUrl": "https://ntrs.nasa.gov/citations/19720005086",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Apollo_15_flag%2C_rover%2C_LM%2C_Irwin.jpg/800px-Apollo_15_flag%2C_rover%2C_LM%2C_Irwin.jpg",
-    "imageCredit": "NASA / Dave Scott",
+    "image": "/images/apollo-15.jpg",
+    "imageCredit": "NASA / Dave Scott & Apollo 15",
     "quickTable": {
       "where": "The Moon, Hadley Rille",
       "when": "Landed July 30, 1971",
@@ -390,6 +428,16 @@
         "answer": "About 28 kilometers",
         "explanation": "Dave Scott and Jim Irwin logged approximately 28 kilometers (17.5 miles) across three lunar exploration drives."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/apollo-15.jpg",
+        "caption": "Astronaut David Scott with the Lunar Roving Vehicle near Hadley Rille"
+      },
+      {
+        "url": "/images/apollo-15-crew.jpg",
+        "caption": "Apollo 15 astronauts seated in the Lunar Roving Vehicle simulator"
+      }
     ]
   },
   {
@@ -413,7 +461,7 @@
     "lng": -33.22,
     "coordinatesLink": "https://nssdc.gsfc.nasa.gov/planetary/mesur.html",
     "sourceUrl": "https://science.nasa.gov/mission/mars-pathfinder/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Sojourner_on_Mars_pia01122.jpg/800px-Sojourner_on_Mars_pia01122.jpg",
+    "image": "/images/mars-pathfinder.jpg",
     "imageCredit": "NASA / JPL-Caltech",
     "quickTable": {
       "where": "Mars, Ares Vallis",
@@ -492,6 +540,16 @@
         "answer": "More than 80 Mars days",
         "explanation": "Sojourner operated for more than 80 Mars days (sols), far exceeding its 7-day prime mission."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/mars-pathfinder.jpg",
+        "caption": "Sojourner rover examining Yogi rock on Mars"
+      },
+      {
+        "url": "/images/sojourner-rover.jpg",
+        "caption": "Sojourner rover close-up on Martian soil"
+      }
     ]
   },
   {
@@ -515,7 +573,7 @@
     "lng": 175.5,
     "coordinatesLink": "https://science.nasa.gov/mission/mer-spirit/",
     "sourceUrl": "https://science.nasa.gov/mission/mer-spirit/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/NASA_Mars_Rover.jpg/800px-NASA_Mars_Rover.jpg",
+    "image": "/images/spirit-rover.jpg",
     "imageCredit": "NASA / JPL-Caltech / Cornell",
     "quickTable": {
       "where": "Mars, Gusev crater",
@@ -592,6 +650,12 @@
         "answer": "About 7.7 kilometers",
         "explanation": "Spirit drove approximately 7.7 kilometers (4.8 miles), nearly 12 times farther than the initial 600-meter goal."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/spirit-rover.jpg",
+        "caption": "Spirit Mars Exploration Rover in Gusev Crater"
+      }
     ]
   },
   {
@@ -615,8 +679,8 @@
     "lng": -5.32,
     "coordinatesLink": "https://science.nasa.gov/mission/mer-opportunity/",
     "sourceUrl": "https://science.nasa.gov/mission/mer-opportunity/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Opportunity_self-portrait_at_Endeavour_Crater_%28cropped%29.jpg/800px-Opportunity_self-portrait_at_Endeavour_Crater_%28cropped%29.jpg",
-    "imageCredit": "NASA / JPL-Caltech / Cornell / ASU",
+    "image": "/images/opportunity-rover.jpg",
+    "imageCredit": "NASA / JPL-Caltech / Cornell",
     "quickTable": {
       "where": "Mars, Meridiani Planum",
       "when": "Landed January 24, 2004",
@@ -693,6 +757,12 @@
         "answer": "It drove farther than any other vehicle on another world",
         "explanation": "Opportunity surpassed the Soviet Lunokhod 2 lunar rover distance to hold the all-time off-world driving record (over 45 kilometers)."
       }
+    ],
+    "gallery": [
+      {
+        "url": "/images/opportunity-rover.jpg",
+        "caption": "Opportunity rover climbing the slopes of Mars"
+      }
     ]
   },
   {
@@ -716,7 +786,7 @@
     "lng": 77.45,
     "coordinatesLink": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
     "sourceUrl": "https://science.nasa.gov/mission/mars-2020-perseverance/ingenuity-mars-helicopter/",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ingenuity_on_Mars_PIA24496.jpg/800px-Ingenuity_on_Mars_PIA24496.jpg",
+    "image": "/images/ingenuity-helicopter.jpg",
     "imageCredit": "NASA / JPL-Caltech",
     "quickTable": {
       "where": "Mars, Jezero Crater",
@@ -790,6 +860,16 @@
         ],
         "answer": "It flew ahead, took pictures, and scouted places to explore",
         "explanation": "Ingenuity acted as an aerial scout, providing aerial reconnaissance imagery to help the rover team plot safe drive paths and spot promising science targets."
+      }
+    ],
+    "gallery": [
+      {
+        "url": "/images/ingenuity-helicopter.jpg",
+        "caption": "Ingenuity helicopter standing on the surface of Jezero Crater"
+      },
+      {
+        "url": "/images/ingenuity-flight.jpg",
+        "caption": "Ingenuity in powered aerodynamic flight with Perseverance in background"
       }
     ]
   }

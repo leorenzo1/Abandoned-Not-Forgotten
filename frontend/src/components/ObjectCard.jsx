@@ -48,6 +48,9 @@ export default function ObjectCard({ object }) {
             alt={object.name}
             className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105 sm:h-56"
             loading="lazy"
+            onError={(e) => {
+              e.currentTarget.style.display = "none";
+            }}
           />
           {object.imageCredit && (
             <div className="absolute right-2 bottom-2 rounded bg-black/70 px-2 py-0.5 text-[10px] text-neutral-300 backdrop-blur-sm">

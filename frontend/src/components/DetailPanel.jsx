@@ -6,10 +6,14 @@ import { speakText, stopSpeech, isSpeechSupported } from "../utils/speech";
 export default function DetailPanel({ object, isOpen, onClose }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [prevId, setPrevId] = useState(object?.id);
+  const [activePhotoIdx, setActivePhotoIdx] = useState(0);
+  const [imgError, setImgError] = useState(false);
   const speechOk = isSpeechSupported();
 
   if (object?.id !== prevId) {
     setPrevId(object?.id);
+    setActivePhotoIdx(0);
+    setImgError(false);
     setIsSpeaking(false);
     stopSpeech();
   }
@@ -112,34 +116,80 @@ export default function DetailPanel({ object, isOpen, onClose }) {
               )}
             </div>
 
-            {/* Photo Frame or Research Image Template Placeholder */}
-            {object.image ? (
-              <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-md">
-                <img
-                  src={object.image}
-                  alt={object.name}
-                  className="h-56 w-full object-cover"
-                  loading="lazy"
-                />
-                {object.imageCredit && (
-                  <div className="bg-neutral-900 px-3 py-1 text-right text-xs text-neutral-400">
-                    Credit: {object.imageCredit}
+            {/* Photo Gallery & Archival Imagery Frame */}
+            {(() => {
+              const gallery = (object.gallery && object.gallery.length > 0)
+                ? object.gallery
+                : (object.image ? [{ url: object.image, caption: object.name }] : []);
+              const currentPhoto = gallery[activePhotoIdx] || gallery[0];
+
+              if (currentPhoto?.url && !imgError) {
+                return (
+                  <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-md">
+                    <div className="relative group">
+                      <img
+                        src={currentPhoto.url}
+                        alt={currentPhoto.caption || object.name}
+                        className="h-56 w-full object-cover"
+                        loading="lazy"
+                        onError={() => setImgError(true)}
+                      />
+                      {currentPhoto.caption && (
+                        <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-6 text-[11px] text-neutral-300 font-medium">
+                          {currentPhoto.caption}
+                        </div>
+                      )}
+                    </div>
+
+                    {gallery.length > 1 && (
+                      <div className="flex items-center gap-1.5 p-2 bg-neutral-950 border-t border-neutral-800/80 overflow-x-auto">
+                        {gallery.map((img, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setActivePhotoIdx(idx)}
+                            className={`relative h-12 w-16 shrink-0 overflow-hidden rounded-lg border transition-all ${
+                              activePhotoIdx === idx
+                                ? "border-sky-400 ring-1 ring-sky-400 scale-105"
+                                : "border-neutral-800 opacity-60 hover:opacity-100"
+                            }`}
+                          >
+                            <img
+                              src={img.url}
+                              alt=""
+                              className="h-full w-full object-cover"
+                              loading="lazy"
+                            />
+                          </button>
+                        ))}
+                        <span className="ml-auto text-[10px] text-neutral-400 pr-2">
+                          {activePhotoIdx + 1} of {gallery.length} photos
+                        </span>
+                      </div>
+                    )}
+
+                    {object.imageCredit && (
+                      <div className="bg-neutral-900 px-3 py-1 text-right text-xs text-neutral-400 border-t border-neutral-800/60">
+                        Credit: {object.imageCredit}
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-800 bg-neutral-900/30 p-6 text-center">
-                <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl border border-neutral-800 bg-neutral-900">
-                  <Camera className="h-6 w-6 text-neutral-400" />
+                );
+              }
+
+              return (
+                <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-neutral-800 bg-neutral-900/30 p-6 text-center">
+                  <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-2xl border border-neutral-800 bg-neutral-900">
+                    <Camera className="h-6 w-6 text-neutral-400" />
+                  </div>
+                  <span className="text-xs font-semibold text-neutral-300">
+                    Archival Imagery Dossier
+                  </span>
+                  <span className="text-[11px] text-neutral-400 mt-0.5 max-w-[240px]">
+                    Curated photos from NASA archives
+                  </span>
                 </div>
-                <span className="text-xs font-semibold text-neutral-300">
-                  Archival Imagery Dossier
-                </span>
-                <span className="text-[11px] text-neutral-400 mt-0.5 max-w-[240px]">
-                  Curated photos from NASA archives
-                </span>
-              </div>
-            )}
+              );
+            })()}
 
             {/* "Kid-Sized" Specs Grid */}
             <div className="space-y-3 rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4">

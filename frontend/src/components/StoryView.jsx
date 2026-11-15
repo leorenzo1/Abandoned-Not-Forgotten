@@ -167,6 +167,9 @@ export default function StoryView({
                   alt={currentObject.name}
                   className="h-52 w-full object-cover"
                   loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
                 />
                 {currentObject.imageCredit && (
                   <div className="bg-neutral-900 px-3 py-1 text-right text-xs text-neutral-400">
