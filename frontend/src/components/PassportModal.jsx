@@ -23,15 +23,17 @@ export default function PassportModal({
 
   if (!isOpen) return null;
 
+  const validIds = new Set(objects.map((o) => o.id));
+  const validFoundIds = discoveredIds.filter((id) => validIds.has(id));
   const total = objects.length;
-  const foundCount = discoveredIds.length;
-  const progressPercent = Math.round((foundCount / total) * 100);
+  const foundCount = Math.min(validFoundIds.length, total);
+  const progressPercent = total > 0 ? Math.round((foundCount / total) * 100) : 0;
 
   const moonObjects = objects.filter((o) => o.body === "moon");
   const marsObjects = objects.filter((o) => o.body === "mars");
 
-  const moonFound = moonObjects.filter((o) => discoveredIds.includes(o.id)).length;
-  const marsFound = marsObjects.filter((o) => discoveredIds.includes(o.id)).length;
+  const moonFound = moonObjects.filter((o) => validFoundIds.includes(o.id)).length;
+  const marsFound = marsObjects.filter((o) => validFoundIds.includes(o.id)).length;
 
   const hasMoonBadge = moonFound === moonObjects.length && moonObjects.length > 0;
   const hasMarsBadge = marsFound === marsObjects.length && marsObjects.length > 0;

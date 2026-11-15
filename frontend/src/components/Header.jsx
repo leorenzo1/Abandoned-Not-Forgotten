@@ -12,7 +12,6 @@ export default function Header({
   const navItems = [
     { id: "overview", label: "Home" },
     { id: "map", label: "Explore 3D" },
-    { id: "subtabs", label: "SubTabs & Stories" },
     { id: "story", label: "Timeline" },
   ];
 
@@ -83,7 +82,7 @@ export default function Header({
             <Award className="h-3.5 w-3.5 text-sky-400" />
             <span className="hidden md:inline">Passport</span>
             <span className="rounded-md bg-sky-500/20 px-1.5 py-0.5 font-mono text-[10px] font-bold text-sky-300">
-              {discoveredCount}/{totalObjects}
+              {Math.min(discoveredCount, totalObjects)}/{totalObjects}
             </span>
           </button>
 

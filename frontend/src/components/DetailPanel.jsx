@@ -1,28 +1,33 @@
 import { useEffect, useState } from "react";
-import { X, Camera, Volume2, Square, ExternalLink, Users, Target, FlaskConical, Award, MapPin, Sparkles } from "lucide-react";
-import { formatLatLng } from "../utils/formatLatLng";
-import { speakText, stopSpeech, isSpeechSupported } from "../utils/speech";
+import { X, Camera, ExternalLink, MapPin, Sparkles, ChevronRight, Calendar, Compass, ShieldCheck } from "lucide-react";
 
-export default function DetailPanel({ object, isOpen, onClose }) {
-  const [isSpeaking, setIsSpeaking] = useState(false);
+// Robust asset URL resolution helper
+const getAssetUrl = (url) => {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.replace(/\/$/, "")}/${url.replace(/^\//, "")}`;
+};
+
+export default function DetailPanel({ object, isOpen, onClose, onOpenTimeline }) {
   const [prevId, setPrevId] = useState(object?.id);
   const [activePhotoIdx, setActivePhotoIdx] = useState(0);
   const [imgError, setImgError] = useState(false);
-  const speechOk = isSpeechSupported();
 
   if (object?.id !== prevId) {
     setPrevId(object?.id);
     setActivePhotoIdx(0);
     setImgError(false);
-    setIsSpeaking(false);
-    stopSpeech();
   }
+
+  const handleSelectPhoto = (idx) => {
+    setActivePhotoIdx(idx);
+    setImgError(false);
+  };
 
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        stopSpeech();
-        setIsSpeaking(false);
         onClose();
       }
     };
@@ -31,23 +36,8 @@ export default function DetailPanel({ object, isOpen, onClose }) {
     }
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      stopSpeech();
     };
   }, [isOpen, onClose]);
-
-  const handleToggleSpeech = () => {
-    if (isSpeaking) {
-      stopSpeech();
-      setIsSpeaking(false);
-    } else {
-      const fullNarration = `${object.name}. Nicknamed ${object.nickname || ""}. ${object.storyboard || object.story}. Did you know? ${object.funFact || ""}`;
-      speakText(fullNarration, {
-        onStart: () => setIsSpeaking(true),
-        onEnd: () => setIsSpeaking(false),
-        onError: () => setIsSpeaking(false),
-      });
-    }
-  };
 
   const isMars = object?.body?.toLowerCase() === "mars";
   const isMoon = object?.body?.toLowerCase() === "moon";
@@ -69,8 +59,8 @@ export default function DetailPanel({ object, isOpen, onClose }) {
       )}
 
       <aside
-        aria-label="Machine story"
-        className={`fixed top-0 right-0 bottom-0 z-50 flex w-full flex-col border-l border-neutral-800 bg-neutral-950 shadow-[-20px_0_50px_rgba(0,0,0,0.98)] transition-transform duration-300 ease-out sm:w-[440px] lg:w-[480px] xl:w-[520px] ${
+        aria-label="Explorer Overview"
+        className={`fixed top-0 right-0 bottom-0 z-50 flex w-full flex-col border-l border-neutral-800 bg-neutral-950 shadow-[-20px_0_50px_rgba(0,0,0,0.98)] transition-transform duration-300 ease-out sm:w-[440px] lg:w-[460px] xl:w-[480px] ${
           isOpen && object ? "translate-x-0" : "translate-x-full pointer-events-none"
         }`}
       >
@@ -85,6 +75,9 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                 {object.year}
               </span>
             )}
+            <span className="text-xs text-neutral-400 uppercase tracking-wider font-semibold">
+              Mission Overview
+            </span>
           </div>
 
           <button
@@ -96,22 +89,22 @@ export default function DetailPanel({ object, isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Scrollable Content Body */}
+        {/* Scrollable Overview Body */}
         {object && (
-          <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+          <div className="flex-1 overflow-y-auto p-6 sm:p-7 space-y-5">
             {/* Title & Kid-friendly Nickname */}
             <div>
               <h3 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
                 {object.name}
               </h3>
               {object.nickname && (
-                <p className={`mt-1 text-base font-bold italic tracking-wide sm:text-lg ${accentColor}`}>
+                <p className={`mt-1 text-sm font-bold italic tracking-wide sm:text-base ${accentColor}`}>
                   "{object.nickname}"
                 </p>
               )}
               {object.mission && (
                 <p className="mt-1 text-xs text-neutral-400 font-medium">
-                  Mission: {object.mission}
+                  NASA Mission: {object.mission}
                 </p>
               )}
             </div>
@@ -128,9 +121,10 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                   <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-md">
                     <div className="relative group">
                       <img
-                        src={currentPhoto.url}
+                        key={`${object?.id}-${activePhotoIdx}`}
+                        src={getAssetUrl(currentPhoto.url)}
                         alt={currentPhoto.caption || object.name}
-                        className="h-56 w-full object-cover"
+                        className="h-52 w-full object-cover transition-opacity duration-300"
                         loading="lazy"
                         onError={() => setImgError(true)}
                       />
@@ -146,15 +140,15 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                         {gallery.map((img, idx) => (
                           <button
                             key={idx}
-                            onClick={() => setActivePhotoIdx(idx)}
-                            className={`relative h-12 w-16 shrink-0 overflow-hidden rounded-lg border transition-all ${
+                            onClick={() => handleSelectPhoto(idx)}
+                            className={`relative h-11 w-14 shrink-0 overflow-hidden rounded-lg border transition-all ${
                               activePhotoIdx === idx
                                 ? "border-sky-400 ring-1 ring-sky-400 scale-105"
                                 : "border-neutral-800 opacity-60 hover:opacity-100"
                             }`}
                           >
                             <img
-                              src={img.url}
+                              src={getAssetUrl(img.url)}
                               alt=""
                               className="h-full w-full object-cover"
                               loading="lazy"
@@ -168,8 +162,8 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                     )}
 
                     {object.imageCredit && (
-                      <div className="bg-neutral-900 px-3 py-1 text-right text-xs text-neutral-400 border-t border-neutral-800/60">
-                        Credit: {object.imageCredit}
+                      <div className="bg-neutral-900 px-3 py-1 text-right text-[10px] text-neutral-400 border-t border-neutral-800/60">
+                        {object.imageCredit}
                       </div>
                     )}
                   </div>
@@ -182,55 +176,78 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                     <Camera className="h-6 w-6 text-neutral-400" />
                   </div>
                   <span className="text-xs font-semibold text-neutral-300">
-                    Archival Imagery Dossier
+                    Archival Imagery
                   </span>
                   <span className="text-[11px] text-neutral-400 mt-0.5 max-w-[240px]">
-                    Curated photos from NASA archives
+                    NASA Mission Archives
                   </span>
                 </div>
               );
             })()}
 
-            {/* "Kid-Sized" Specs Grid */}
-            <div className="space-y-3 rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
-                Explorer Dossier
+            {/* Quick Mission Overview / Summary (From NASA Challenge PDF) */}
+            <div className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-4 shadow-sm">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
+                <ShieldCheck className="h-3.5 w-3.5 text-sky-400" />
+                <span>Mission Overview</span>
+              </h4>
+              <p className="text-sm font-medium leading-relaxed text-neutral-200">
+                {object.overallSummary || object.story}
+              </p>
+            </div>
+
+            {/* Primary Action Button: Jump Directly to Timeline Story */}
+            {onOpenTimeline && (
+              <button
+                onClick={() => onOpenTimeline(object)}
+                className="w-full flex items-center justify-between rounded-2xl bg-white px-5 py-3 text-sm font-bold text-black shadow-lg transition-all hover:bg-neutral-200 active:scale-[0.99]"
+              >
+                <div className="flex items-center gap-2">
+                  <Compass className="h-4 w-4 text-sky-600" />
+                  <span>Read Full Story in Timeline</span>
+                </div>
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            )}
+
+            {/* Quick Specs Grid */}
+            <div className="space-y-3 rounded-2xl border border-neutral-800/80 bg-neutral-900/40 p-4 text-xs">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-neutral-400">
+                Explorer Quick Specs
               </h4>
 
-              {object.where && (
-                <div className="text-sm">
-                  <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-0.5">Location</span>
-                  <span className="text-neutral-200 font-medium">{object.where}</span>
+              {/* Landing Date */}
+              {(object.landingDate || object.quickTable?.when) && (
+                <div className="flex items-start justify-between gap-2 border-b border-neutral-800/60 pb-2">
+                  <span className="font-semibold text-neutral-400 flex items-center gap-1">
+                    <Calendar className="h-3 w-3 text-neutral-400" />
+                    <span>Landed</span>
+                  </span>
+                  <span className="font-medium text-neutral-200 text-right">
+                    {object.landingDate || object.quickTable?.when}
+                  </span>
                 </div>
               )}
 
-              {object.sizeComparison && (
-                <div className="text-sm border-t border-neutral-800/60 pt-2.5">
-                  <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-0.5">Scale</span>
-                  <span className="text-neutral-200 font-medium">{object.sizeComparison}</span>
+              {/* Resting Location */}
+              {(object.where || object.quickTable?.where) && (
+                <div className="flex items-start justify-between gap-2 border-b border-neutral-800/60 pb-2">
+                  <span className="font-semibold text-neutral-400 flex items-center gap-1">
+                    <MapPin className="h-3 w-3 text-neutral-400" />
+                    <span>Location</span>
+                  </span>
+                  <span className="font-medium text-neutral-200 text-right">
+                    {object.quickTable?.where || object.where}
+                  </span>
                 </div>
               )}
 
-              {object.superpower && (
-                <div className="text-sm border-t border-neutral-800/60 pt-2.5">
-                  <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-0.5">Superpower</span>
-                  <span className="text-neutral-200 font-medium leading-snug">{object.superpower}</span>
-                </div>
-              )}
-
-              {object.leftBehind && (
-                <div className="text-sm border-t border-neutral-800/60 pt-2.5">
-                  <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-0.5">Left Behind on Surface</span>
-                  <span className="text-neutral-200 font-medium">{object.leftBehind}</span>
-                </div>
-              )}
-
-              <div className="text-sm border-t border-neutral-800/60 pt-2.5">
-                <span className="block text-[11px] font-bold uppercase tracking-wider text-neutral-400 mb-0.5">Resting Location & Coordinates</span>
-                <span className="text-neutral-200 font-medium">{object.status || "Surface Monument"}</span>
-                {object.coordinatesText ? (
-                  <div className="mt-1 flex items-center justify-between">
-                    <span className="font-mono text-xs text-sky-400 font-semibold">
+              {/* Surface Coordinates & Traverse */}
+              {object.coordinatesText && (
+                <div className="flex items-start justify-between gap-2 border-b border-neutral-800/60 pb-2">
+                  <span className="font-semibold text-neutral-400">Coordinates</span>
+                  <div className="text-right">
+                    <span className="font-mono text-[11px] font-bold text-sky-400 block">
                       {object.coordinatesText}
                     </span>
                     {object.coordinatesLink && (
@@ -238,179 +255,75 @@ export default function DetailPanel({ object, isOpen, onClose }) {
                         href={object.coordinatesLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[11px] font-bold text-sky-400 hover:text-sky-300"
+                        className="inline-flex items-center gap-1 text-[10px] font-bold text-sky-400 hover:text-sky-300 mt-0.5"
                       >
-                        <span>Traverse</span>
-                        <ExternalLink className="h-3 w-3" />
+                        <span>Traverse Map</span>
+                        <ExternalLink className="h-2.5 w-2.5" />
                       </a>
                     )}
                   </div>
-                ) : object.lat != null ? (
-                  <span className="block text-xs font-mono text-neutral-400 mt-0.5">
-                    {formatLatLng(object.lat, object.lng)}
+                </div>
+              )}
+
+              {/* Left Behind / Distance / Key Milestone */}
+              {(object.leftBehind || object.quickTable?.leftBehind) && (
+                <div className="flex items-start justify-between gap-2 border-b border-neutral-800/60 pb-2">
+                  <span className="font-semibold text-neutral-400">Left Behind</span>
+                  <span className="font-medium text-neutral-200 text-right">
+                    {object.quickTable?.leftBehind || object.leftBehind}
                   </span>
-                ) : null}
-              </div>
+                </div>
+              )}
+
+              {/* Distance or Last Message */}
+              {object.quickTable?.distance && (
+                <div className="flex items-start justify-between gap-2 border-b border-neutral-800/60 pb-2">
+                  <span className="font-semibold text-neutral-400">Total Distance</span>
+                  <span className="font-medium text-neutral-200 text-right">
+                    {object.quickTable.distance}
+                  </span>
+                </div>
+              )}
+
+              {/* Where is it now summary */}
+              {object.whereIsItNow && (
+                <div className="pt-1">
+                  <span className="font-semibold text-neutral-400 block mb-1">Status on Surface</span>
+                  <p className="text-[11px] text-neutral-300 leading-relaxed font-normal">
+                    {object.whereIsItNow}
+                  </p>
+                </div>
+              )}
             </div>
 
-            {/* "Did You Know?" Callout Box */}
+            {/* "Did You Know?" Fact Card */}
             {object.funFact && (
               <div className={`rounded-2xl border p-4 shadow-sm ${
                 isMars
                   ? "border-amber-500/30 bg-amber-950/20 text-amber-200"
-                  : isMoon
-                  ? "border-sky-500/30 bg-sky-950/20 text-sky-200"
-                  : "border-purple-500/30 bg-purple-950/20 text-purple-200"
+                  : "border-sky-500/30 bg-sky-950/20 text-sky-200"
               }`}>
-                <h5 className="text-xs font-bold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                <h5 className="text-xs font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
                   <Sparkles className="h-3.5 w-3.5" />
                   <span>Did You Know?</span>
                 </h5>
-                <p className="text-sm font-medium leading-relaxed text-neutral-200">
+                <p className="text-xs font-medium leading-relaxed text-neutral-200">
                   {object.funFact}
-                </p>
-              </div>
-            )}
-
-            {/* Story Narrative with Read Aloud narration */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400">
-                  The Story
-                </h4>
-
-                {speechOk && (
-                  <button
-                    onClick={handleToggleSpeech}
-                    className={`inline-flex items-center gap-1.5 rounded-xl border px-2.5 py-1 text-xs font-semibold transition-all ${
-                      isSpeaking
-                        ? "border-amber-400 bg-amber-400/20 text-amber-300 animate-pulse shadow-sm"
-                        : "border-neutral-800 bg-neutral-900/80 text-neutral-300 hover:border-neutral-600 hover:text-white"
-                    }`}
-                  >
-                    {isSpeaking ? (
-                      <Square className="h-3.5 w-3.5" />
-                    ) : (
-                      <Volume2 className="h-3.5 w-3.5" />
-                    )}
-                    <span>{isSpeaking ? "Stop Voice" : "Read Aloud"}</span>
-                  </button>
-                )}
-              </div>
-              <p className="text-base leading-relaxed text-neutral-200">
-                {object.story || "Story coming soon."}
-              </p>
-            </div>
-
-            {/* What We Learned */}
-            {object.whatWeLearned && object.whatWeLearned.length > 0 && (
-              <div className="rounded-2xl border border-sky-500/20 bg-sky-950/10 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-sky-400 mb-2">
-                  What We Learned
-                </h4>
-                <ul className="space-y-1.5 text-xs text-neutral-200">
-                  {object.whatWeLearned.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-2">
-                      <span className="text-sky-400 font-bold">•</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Creators / People Involved */}
-            {object.people && object.people.length > 0 && (
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5 text-neutral-400" />
-                  <span>People Involved & Creators</span>
-                </h4>
-                <ul className="space-y-1 text-xs text-neutral-200">
-                  {object.people.map((p, idx) => (
-                    <li key={idx} className="leading-relaxed">
-                      {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Main Purpose */}
-            {object.mainPurpose && object.mainPurpose.length > 0 && (
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
-                  <Target className="h-3.5 w-3.5 text-neutral-400" />
-                  <span>Main Mission Purpose</span>
-                </h4>
-                <ol className="space-y-1 text-xs text-neutral-200 list-decimal list-inside">
-                  {object.mainPurpose.map((g, idx) => (
-                    <li key={idx} className="leading-relaxed">
-                      <span className="ml-1">{g}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
-            {/* Experiments */}
-            {object.experiments && object.experiments.length > 0 && (
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
-                  <FlaskConical className="h-3.5 w-3.5 text-neutral-400" />
-                  <span>Scientific Experiments</span>
-                </h4>
-                <ul className="space-y-1.5 text-xs text-neutral-200">
-                  {object.experiments.map((e, idx) => (
-                    <li key={idx} className="rounded-lg bg-neutral-950/50 p-2.5 leading-relaxed">
-                      {e}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Achievements */}
-            {object.achievements && object.achievements.length > 0 && (
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1.5">
-                  <Award className="h-3.5 w-3.5 text-amber-400" />
-                  <span>Key Achievements</span>
-                </h4>
-                <ol className="space-y-1 text-xs text-neutral-200 list-decimal list-inside">
-                  {object.achievements.map((a, idx) => (
-                    <li key={idx} className="leading-relaxed">
-                      <span className="ml-1">{a}</span>
-                    </li>
-                  ))}
-                </ol>
-              </div>
-            )}
-
-            {/* Where Is It Now? */}
-            {object.whereIsItNow && (
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/30 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1 flex items-center gap-1.5">
-                  <MapPin className="h-3.5 w-3.5 text-emerald-400" />
-                  <span>Where Is It Now?</span>
-                </h4>
-                <p className="text-xs text-neutral-300 leading-relaxed">
-                  {object.whereIsItNow}
                 </p>
               </div>
             )}
 
             {/* External NASA link */}
             {object.sourceUrl && (
-              <div className="pt-2 border-t border-neutral-800/80">
+              <div className="pt-1">
                 <a
                   href={object.sourceUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-400 hover:text-sky-300 transition-colors"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-400 hover:text-white transition-colors"
                 >
                   <span>Explore official mission archive at NASA</span>
-                  <ExternalLink className="h-3.5 w-3.5" />
+                  <ExternalLink className="h-3 w-3" />
                 </a>
               </div>
             )}

@@ -5,7 +5,6 @@ import LandingHero from "./components/LandingHero";
 // Loaded on demand so three.js is only downloaded when the Explore view opens
 const GlobeView = lazy(() => import("./components/GlobeView"));
 import StoryView from "./components/StoryView";
-import SubTabStoryView from "./components/SubTabStoryView";
 import DetailPanel from "./components/DetailPanel";
 import PassportModal from "./components/PassportModal";
 import QuizModal from "./components/QuizModal";
@@ -28,11 +27,17 @@ export default function App() {
   const [isReferencesOpen, setIsReferencesOpen] = useState(false);
   const [discoveryToast, setDiscoveryToast] = useState(null);
 
-  // Persistent Explorer Passport discovery tracker
+  const validIds = new Set(objects.map((o) => o.id));
+
+  // Persistent Explorer Passport discovery tracker (strictly sanitized to current valid missions)
   const [discoveredIds, setDiscoveredIds] = useState(() => {
     try {
       const saved = localStorage.getItem("anf_discovered_machines");
-      return saved ? JSON.parse(saved) : [];
+      if (!saved) return [];
+      const parsed = JSON.parse(saved);
+      const clean = Array.isArray(parsed) ? parsed.filter((id) => validIds.has(id)) : [];
+      localStorage.setItem("anf_discovered_machines", JSON.stringify(clean));
+      return clean;
     } catch {
       return [];
     }
@@ -68,9 +73,17 @@ export default function App() {
     setCurrentView(targetView);
   };
 
+  const handleViewIn3D = (obj) => {
+    if (obj?.body) {
+      setInitialMapBody(obj.body.toLowerCase());
+    }
+    setCurrentView("map");
+    setSelectedObject(obj);
+  };
+
   const handleSelectObject = (obj) => {
     setSelectedObject(obj);
-    if (obj?.id && !discoveredIds.includes(obj.id)) {
+    if (obj?.id && validIds.has(obj.id) && !discoveredIds.includes(obj.id)) {
       setDiscoveredIds((prev) => {
         const next = [...prev, obj.id];
         try {
@@ -165,15 +178,6 @@ export default function App() {
           </Suspense>
         </div>
 
-        {/* Interactive SubTabs & Storyboard View (Page 32 Sample format & Pages 31-51) */}
-        {currentView === "subtabs" && (
-          <SubTabStoryView
-            objects={objects}
-            onInspectObject={handleSelectObject}
-            onDiscoverObject={handleDiscoverWithoutOpening}
-          />
-        )}
-
         {/* Chronological Timeline Journey */}
         {currentView === "story" && (
           <StoryView
@@ -182,15 +186,22 @@ export default function App() {
             onNavigate={handleNavigateStory}
             isCooldown={isCooldown}
             onInspect={handleSelectObject}
+            onViewIn3D={handleViewIn3D}
           />
         )}
       </main>
 
-      {/* Smooth Non-Blurring Sidebar Dossier */}
+      {/* Explore 3D Mission Overview Sidebar */}
       <DetailPanel
         object={selectedObject}
         isOpen={!!selectedObject}
         onClose={() => setSelectedObject(null)}
+        onOpenTimeline={(obj) => {
+          const idx = objects.findIndex((o) => o.id === (obj?.id || selectedObject?.id));
+          if (idx !== -1) setCurrentIndex(idx);
+          setCurrentView("story");
+          setSelectedObject(null);
+        }}
       />
 
       {/* Explorer Passport Modal */}

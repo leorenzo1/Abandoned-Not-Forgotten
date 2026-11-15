@@ -22,7 +22,17 @@ export default function QuizModal({ isOpen, onClose }) {
 
   if (!isOpen) return null;
 
-  const missions = ["all", "Apollo 11", "Apollo 12", "Apollo 15", "Surveyor 3", "Spirit Rover", "Opportunity Rover", "Viking 1", "Viking 2", "Ingenuity Helicopter", "Mars Pathfinder", "InSight Lander", "Voyager 1"];
+  const missions = [
+    "all",
+    "Apollo 11",
+    "Apollo 12",
+    "Apollo 15",
+    "Surveyor 3",
+    "Mars Pathfinder",
+    "Spirit Rover",
+    "Opportunity Rover",
+    "Ingenuity Helicopter"
+  ];
 
   const activeQuestions = filterMission === "all"
     ? quizData
@@ -69,10 +79,10 @@ export default function QuizModal({ isOpen, onClose }) {
 
   const getRank = (finalScore, total) => {
     const ratio = total > 0 ? finalScore / total : 0;
-    if (ratio === 1) return { title: "Chief Cosmologist", desc: "Flawless mission! You know every machine on the Moon, Mars, and Deep Space like the back of your hand!" };
+    if (ratio === 1) return { title: "Chief Cosmologist", desc: "Flawless mission! You know every robotic explorer on the Moon and Mars like the back of your hand!" };
     if (ratio >= 0.75) return { title: "Rover Flight Commander", desc: "Outstanding work! NASA Mission Control wants you on the exploration flight line!" };
     if (ratio >= 0.5) return { title: "Planetary Scout", desc: "Great job! You're well on your way to becoming a veteran space explorer!" };
-    return { title: "Cadet Explorer", desc: "A great start! Revisit the explorer subtabs and take on the challenge again!" };
+    return { title: "Cadet Explorer", desc: "A great start! Revisit the mission stories on the Moon and Mars and take on the challenge again!" };
   };
 
   const rank = getRank(score, activeQuestions.length);
@@ -99,7 +109,7 @@ export default function QuizModal({ isOpen, onClose }) {
                   Mission Games & Trivia
                 </span>
                 <span className="rounded-md border border-neutral-800 bg-neutral-900 px-1.5 py-0.2 font-mono text-[10px] text-neutral-400">
-                  36 Questions
+                  {quizData.length} Questions
                 </span>
               </div>
               <h3 className="text-lg font-bold tracking-tight text-white sm:text-xl">
@@ -120,9 +130,9 @@ export default function QuizModal({ isOpen, onClose }) {
         {/* Filter Pills */}
         <div className="border-b border-neutral-800/80 bg-neutral-900/40 px-6 py-2.5 sm:px-8 flex items-center gap-1.5 overflow-x-auto scrollbar-none">
           <span className="text-[11px] font-bold uppercase text-neutral-400 shrink-0 mr-1">
-            Topic:
+            Mission:
           </span>
-          {["all", "Apollo 11", "Apollo 12", "Apollo 15", "Surveyor 3", "Spirit Rover", "Opportunity Rover", "Viking 1", "Viking 2", "Ingenuity Helicopter", "Mars Pathfinder", "Voyager 1"].map((m) => (
+          {missions.map((m) => (
             <button
               key={m}
               onClick={() => handleMissionFilterChange(m)}
@@ -132,7 +142,7 @@ export default function QuizModal({ isOpen, onClose }) {
                   : "bg-neutral-900 text-neutral-400 hover:text-white"
               }`}
             >
-              {m === "all" ? "All Missions" : m}
+              {m === "all" ? "All 8 Missions" : m}
             </button>
           ))}
         </div>

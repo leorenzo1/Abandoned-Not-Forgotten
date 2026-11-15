@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
-import { Volume2, Square, Camera } from "lucide-react";
+import { Volume2, Square, Camera, Sparkles, Compass, CheckCircle2 } from "lucide-react";
 import { formatLatLng } from "../utils/formatLatLng";
 import { speakText, stopSpeech, isSpeechSupported } from "../utils/speech";
+
+const getAssetUrl = (url) => {
+  if (!url) return "";
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  const base = import.meta.env.BASE_URL || "/";
+  return `${base.replace(/\/$/, "")}/${url.replace(/^\//, "")}`;
+};
 
 export default function StoryView({
   objects,
@@ -9,8 +16,10 @@ export default function StoryView({
   onNavigate,
   isCooldown,
   onInspect,
+  onViewIn3D,
 }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const [prevIndex, setPrevIndex] = useState(currentIndex);
   const speechOk = isSpeechSupported();
 
@@ -22,6 +31,7 @@ export default function StoryView({
   if (currentIndex !== prevIndex) {
     setPrevIndex(currentIndex);
     setIsSpeaking(false);
+    setImgError(false);
     stopSpeech();
   }
 
@@ -37,7 +47,7 @@ export default function StoryView({
       stopSpeech();
       setIsSpeaking(false);
     } else {
-      const fullNarration = `${currentObject.name}. Nicknamed ${currentObject.nickname || ""}. ${currentObject.story}. Did you know? ${currentObject.funFact || ""}`;
+      const fullNarration = `${currentObject.name}. Nicknamed ${currentObject.nickname || ""}. ${currentObject.storyboard || currentObject.story}. What we learned: ${(currentObject.whatWeLearned || []).join(". ")}`;
       speakText(fullNarration, {
         onStart: () => setIsSpeaking(true),
         onEnd: () => setIsSpeaking(false),
@@ -55,7 +65,7 @@ export default function StoryView({
             Space Machine Timeline
           </h2>
           <p className="mt-0.5 text-sm text-neutral-300">
-            Journey through history: Site {currentIndex + 1} of {objects.length}
+            Chronological Journey: Site {currentIndex + 1} of {objects.length}
           </p>
         </div>
 
@@ -70,7 +80,7 @@ export default function StoryView({
       <div className="mt-6 overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/80 p-6 shadow-2xl backdrop-blur-md sm:p-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           {/* Information Column */}
-          <div className="flex-1 space-y-4">
+          <div className="flex-1 space-y-5">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className={`rounded-lg border px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider ${badgeBorder}`}>
@@ -97,7 +107,7 @@ export default function StoryView({
                   ) : (
                     <Volume2 className="h-3.5 w-3.5" />
                   )}
-                  <span>{isSpeaking ? "Stop Voice" : "Read Story"}</span>
+                  <span>{isSpeaking ? "Stop Voice" : "Read Aloud"}</span>
                 </button>
               )}
             </div>
@@ -113,23 +123,34 @@ export default function StoryView({
               )}
             </div>
 
-            {/* Scale and Location Quick Chips */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              {currentObject?.sizeComparison && (
-                <span className="rounded-xl border border-neutral-800 bg-neutral-900/70 px-3 py-1.5 text-xs font-medium text-neutral-200">
-                  {currentObject.sizeComparison}
-                </span>
-              )}
-              {currentObject?.status && (
-                <span className="rounded-xl border border-neutral-800 bg-neutral-900/70 px-3 py-1.5 text-xs font-medium text-neutral-200">
-                  {currentObject.status}
-                </span>
-              )}
+            {/* First-Person Story / Storyboard */}
+            <div className="space-y-3">
+              {(currentObject?.storyboard || currentObject?.story || "")
+                .split("\n\n")
+                .map((para, idx) => (
+                  <p key={idx} className="text-base leading-relaxed text-neutral-200 sm:text-lg">
+                    {para}
+                  </p>
+                ))}
             </div>
 
-            <p className="text-base leading-relaxed text-neutral-200 sm:text-lg">
-              {currentObject?.story || "Story coming soon."}
-            </p>
+            {/* What We Learned (From NASA Challenge PDF) */}
+            {currentObject?.whatWeLearned && currentObject.whatWeLearned.length > 0 && (
+              <div className="rounded-2xl border border-sky-500/20 bg-sky-950/20 p-5 shadow-sm">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-sky-400 mb-3 flex items-center gap-1.5">
+                  <Sparkles className="h-4 w-4" />
+                  <span>What We Learned</span>
+                </h4>
+                <ul className="space-y-2 text-sm text-neutral-200">
+                  {currentObject.whatWeLearned.map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-2.5">
+                      <span className="text-sky-400 font-bold text-base leading-none">•</span>
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* "Did You Know?" Callout Card */}
             {currentObject?.funFact && (
@@ -138,8 +159,9 @@ export default function StoryView({
                   ? "border-amber-500/30 bg-amber-950/20 text-amber-200"
                   : "border-sky-500/30 bg-sky-950/20 text-sky-200"
               }`}>
-                <h5 className="text-xs font-bold uppercase tracking-wider mb-1">
-                  Did You Know?
+                <h5 className="text-xs font-bold uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                  <Sparkles className="h-3.5 w-3.5" />
+                  <span>Did You Know?</span>
                 </h5>
                 <p className="text-sm font-medium leading-relaxed text-neutral-200">
                   {currentObject.funFact}
@@ -147,29 +169,41 @@ export default function StoryView({
               </div>
             )}
 
-            <div className="pt-2">
-              <button
-                onClick={() => onInspect(currentObject)}
-                className="inline-flex items-center gap-1.5 rounded-2xl bg-white px-5 py-2.5 text-sm font-semibold text-black shadow-md transition-all hover:bg-neutral-200"
-              >
-                <span>Open Full Dossier</span>
-                <span>→</span>
-              </button>
+            {/* Navigation and View Actions */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              {onViewIn3D && (
+                <button
+                  onClick={() => onViewIn3D(currentObject)}
+                  className="inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-2.5 text-sm font-bold text-black shadow-md transition-all hover:bg-neutral-200"
+                >
+                  <Compass className="h-4 w-4 text-sky-600" />
+                  <span>View on 3D Planet</span>
+                </button>
+              )}
+
+              {onInspect && (
+                <button
+                  onClick={() => onInspect(currentObject)}
+                  className="inline-flex items-center gap-1.5 rounded-2xl border border-neutral-800 bg-neutral-900/80 px-4 py-2.5 text-xs font-semibold text-neutral-300 transition-all hover:border-neutral-600 hover:text-white"
+                >
+                  <span>Quick Overview</span>
+                  <span>→</span>
+                </button>
+              )}
             </div>
           </div>
 
           {/* Side Info Box */}
           <div className="w-full md:w-80 md:flex-shrink-0 space-y-4">
-            {currentObject?.image ? (
+            {currentObject?.image && !imgError ? (
               <div className="overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-md">
                 <img
-                  src={currentObject.image}
+                  key={currentObject.id}
+                  src={getAssetUrl(currentObject.image)}
                   alt={currentObject.name}
                   className="h-52 w-full object-cover"
                   loading="lazy"
-                  onError={(e) => {
-                    e.currentTarget.style.display = "none";
-                  }}
+                  onError={() => setImgError(true)}
                 />
                 {currentObject.imageCredit && (
                   <div className="bg-neutral-900 px-3 py-1 text-right text-xs text-neutral-400">
@@ -183,22 +217,22 @@ export default function StoryView({
                   <Camera className="h-6 w-6 text-neutral-400" />
                 </div>
                 <span className="text-xs font-semibold text-neutral-300">
-                  Archival Imagery Dossier
+                  Archival Imagery
                 </span>
                 <span className="text-[11px] text-neutral-400 mt-0.5 max-w-[200px]">
-                  Curated photos being prepared by the research team
+                  {currentObject.name}
                 </span>
               </div>
             )}
 
-            {currentObject?.superpower && (
-              <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/50 p-4">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1.5">
-                  Historic Feat
-                </h4>
-                <p className="text-xs font-medium leading-relaxed text-neutral-200">
-                  {currentObject.superpower}
-                </p>
+            {currentObject?.where && (
+              <div className="rounded-2xl border border-neutral-800/80 bg-neutral-900/50 p-4 text-xs">
+                <span className="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
+                  Landing Site
+                </span>
+                <span className="text-sm font-medium text-white">
+                  {currentObject.where}
+                </span>
               </div>
             )}
 
@@ -208,7 +242,7 @@ export default function StoryView({
                   Surface Coordinates
                 </span>
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-sky-300 font-medium">
+                  <span className="font-mono text-xs text-sky-300 font-semibold">
                     {currentObject.coordinatesText}
                   </span>
                   {currentObject.coordinatesLink && (
